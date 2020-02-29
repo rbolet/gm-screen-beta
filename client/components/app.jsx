@@ -10,7 +10,7 @@ function App(props) {
     <div className="App bg-secondary" style={{ height, width }}>
       <Header/>
       <div className="app-body container-fluid py-3" style={{ height: bodyHeight, width }}>
-        <ContainerCard percentHeight={100} percentWidth={50}/>
+        <ContainerCard percentHeight={100} percentWidth={50} bg="#007bff"/>
       </div>
 
     </div>
