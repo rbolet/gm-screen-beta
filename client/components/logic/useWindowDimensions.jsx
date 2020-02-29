@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
+  const bodyHeight = height - 50;
   return {
     width,
-    height
+    height,
+    bodyHeight
   };
 }
 
