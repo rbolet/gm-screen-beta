@@ -9,7 +9,7 @@
     "dev": "npm-run-all --silent --parallel dev:*",
     "dev:client": "webpack-dev-server",
     "dev:server": "nodemon server/index.js",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch --mode=development"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
