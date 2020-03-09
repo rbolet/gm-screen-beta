@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 export function useUser(userProps) {
   const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState(null);
-  const [userRole, setUserRole] = useState(null);
+  const [userName, setUserName] = useState('Fred');
+  const [userRole, setUserRole] = useState('mm');
 
   useEffect(() => {
     if (userProps) {
@@ -20,5 +20,5 @@ export function useUser(userProps) {
     }
   }, []);
 
-  return { user: { userId, userName, userRole } };
+  return { userId, userName, userRole };
 }
