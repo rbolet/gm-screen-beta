@@ -1,21 +1,17 @@
 import '../../css/Header.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import { useUser } from '../logic/useConfig';
+import { AppUser } from '../../index';
 
 function Header(props) {
-  const [displayName, setDisplayName] = React.useState(null);
-  const user = useUser();
-  React.useEffect(() => {
-    setDisplayName(user.userName);
-  });
+  const { user } = useContext(AppUser);
 
   return (
     <Navbar bg="dark" variant="dark" style={{ height: 50 }}>
       <Navbar.Brand className="header-brand">
         GM Screen
       </Navbar.Brand>
-      <Navbar.Text>{displayName}</Navbar.Text>
+      <Navbar.Text>{user.userName}</Navbar.Text>
       <Navbar.Text>{user.userRole}</Navbar.Text>
     </Navbar>
   );
