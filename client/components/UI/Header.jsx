@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { AppUser } from '../../index';
 
 function Header(props) {
-  const { user } = useContext(AppUser);
+  const { user, updateUser } = useContext(AppUser);
 
   return (
     <Navbar bg="dark" variant="dark" style={{ height: 50 }}>
@@ -13,6 +13,8 @@ function Header(props) {
       </Navbar.Brand>
       <Navbar.Text>{user.userName}</Navbar.Text>
       <Navbar.Text>{user.userRole}</Navbar.Text>
+      <button onClick={() => { updateUser({ userName: 'Steve' }); }}
+      >Steve</button>
     </Navbar>
   );
 }
