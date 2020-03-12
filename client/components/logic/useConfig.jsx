@@ -18,7 +18,7 @@ export function useUser(userProps) {
         }
       });
     }
-  }, []);
+  }, [userProps]);
 
   return { userId, userName, userRole };
 }
