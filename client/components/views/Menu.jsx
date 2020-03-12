@@ -1,5 +1,5 @@
 import React from 'react';
-import useWindowDimensions from './logic/useWindowDimensions';
+import useWindowDimensions from '../logic/useWindowDimensions';
 
 function Menu(props) {
   const { bodyHeight, width } = useWindowDimensions();
