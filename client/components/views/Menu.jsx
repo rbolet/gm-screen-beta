@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Body from '../UI/Body';
 import ContainerCard from '../UI/ContainerCard';
-import { useUser } from '../logic/useConfig';
+import { AppUser } from '../../context/user-context';
 
 function Menu(props) {
-  const [clicked, setClicked] = useState(false);
+  const { updateUser } = useContext(AppUser);
 
-  const user = useUser({ userName: clicked });
   return (
     <Body>
       <ContainerCard bg="#343a40">
-        <button onClick={() => { setClicked(!clicked); }}>
-          {`${user.userName}`}
+        <button onClick={() => { updateUser({ userName: 'Fred' }); }}>
+          Fred
         </button>
       </ContainerCard>
     </Body>
