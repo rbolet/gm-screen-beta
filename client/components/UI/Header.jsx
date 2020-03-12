@@ -1,7 +1,7 @@
 import '../../css/Header.css';
 import React, { useContext } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import { AppUser } from '../../index';
+import { AppUser } from '../../context/user-context';
 
 function Header(props) {
   const { user, updateUser } = useContext(AppUser);
