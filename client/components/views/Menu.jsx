@@ -1,12 +1,14 @@
 import React from 'react';
-import useWindowDimensions from '../logic/useWindowDimensions';
+import Body from '../UI/Body';
+import ContainerCard from '../UI/ContainerCard';
 
 function Menu(props) {
-  const { bodyHeight, width } = useWindowDimensions();
   return (
-    <div className="app-body container-fluid py-3" style={{ height: bodyHeight, width }}>
-
-    </div>
+    <Body>
+      <ContainerCard bg="#343a40">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, quisquam?
+      </ContainerCard>
+    </Body>
   );
 }
 

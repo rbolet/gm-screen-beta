@@ -5,12 +5,12 @@ import Menu from './views/Menu';
 
 function App() {
   const { height, width } = useWindowDimensions();
-  const [CurrentView, setCurrentView] = useState(Menu);
+  const [CurrentView] = useState(<Menu/>);
 
   return (
     <div className="App bg-secondary" style={{ height, width }}>
       <Header/>
-      {CurrentView};
+      {CurrentView}
     </div>
   );
 }
