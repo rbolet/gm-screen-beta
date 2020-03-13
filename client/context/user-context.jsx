@@ -4,8 +4,8 @@ export const AppUser = React.createContext(null);
 
 export function UserContext(props) {
   const [userId, setUserId] = React.useState(null);
-  const [userName, setUserName] = React.useState('Fred');
-  const [userRole, setUserRole] = React.useState('mm');
+  const [userName, setUserName] = React.useState(null);
+  const [userRole, setUserRole] = React.useState(null);
 
   const updateUser = userObject => {
     Object.keys(userObject).forEach(key => {
