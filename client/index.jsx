@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import { UserContext } from './context/user-context';
+import ConfigContext from './context/config-context';
 
 ReactDOM.render(
-  <UserContext>
+  <ConfigContext>
     <App/>
-  </UserContext>
+  </ConfigContext>
   , document.getElementById('root'));
