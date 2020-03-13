@@ -1,3 +1,14 @@
+.ContainerCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border-radius: 10px;
+  box-shadow:  5px 5px 10px #1a1d20,
+             -5px -5px 10px #4e5760;
+}
+
 .container-card-header:first-child{
   border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
 }
