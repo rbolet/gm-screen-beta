@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
-import Menu from './views/Menu';
+// import Menu from './views/Menu';
+import GMView from './views/GMView';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class App extends React.Component {
     return (
       <div>
         <Header/>
-        <Menu/>
+        <GMView/>
       </div>
     );
   }
