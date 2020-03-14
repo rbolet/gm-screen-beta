@@ -4,8 +4,6 @@
   word-wrap: break-word;
   background-clip: border-box;
   border-radius: 10px;
-  box-shadow:  5px 5px 10px #1a1d20,
-             -5px -5px 10px #4e5760;
 }
 
 .container-card-header:first-child{
@@ -30,4 +28,9 @@
 
 .container-card-footer:last-child {
     border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+}
+
+.custom-shadow {
+   box-shadow:  5px 5px 10px #1a1d20,
+             -5px -5px 10px #4e5760;
 }
