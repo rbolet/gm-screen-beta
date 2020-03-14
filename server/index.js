@@ -298,7 +298,6 @@ app.post('/deleteCampaign', (req, res, next) => {
 });
 
 app.post('/playersInRoom', (req, res, next) => {
-  console.log('getting players');
   const playersInRoom = getSocketsInRoom(req.body.gameSession);
   res.json({ playersInRoom });
 });

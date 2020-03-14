@@ -1,6 +1,7 @@
 .container-card {
   position: relative;
   display: inline-flex;
+  flex-direction: column;
   word-wrap: break-word;
   background-clip: border-box;
   border-radius: 10px;

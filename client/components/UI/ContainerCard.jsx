@@ -1,4 +1,4 @@
-import '../../css/ContainerCard.css';
+import './ContainerCard.css';
 import React from 'react';
 
 function ContainerCard(props) {

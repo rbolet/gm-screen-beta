@@ -1,7 +1,7 @@
 
-export function fetchCampaignAssets(campaignId) {
+export function fetchCampaignAssets(campaign) {
   return new Promise((resolve, reject) => {
-    const currentCampaign = JSON.stringify({ campaign: { campaignId } });
+    const currentCampaign = JSON.stringify(campaign);
     fetch('/campaignAssets', {
       method: 'POST',
       headers: {
