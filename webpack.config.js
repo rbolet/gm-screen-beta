@@ -42,7 +42,9 @@ module.exports = {
     },
     stats: 'minimal',
     proxy: {
-      '/api': 'http://localhost:3001'
+      '/': {
+        target: 'http://localhost:3001'
+      }
     }
   }
 };

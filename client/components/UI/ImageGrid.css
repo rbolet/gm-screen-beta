@@ -1,0 +1,11 @@
+.image-grid-body{
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.grid-image{
+  height: 100px;
+  width: 150px;
+  object-fit: contain;
+}
