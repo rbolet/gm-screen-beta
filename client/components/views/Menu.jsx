@@ -1,14 +1,13 @@
 import React from 'react';
 import Body from '../UI/Body';
-import ContainerCard from '../UI/ContainerCard';
+import Login from '../UI/Login';
 
 function Menu(props) {
+  const CurrentMenu = <Login/>;
 
   return (
     <Body>
-      <ContainerCard bg="#343a40">
-        Menu
-      </ContainerCard>
+      {CurrentMenu}
     </Body>
   );
 }
