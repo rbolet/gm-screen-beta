@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header';
-// import Menu from './views/Menu';
+import Menu from './views/Menu';
 import GMView from './views/GMView';
 
 class App extends React.Component {
@@ -13,10 +13,16 @@ class App extends React.Component {
   }
 
   render() {
+    let CurrentView;
+    switch (this.state.currentView) {
+      case 'menu': CurrentView = <Menu/>; break;
+      case 'gm': CurrentView = <GMView/>; break;
+    }
+
     return (
       <div>
         <Header/>
-        <GMView/>
+        {CurrentView}
       </div>
     );
   }
