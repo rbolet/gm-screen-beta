@@ -25,7 +25,7 @@ export default function Login() {
       bg="#343a40" shadow={true}
       footer={ButtonGroup}
       header={<div className="login-message text-light mb-3 text-center">Login disabled for demonstration purposes</div>}>
-      <Form className>
+      <Form>
         <Form.Group controlId="userName">
           <Form.Label className="text-light">User Name</Form.Label>
           <Form.Control disabled type="text" placeholder="Enter user name" value={userName} onChange={event => { setUserName(event.target.value); }} />
