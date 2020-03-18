@@ -2,31 +2,17 @@ import './App.css';
 import React from 'react';
 import Header from './Header';
 import Menu from './views/Menu';
-import GMView from './views/GMView';
+// import GMView from './views/GMView';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+function App() {
+  const [CurrentView] = React.useState(<Menu/>);
 
-    this.state = {
-      currentView: 'menu'
-    };
-  }
-
-  render() {
-    let CurrentView;
-    switch (this.state.currentView) {
-      case 'menu': CurrentView = <Menu/>; break;
-      case 'gm': CurrentView = <GMView/>; break;
-    }
-
-    return (
-      <div>
-        <Header/>
-        {CurrentView}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Header/>
+      {CurrentView}
+    </div>
+  );
 }
 
 export default App;
