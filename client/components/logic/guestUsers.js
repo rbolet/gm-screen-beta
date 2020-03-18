@@ -1,4 +1,3 @@
-export const guestGMLogin = { userId: 5, userName: 'Guest GM', userRole: 'gm' };
 export const guestCampaign = {
   campaignId: 2,
   campaignName: 'Guest Campaign',
@@ -19,7 +18,8 @@ export const guestCampaign = {
   ]
 };
 
-export function createRandomGuestPlayer() {
+export function createRandomGuest(role) {
   const randomID = Date.now().toString().slice(9);
-  return { userId: randomID, userName: `Guest${randomID}`, userRole: 'player' };
+  return { userId: randomID, userName: `Guest${randomID}`, userRole: role };
+
 }

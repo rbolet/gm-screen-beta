@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import ContainerCard from './ContainerCard';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { createRandomGuest } from '../logic/guestUsers';
 import { AppUser } from '../../context/user-context';
-import { guestGMLogin, createRandomGuestPlayer } from '../logic/guestUsers';
 
-export default function Login() {
-  const [userName, setUserName] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const { updateUser } = React.useContext(AppUser);
+export default function Login(props) {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const { updateUser } = useContext(AppUser);
 
   const ButtonGroup = (
     <div className="d-flex justify-content-around">
-      <Button variant="danger" onClick={() => { updateUser(guestGMLogin); }}>Guest GM</Button>
-      <Button variant="warning" onClick={() => { updateUser(createRandomGuestPlayer()); }}>Guest Player</Button>
+      <Button variant="danger"
+        onClick={() => { updateUser(createRandomGuest('gm')); }}>Guest GM</Button>
+      <Button variant="warning"
+        onClick={() => { updateUser(createRandomGuest('player')); }}>Guest Player</Button>
     </div>
   );
 
