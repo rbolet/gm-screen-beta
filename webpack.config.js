@@ -5,7 +5,12 @@ const publicPath = path.resolve(__dirname, 'server/public');
 
 module.exports = {
   resolve: {
+    alias: {
+      '@client': srcPath,
+      '@components': path.resolve(__dirname, 'client/components')
+    },
     extensions: ['.js', '.jsx']
+
   },
   entry: './client',
   output: {
@@ -44,6 +49,10 @@ module.exports = {
     proxy: {
       '/': {
         target: 'http://localhost:3001'
+      },
+      '/socket.io': {
+        target: 'http://localhost:3001',
+        ws: true
       }
     }
   }
