@@ -1,10 +1,10 @@
 import React from 'react';
-import Body from '../UI/Body';
-import Login from '../UI/Login';
-import { AppUser } from '../../context/user-context';
-import { Campaign } from '../../context/campaign-context';
-// import ChooseCampaign from '../UI/ChooseCampaign';
-import { guestCampaign } from '../logic/guestUsers';
+import Body from '@components/UI/Body';
+import Login from '@components/UI/Login';
+import { AppUser } from '@client/context/user-context';
+import { Campaign } from '@client/context/campaign-context';
+// import ChooseCampaign from '@components/UI/ChooseCampaign';
+import { guestCampaign } from '@client/lib/guestUsers';
 function Menu(props) {
   const { user } = React.useContext(AppUser);
   const { campaign, updateCampaign } = React.useContext(Campaign);

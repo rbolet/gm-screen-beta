@@ -4,6 +4,7 @@ import { CampaignContext } from './campaign-context';
 import { SessionContext } from './session-context';
 
 export default function ConfigContext(props) {
+
   return (
 
     <UserContext>

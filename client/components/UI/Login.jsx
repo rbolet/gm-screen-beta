@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import ContainerCard from './ContainerCard';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { createRandomGuest } from '../logic/guestUsers';
-import { AppUser } from '../../context/user-context';
+import { createRandomGuest } from '@client/lib/guestUsers';
+import { AppUser } from '@client/context/user-context';
 
 export default function Login(props) {
   const [userName, setUserName] = useState('');
