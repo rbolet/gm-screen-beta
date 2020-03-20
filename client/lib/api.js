@@ -11,6 +11,21 @@ export function fetchCampaignAssets(campaign) {
     })
       .then(jsonRes => jsonRes.json())
       .then(campaignAssets => campaignAssets)
-      .catch(error => { return { error }; });
+      .catch(error => console.error(error));
   });
+}
+
+export function addUserToUserSockets(user) {
+  const body = JSON.stringify({ user });
+
+  fetch('/sockets', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body
+  })
+    .then(jsonRes => jsonRes.json())
+    .then(response => {})
+    .catch(err => console.error(err));
 }

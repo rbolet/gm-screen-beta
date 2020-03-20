@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppUser } from '@client/context/user-context';
 import Header from './Header';
 import Menu from './views/Menu';
+import { addUserToUserSockets } from '@client/lib/api';
 // import GMView from './views/GMView';
 
 function App() {
@@ -18,8 +19,12 @@ function App() {
       if (property !== 'socketId') allButSocketId.push(user[property]);
     }
     const userLoggedIn = allButSocketId.reduce(reduceToBoolean);
-    if (userLoggedIn) connectSocket();
-  }, [user.userId]);
+    if (user.socketId) {
+      addUserToUserSockets(user);
+    } else if (userLoggedIn) {
+      connectSocket();
+    }
+  }, [user.userId, user.socketId]);
 
   function connectSocket() {
     const socket = io('/');
