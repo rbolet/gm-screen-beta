@@ -17,10 +17,18 @@ app.use(bodyParser.json());
 app.use(express.static(staticPath));
 
 const userSockets = {};
-// let usersConnected = 0;
+let usersConnected = 0;
+app.post('/sockets', (req, res) => {
+  const user = req.body.user;
+  const socket = userSockets[user.socketId].socket;
+  usersConnected++;
+  socket.emit('usersConnected', usersConnected);
+  userSockets[user.socketId].user = user;
+});
+
 io.on('connection', socket => {
   userSockets[socket.id] = { socket };
-  // usersConnected++;
+
   socket.emit('connected', socket.id);
 
   socket.on('disconnect', reason => {

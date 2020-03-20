@@ -21,6 +21,7 @@ export function UserContext(props) {
           setSocketId(userObject.socketId); break;
       }
     });
+    return true;
   };
 
   const user = { userId, userName, userRole, socketId };
