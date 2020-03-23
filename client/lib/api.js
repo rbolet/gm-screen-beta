@@ -14,10 +14,11 @@ export function fetchCampaignAssets(campaign) {
       .catch(error => console.error(error));
   });
 }
+
 export function addUserToUserSockets(user) {
   const body = JSON.stringify({ user });
 
-  fetch('/sockets', {
+  fetch('/config/socket', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
