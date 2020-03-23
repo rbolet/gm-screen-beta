@@ -7,7 +7,8 @@ const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const sessions = require('./sessions');
 // const db = require('./_config');
-const SocketIO = require('./routes/socket-io-server')(http);
+const SocketIO = require('./routes/socket-io-server');
+const io = SocketIO.io(http);
 // const fs = require('fs');
 // const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 
