@@ -20,3 +20,7 @@ exports.io = function (server) {
 
   return io;
 };
+
+exports.configSocket = function (user) {
+  socketList[user.socketId].user = user;
+};

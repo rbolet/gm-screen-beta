@@ -16,6 +16,7 @@ const staticPath = path.join(__dirname, 'public');
 app.use(sessions);
 app.use(bodyParser.json());
 app.use(express.static(staticPath));
+app.use('/config', require('./routes/config'));
 
 http.listen(3001, () => {
   // eslint-disable-next-line
