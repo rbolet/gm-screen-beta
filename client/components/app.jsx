@@ -1,29 +1,41 @@
 import './App.css';
 import React, { useState, useEffect, useContext } from 'react';
+import io from 'socket.io-client';
 import { AppUser } from '@client/context/user-context';
 import Header from './Header';
 import Menu from './views/Menu';
-import { connectSocket } from '@client/sockett-io-client';
+import { addUserToUserSockets } from '@client/lib/api';
 // import GMView from './views/GMView';
 
 function App() {
-  const [CurrentView] = useState(<Menu/>);
+  const [CurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
 
   useEffect(() => {
     const reduceToBoolean = (acc, cur) => Boolean(acc && cur);
     const allButSocketId = [];
-    const userLoggedIn = allButSocketId.reduce(reduceToBoolean);
 
     for (const property in user) {
       if (property !== 'socketId') allButSocketId.push(user[property]);
     }
-    if (userLoggedIn) updateUser({ socketId: connectSocket().id });
+    const userLoggedIn = allButSocketId.reduce(reduceToBoolean);
+    if (user.socketId) {
+      addUserToUserSockets(user);
+    } else if (userLoggedIn) {
+      connectSocket();
+    }
   }, [user.userId, user.socketId]);
+
+  function connectSocket() {
+    const socket = io('/');
+    socket.on('connected', () => {
+      updateUser({ socketId: socket.id });
+    });
+  }
 
   return (
     <div>
-      <Header/>
+      <Header />
       {CurrentView}
     </div>
   );
