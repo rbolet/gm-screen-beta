@@ -1,10 +1,9 @@
 import './App.css';
-import io from 'socket.io-client';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppUser } from '@client/context/user-context';
 import Header from './Header';
 import Menu from './views/Menu';
-import { addUserToUserSockets } from '@client/lib/api';
+import { connectSocket } from '@client/sockett-io-client';
 // import GMView from './views/GMView';
 
 function App() {
@@ -14,24 +13,13 @@ function App() {
   useEffect(() => {
     const reduceToBoolean = (acc, cur) => Boolean(acc && cur);
     const allButSocketId = [];
+    const userLoggedIn = allButSocketId.reduce(reduceToBoolean);
 
     for (const property in user) {
       if (property !== 'socketId') allButSocketId.push(user[property]);
     }
-    const userLoggedIn = allButSocketId.reduce(reduceToBoolean);
-    if (user.socketId) {
-      addUserToUserSockets(user);
-    } else if (userLoggedIn) {
-      connectSocket();
-    }
+    if (userLoggedIn) updateUser({ socketId: connectSocket().id });
   }, [user.userId, user.socketId]);
-
-  function connectSocket() {
-    const socket = io('/');
-    socket.on('connected', () => {
-      updateUser({ socketId: socket.id });
-    });
-  }
 
   return (
     <div>
