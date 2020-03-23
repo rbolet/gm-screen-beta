@@ -1,6 +1,6 @@
 import './App.css';
-import io from 'socket.io-client';
 import React, { useState, useEffect, useContext } from 'react';
+import io from 'socket.io-client';
 import { AppUser } from '@client/context/user-context';
 import Header from './Header';
 import Menu from './views/Menu';
@@ -8,7 +8,7 @@ import { addUserToUserSockets } from '@client/lib/api';
 // import GMView from './views/GMView';
 
 function App() {
-  const [CurrentView] = useState(<Menu/>);
+  const [CurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function App() {
 
   return (
     <div>
-      <Header/>
+      <Header />
       {CurrentView}
     </div>
   );

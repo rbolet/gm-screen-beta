@@ -7,7 +7,8 @@ const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const sessions = require('./sessions');
 // const db = require('./_config');
-const io = require('socket.io')(http);
+const SocketIO = require('./routes/socket-io-server');
+SocketIO.io(http);
 // const fs = require('fs');
 // const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 
@@ -15,31 +16,6 @@ const staticPath = path.join(__dirname, 'public');
 app.use(sessions);
 app.use(bodyParser.json());
 app.use(express.static(staticPath));
-
-const userSockets = {};
-let usersConnected = 0;
-app.post('/sockets', (req, res) => {
-  const user = req.body.user;
-  const socket = userSockets[user.socketId].socket;
-  usersConnected++;
-  socket.emit('usersConnected', usersConnected);
-  userSockets[user.socketId].user = user;
-});
-
-io.on('connection', socket => {
-  userSockets[socket.id] = { socket };
-
-  socket.emit('connected', socket.id);
-
-  socket.on('disconnect', reason => {
-    delete userSockets[socket.id];
-    // usersConnected--;
-  });
-
-  socket.on('error', error => {
-    console.error('Sockect.io error:', error);
-  });
-});
 
 http.listen(3001, () => {
   // eslint-disable-next-line

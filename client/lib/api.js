@@ -14,7 +14,6 @@ export function fetchCampaignAssets(campaign) {
       .catch(error => console.error(error));
   });
 }
-
 export function addUserToUserSockets(user) {
   const body = JSON.stringify({ user });
 
@@ -26,6 +25,6 @@ export function addUserToUserSockets(user) {
     body
   })
     .then(jsonRes => jsonRes.json())
-    .then(response => {})
+    .then(response => { })
     .catch(err => console.error(err));
 }
