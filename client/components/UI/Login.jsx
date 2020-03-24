@@ -14,7 +14,7 @@ export default function Login(props) {
     <div className="d-flex justify-content-around">
       <Button variant="danger"
         onClick={() => { updateUser(createRandomGuest('gm')); }}>Guest GM</Button>
-      <Button variant="warning"
+      <Button variant="info"
         onClick={() => { updateUser(createRandomGuest('player')); }}>Guest Player</Button>
     </div>
   );

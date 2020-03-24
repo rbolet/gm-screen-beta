@@ -1,8 +1,9 @@
 import './Header.css';
 import React, { useContext } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import { AppUser } from '../context/user-context';
-import { Campaign } from '../context/campaign-context';
+import { AppUser } from '@client/context/user-context';
+import { Campaign } from '@client/context/campaign-context';
+import Chat from '@components/UI/Chat';
 
 function Header(props) {
   const { user } = useContext(AppUser);
@@ -14,18 +15,19 @@ function Header(props) {
       RoleIcon = <i className="fas fa-hat-wizard text-danger" />;
       break;
     case 'player':
-      RoleIcon = <i className="fas fa-dice text-warning" />;
+      RoleIcon = <i className="fas fa-dice text-info" />;
       break;
   }
 
   return (
-    <Navbar bg="dark" variant="dark" style={{ height: 50 }}>
+    <Navbar bg="dark" variant="dark" style={{ height: 50 }} className="header">
       <Navbar.Brand className="header-brand">
         GM Screen
       </Navbar.Brand>
       <Navbar.Text className="user-name">{user.userName}</Navbar.Text>
       <Navbar.Text className="role-icon">{RoleIcon}</Navbar.Text>
       <Navbar.Text className="campaign">{campaign.campaignName}</Navbar.Text>
+      <Chat/>
     </Navbar>
   );
 }

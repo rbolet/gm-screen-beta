@@ -5,7 +5,7 @@ import { AppUser } from '@client/context/user-context';
 import { Session } from '@client/context/session-context';
 import Header from './Header';
 import Menu from './views/Menu';
-import { addUserToUserSockets } from '@client/lib/api';
+import { configUserSocket } from '@client/lib/api';
 // import GMView from './views/GMView';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
     }
     const userLoggedIn = allButSocketId.reduce(reduceToBoolean);
     if (user.socketId) {
-      addUserToUserSockets(user);
+      configUserSocket(user);
     } else if (userLoggedIn) {
       connectSocket();
     }

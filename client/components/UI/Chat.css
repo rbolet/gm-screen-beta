@@ -1,0 +1,39 @@
+.chat {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  z-index: 100;
+  width: 470px;
+  background-color: #343a40;
+}
+
+.chat-card {
+  border: none;
+}
+
+.chat-messages, .chat-user-list {
+  display: inline-block;
+  height: 250px;
+  background-color: white;
+  border-radius: 10px;
+}
+.chat-messages {
+  width: 300px;
+  margin-right: 4px;
+}
+
+.chat-user-list{
+  width: 150px;
+  padding: .5rem;
+}
+
+.chat-user-name{
+  display: block;
+}
+
+.chat-footer {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  height: 49px;
+}
