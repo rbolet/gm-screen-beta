@@ -31,6 +31,10 @@ function App() {
     socket.on('connected', () => {
       updateUser({ socketId: socket.id });
     });
+
+    socket.on('updateRoomList', userList => {
+
+    });
   }
 
   return (

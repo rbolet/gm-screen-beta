@@ -1,4 +1,5 @@
 const socketList = {};
+let ioServer;
 exports.sockets = socketList;
 
 exports.io = function (server) {
@@ -18,9 +19,22 @@ exports.io = function (server) {
     });
   });
 
+  ioServer = io;
   return io;
 };
 
-exports.configSocket = function (user) {
+exports.configSocket = user => {
   socketList[user.socketId].user = user;
+  const socket = socketList[user.socketId].socket;
+  socket.join('lobby', () => {
+    ioServer.in('lobby').clients((err, clients) => {
+      if (err) { console.error(err); return null; }
+      const userList = clients.map(socketId => {
+        return socketList[socketId].user.userName;
+      });
+      ioServer.to('lobby').emit('updateRoomList', userList);
+      ioServer.to('lobby').emit('playerJoined', `${user.userName} has joined the lobby`);
+    });
+  });
+  return socketList[user.socketId].user.userName;
 };
