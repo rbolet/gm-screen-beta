@@ -1,7 +1,8 @@
 
 export function fetchCampaignAssets(campaign) {
-  return new Promise((resolve, reject) => {
-    const currentCampaign = JSON.stringify(campaign);
+  const currentCampaign = JSON.stringify(campaign);
+
+  return (
     fetch('/campaignAssets', {
       method: 'POST',
       headers: {
@@ -10,22 +11,24 @@ export function fetchCampaignAssets(campaign) {
       body: currentCampaign
     })
       .then(jsonRes => jsonRes.json())
-      .then(campaignAssets => campaignAssets)
-      .catch(error => console.error(error));
-  });
+      .then(campaignAssets => { return campaignAssets; })
+      .catch(error => { console.error(error); })
+  );
 }
 
-export function addUserToUserSockets(user) {
+export function configUserSocket(user) {
   const body = JSON.stringify({ user });
 
-  fetch('/config/socket', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body
-  })
-    .then(jsonRes => jsonRes.json())
-    .then(response => { })
-    .catch(err => console.error(err));
+  return (
+    fetch('/config/socket', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body
+    })
+      .then(jsonRes => jsonRes.json())
+      .then(systemNoteTuple => { return systemNoteTuple; })
+      .catch(err => { console.error(err); })
+  );
 }

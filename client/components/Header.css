@@ -1,9 +1,13 @@
+.header{
+  position: relative;
+}
+
 .header-brand{
   font-weight: bolder;
 }
 
 .user-name{
-  width: 20rem;
+  width: 12rem;
   text-align: right;
 }
 
