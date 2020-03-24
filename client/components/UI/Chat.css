@@ -4,7 +4,13 @@
   right: 10px;
   z-index: 100;
   width: 464px;
+  background-color: #343a40;
 }
+
+.chat-card {
+  border: none;
+}
+
 .chat-messages, .chat-user-list {
   display: inline-block;
   height: 250px;
@@ -18,6 +24,10 @@
 
 .chat-user-list{
   width: 150px;
+}
+
+.chat-user-name{
+  display: inline;
 }
 
 .chat-footer {

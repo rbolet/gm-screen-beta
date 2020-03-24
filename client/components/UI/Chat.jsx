@@ -1,8 +1,9 @@
 import './Chat.css';
-import React, { } from 'react';
+import React, { useContext } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import { Session } from '@client/context/session-context';
 
 export default function Chat(props) {
 
@@ -13,7 +14,7 @@ export default function Chat(props) {
         <Accordion.Collapse eventKey="0">
           <Card.Body className="p-1">
             <div className="chat-messages"></div>
-            <div className="chat-user-list"></div>
+            <UserList/>
           </Card.Body>
         </Accordion.Collapse>
         <Card.Footer className="chat-footer">
@@ -26,3 +27,38 @@ export default function Chat(props) {
 
   );
 }
+
+function UserList(props) {
+  const { session } = useContext(Session);
+
+  let RoomUserList = null;
+  if (session.roomUserList.length) {
+    RoomUserList = session.roomUserList.map(user => {
+      let colorClass = 'text-dark'; let roleIcon = null;
+      switch (user.userRole) {
+        case 'gm':
+          colorClass = 'text-danger';
+          roleIcon = <i className="fas fa-hat-wizard text-danger" />;
+          break;
+        case 'player':
+          colorClass = 'text-info';
+          roleIcon = <i className="fas fa-dice text-info" />;
+      }
+      return (
+        <div key={user.userId} className={`chat-user-name ${colorClass}`}>
+          <span>{roleIcon}</span>{`  ${user.userName}`}</div>
+      );
+    });
+  }
+  return (
+    <div className="chat-user-list">
+      {RoomUserList}
+    </div>
+
+  );
+}
+
+// function ChatMessages(props) {
+//   const { session } = useContext(Session);
+
+// }

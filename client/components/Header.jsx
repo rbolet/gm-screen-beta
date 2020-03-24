@@ -15,7 +15,7 @@ function Header(props) {
       RoleIcon = <i className="fas fa-hat-wizard text-danger" />;
       break;
     case 'player':
-      RoleIcon = <i className="fas fa-dice text-warning" />;
+      RoleIcon = <i className="fas fa-dice text-info" />;
       break;
   }
 
