@@ -23,13 +23,12 @@
 }
 
 .chat-user-list{
-  display: block;
   width: 150px;
+  padding: .5rem;
 }
 
 .chat-user-name{
-  display: inline;
-  padding: .5rem;
+  display: block;
 }
 
 .chat-footer {
