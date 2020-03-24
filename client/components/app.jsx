@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
 import { AppUser } from '@client/context/user-context';
+import { Session } from '@client/context/session-context';
 import Header from './Header';
 import Menu from './views/Menu';
 import { addUserToUserSockets } from '@client/lib/api';
@@ -10,6 +11,7 @@ import { addUserToUserSockets } from '@client/lib/api';
 function App() {
   const [CurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
+  const { updateSession } = useContext(Session);
 
   useEffect(() => {
     const reduceToBoolean = (acc, cur) => Boolean(acc && cur);
@@ -32,8 +34,12 @@ function App() {
       updateUser({ socketId: socket.id });
     });
 
-    socket.on('updateRoomList', userList => {
+    socket.on('roomChange', room => {
+      updateSession({ room });
+    });
 
+    socket.on('updateRoomList', roomUserList => {
+      updateSession({ roomUserList });
     });
   }
 

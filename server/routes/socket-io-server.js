@@ -27,6 +27,7 @@ exports.configSocket = user => {
   socketList[user.socketId].user = user;
   const socket = socketList[user.socketId].socket;
   socket.join('lobby', () => {
+    socket.emit('roomChange', 'lobby');
     ioServer.in('lobby').clients((err, clients) => {
       if (err) { console.error(err); return null; }
       const userList = clients.map(socketId => {
