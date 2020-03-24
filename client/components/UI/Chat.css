@@ -1,11 +1,28 @@
 .chat {
   position: absolute;
   top: 0;
-  right: 5px;
+  right: 10px;
   z-index: 100;
+  width: 464px;
+}
+.chat-messages, .chat-user-list {
+  display: inline-block;
+  height: 250px;
+  background-color: white;
+  border-radius: 10px;
+}
+.chat-messages {
+  width: 300px;
+  margin-right: 4px;
+}
+
+.chat-user-list{
   width: 150px;
 }
 
 .chat-footer {
-  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: .25rem;
+  height: 49px;
 }
