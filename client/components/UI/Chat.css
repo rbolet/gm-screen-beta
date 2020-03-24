@@ -3,7 +3,7 @@
   top: 0;
   right: 10px;
   z-index: 100;
-  width: 464px;
+  width: 470px;
   background-color: #343a40;
 }
 
@@ -23,16 +23,18 @@
 }
 
 .chat-user-list{
+  display: block;
   width: 150px;
 }
 
 .chat-user-name{
   display: inline;
+  padding: .5rem;
 }
 
 .chat-footer {
   display: flex;
   align-items: center;
-  padding: .25rem;
+  padding: .5rem;
   height: 49px;
 }

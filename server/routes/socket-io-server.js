@@ -31,7 +31,7 @@ exports.configSocket = user => {
     ioServer.in('Lobby').clients((err, clients) => {
       if (err) { console.error(err); return null; }
       const userList = clients.map(socketId => {
-        return socketList[socketId].user.userName;
+        return socketList[socketId].user;
       });
       ioServer.to('Lobby').emit('updateRoomList', userList);
       ioServer.to('Lobby').emit('playerJoined', `${user.userName} has joined the lobby`);

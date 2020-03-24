@@ -12,7 +12,7 @@ export default function Chat(props) {
     <Accordion className="chat">
       <Card className="chat-card bg-dark">
         <Accordion.Collapse eventKey="0">
-          <Card.Body className="p-1">
+          <Card.Body className="p-2 d-flex">
             <div className="chat-messages"></div>
             <UserList/>
           </Card.Body>
