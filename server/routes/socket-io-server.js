@@ -26,15 +26,15 @@ exports.io = function (server) {
 exports.configSocket = user => {
   socketList[user.socketId].user = user;
   const socket = socketList[user.socketId].socket;
-  socket.join('lobby', () => {
-    socket.emit('roomChange', 'lobby');
-    ioServer.in('lobby').clients((err, clients) => {
+  socket.join('Lobby', () => {
+    socket.emit('roomChange', 'Lobby');
+    ioServer.in('Lobby').clients((err, clients) => {
       if (err) { console.error(err); return null; }
       const userList = clients.map(socketId => {
         return socketList[socketId].user.userName;
       });
-      ioServer.to('lobby').emit('updateRoomList', userList);
-      ioServer.to('lobby').emit('playerJoined', `${user.userName} has joined the lobby`);
+      ioServer.to('Lobby').emit('updateRoomList', userList);
+      ioServer.to('Lobby').emit('playerJoined', `${user.userName} has joined the lobby`);
     });
   });
   return socketList[user.socketId].user.userName;
