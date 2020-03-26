@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Body from '@components/UI/Body';
 import Login from '@components/Login';
 import CampaignConfig from '@components/CampaignConfig';
@@ -12,12 +12,20 @@ function Menu(props) {
   const { campaign, updateCampaign } = useContext(Campaign);
 
   const [CurrentMenu, setCurrentMenu] = useState(<Login/>);
-  if (!user.userId) {
-    setCurrentMenu(<Login/>);
-  } else if (!campaign.campaignId) {
-    updateCampaign(guestCampaign);
-    setCurrentMenu(<CampaignConfig/>);
-  }
+
+  useEffect(() => {
+    if (!user.userId) {
+      setCurrentMenu(<Login />);
+    } else {
+      updateCampaign(guestCampaign);
+    }
+  }, [user.userId]);
+
+  useEffect(() => {
+    if (campaign.campaignId) {
+      setCurrentMenu(<CampaignConfig />);
+    }
+  }, [campaign.campaignId]);
 
   return (
     <Body>
