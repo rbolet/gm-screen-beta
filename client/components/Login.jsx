@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import ContainerCard from './ContainerCard';
+import ContainerCard from '@components/UI/ContainerCard';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { createRandomGuest } from '@client/lib/guestUsers';
