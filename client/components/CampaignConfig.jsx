@@ -6,6 +6,7 @@ import FeaturedImage from '@components/UI/FeaturedImage';
 
 export default function CampaignConfig(props) {
   const [selectedImage, setSelectedImage] = useState(null);
+
   return (
     <>
       <ContainerCard

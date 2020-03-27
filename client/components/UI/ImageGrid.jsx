@@ -8,8 +8,7 @@ function ImageGrid(props) {
 
   return (
     <ContainerCard percentHeight={100} percentWidth={100}
-      header={<GridHeaderButtons setSelectedCategory={setSelectedCategory}/>}
-      footer={props.footer && <div>{props.footer}</div>}>
+      header={<GridHeaderButtons setSelectedCategory={setSelectedCategory}/>}>
       <GridImages selectedTab={selectedCategory} onImageClick={props.onImageClick}/>
     </ContainerCard>
   );
@@ -45,7 +44,7 @@ function GridImages(props) {
             key={image.imageId}
             src={`./images/${image.fileName}`}
             className="grid-image m-1"
-            onClick={props.onImageClick(image)}/>
+            onClick={() => { props.onImageClick(image); }}/>
         );
       }
     });

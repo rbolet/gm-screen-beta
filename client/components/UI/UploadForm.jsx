@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-// import { Campaign } from '@client/context/campaign-context';
+import { Campaign } from '@client/context/campaign-context';
 
 export default function UploadForm(props) {
+  const { campaign } = useContext(Campaign);
   const [filePathLabel, setFilePathLabel] = useState('Choose an image to upload');
 
   return (
@@ -30,7 +31,7 @@ export default function UploadForm(props) {
           </Form.Control>
         </Form.Group>
       </Form.Row>
-      <input type="hidden" name="campaignId" value={this.props.campaignId} />
+      <input type="hidden" name="campaignId" value={campaign.campaignId} />
     </Form>
   );
 }
