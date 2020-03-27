@@ -1,8 +1,6 @@
-.featured-image-container {
-  height: 100%;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.featured-container {
+  border-color: #343a40;
+  border-radius: 50px;
+  background: #c0c0c0;
+  box-shadow: inset 2px 2px 2px #343a40;
 }
