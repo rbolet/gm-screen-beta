@@ -11,7 +11,7 @@ function ContainerCard(props) {
   return (
     <div className={`container-card ${shadow}${props.className}`} style={{ height, width, backgroundColor: bg, color }}>
       {props.header && <div className="container-card-header">{props.header}</div>}
-      {props.children && <div className="container-card-body">{props.children}</div>}
+      {props.children && <div className={`container-card-body ${props.className}`}>{props.children}</div>}
       {props.footer && <div className="container-card-footer">{props.footer}</div>}
     </div>
   );
