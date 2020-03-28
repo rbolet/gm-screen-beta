@@ -6,12 +6,12 @@ import { Session } from '@client/context/session-context';
 import Header from './Header';
 import Menu from './views/Menu';
 import { configUserSocket } from '@client/lib/api';
-// import GMView from './views/GMView';
+import GMView from '@components/views/GMView';
 
 function App() {
-  const [CurrentView] = useState(<Menu />);
+  const [CurrentView, setCurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
-  const { updateSession } = useContext(Session);
+  const { session, updateSession } = useContext(Session);
 
   useEffect(() => {
     const reduceToBoolean = (acc, cur) => Boolean(acc && cur);
@@ -27,6 +27,16 @@ function App() {
       connectSocket();
     }
   }, [user.userId, user.socketId]);
+
+  useEffect(() => {
+    if (session.sessionId === 0) {
+      switch (user.userRole) {
+        case 'gm': setCurrentView(<GMView />); break;
+        default: setCurrentView(<Menu/>);
+      }
+
+    }
+  }, [session.sessionId]);
 
   function connectSocket() {
     const socket = io('/');
