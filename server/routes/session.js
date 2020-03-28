@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db = require('./_config');
+const db = require('../_config');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 
 router.get('/:campaignId', (req, res) => {
