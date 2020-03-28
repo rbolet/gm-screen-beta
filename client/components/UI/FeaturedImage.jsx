@@ -36,7 +36,7 @@ function FooterButtons(props) {
 
   return (
     <div className="footer-buttons">
-      <Button variant="success" onClick={() => { updateSession({ sessionId: 0 }); }}>Launch Session</Button>
+      <Button variant="success" onClick={() => { updateSession(); }}>Launch Session</Button>
     </div>
   );
 }

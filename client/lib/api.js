@@ -1,3 +1,4 @@
+const headers = { 'Content-Type': 'application/json' };
 
 export function fetchCampaignAssets(campaign) {
   const currentCampaign = JSON.stringify(campaign);
@@ -5,9 +6,7 @@ export function fetchCampaignAssets(campaign) {
   return (
     fetch('/campaignAssets', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers,
       body: currentCampaign
     })
       .then(jsonRes => jsonRes.json())
@@ -22,9 +21,7 @@ export function configUserSocket(user) {
   return (
     fetch('/config/socket', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers,
       body
     })
       .then(jsonRes => jsonRes.json())
@@ -36,7 +33,7 @@ export function configUserSocket(user) {
 export function uploadImageForm(formData) {
   return fetch('/upload', {
     method: 'POST',
-    'content-type': 'multipart/form-data',
+    headers: { 'content-type': 'multipart/form-data' },
     body: formData
   })
     .then(res => res.json())
@@ -48,14 +45,21 @@ export function getCampaignAssets(campaignId) {
   const body = JSON.stringify({ campaignId });
   return fetch('/campaignAssets', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers,
     body
   })
     .then(jsonRes => jsonRes.json())
     .then(result => result)
-    .catch(error => {
-      console.error(`Error in GET return: ${error}`);
+    .catch(err => {
+      console.error('Error getting campaign assets', err);
+    });
+}
+
+export async function getSession(campaignId) {
+  return fetch(`/session/${campaignId}`, headers)
+    .then(res => res.json())
+    .then(session => session)
+    .catch(err => {
+      console.error('Error getting session', err);
     });
 }

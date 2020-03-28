@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
 import { AppUser } from '@client/context/user-context';
+import { Campaign } from '@client/context/campaign-context';
 import { Session } from '@client/context/session-context';
 import Header from './Header';
 import Menu from './views/Menu';
@@ -11,7 +12,8 @@ import GMView from '@components/views/GMView';
 function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
-  const { session, updateSession } = useContext(Session);
+  const { updateCampaign } = useContext(Campaign);
+  const { session } = useContext(Session);
 
   useEffect(() => {
     const reduceToBoolean = (acc, cur) => Boolean(acc && cur);
@@ -29,7 +31,7 @@ function App() {
   }, [user.userId, user.socketId]);
 
   useEffect(() => {
-    if (session.sessionId === 0) {
+    if (session.sessionId) {
       switch (user.userRole) {
         case 'gm': setCurrentView(<GMView />); break;
         default: setCurrentView(<Menu/>);
@@ -45,11 +47,11 @@ function App() {
     });
 
     socket.on('roomChange', room => {
-      updateSession({ room });
+      updateCampaign({ room });
     });
 
     socket.on('updateRoomList', roomUserList => {
-      updateSession({ roomUserList });
+      updateCampaign({ roomUserList });
     });
   }
 

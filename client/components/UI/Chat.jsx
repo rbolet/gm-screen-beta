@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { Session } from '@client/context/session-context';
+import { Campaign } from '@client/context/campaign-context';
 
 export default function Chat(props) {
 
@@ -29,11 +29,11 @@ export default function Chat(props) {
 }
 
 function UserList(props) {
-  const { session } = useContext(Session);
+  const { campaign } = useContext(Campaign);
 
   let RoomUserList = null;
-  if (session.roomUserList.length) {
-    RoomUserList = session.roomUserList.map(user => {
+  if (campaign.roomUserList.length) {
+    RoomUserList = campaign.roomUserList.map(user => {
       let colorClass = 'text-dark'; let roleIcon = null;
       switch (user.userRole) {
         case 'gm':
@@ -57,8 +57,3 @@ function UserList(props) {
 
   );
 }
-
-// function ChatMessages(props) {
-//   const { session } = useContext(Session);
-
-// }
