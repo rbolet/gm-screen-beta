@@ -1,0 +1,54 @@
+.environment-image{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+.tokens-container{
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-self: center;
+  justify-content: space-around;
+  width: 95%;
+  height: 30%;
+  position: absolute;
+  bottom: 5%;
+  padding: .25rem;
+  z-index: 2;
+}
+
+.token{
+  bottom: 0px;
+  height: 100%;
+  width: 15%;
+  font-size: .75rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all .25s;
+}
+
+.token:hover{
+  transition: all .5s;
+  transform: scale(1.5);
+  bottom: 50px;
+}
+
+.token-name-footer{
+  cursor: pointer;
+  height: 1.5rem;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  background-color: white;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+}
