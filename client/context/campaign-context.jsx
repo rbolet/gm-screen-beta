@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const Campaign = React.createContext(null);
 
 export function CampaignContext(props) {
-  const [campaignId, setCampaignId] = React.useState(null);
-  const [campaignName, setCampaignName] = React.useState(null);
-  const [campaignGM, setCampaignGM] = React.useState(null);
-  const [campaignAssets, setCampaignAssets] = React.useState([]);
+  const [campaignId, setCampaignId] = useState(null);
+  const [campaignName, setCampaignName] = useState(null);
+  const [campaignGM, setCampaignGM] = useState(null);
+  const [campaignAssets, setCampaignAssets] = useState([]);
+  const [room, setRoom] = useState(null);
+  const [roomUserList, setRoomUserList] = useState([]);
 
   const updateCampaign = campaignObject => {
     Object.keys(campaignObject).forEach(key => {
@@ -19,11 +21,15 @@ export function CampaignContext(props) {
           setCampaignGM(campaignObject.campaignGM); break;
         case 'campaignAssets':
           setCampaignAssets(campaignObject.campaignAssets); break;
+        case 'room':
+          setRoom(campaignObject.room); break;
+        case 'roomUserList':
+          setRoomUserList(campaignObject.roomUserList); break;
       }
     });
   };
 
-  const campaign = { campaignId, campaignName, campaignGM, campaignAssets };
+  const campaign = { campaignId, campaignName, campaignGM, campaignAssets, room, roomUserList };
   return (
     <Campaign.Provider value={{ campaign, updateCampaign }}>{props.children}</Campaign.Provider>
   );
