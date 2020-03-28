@@ -4,3 +4,11 @@
   background: #c0c0c0;
   box-shadow: inset 2px 2px 2px #343a40;
 }
+
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: .25rem;
+}
