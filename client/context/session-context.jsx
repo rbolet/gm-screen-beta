@@ -1,28 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Campaign } from '@client/context/campaign-context';
+import { getSession } from '@client/lib/api';
 
 export const Session = React.createContext(null);
 
 export function SessionContext(props) {
-  const [sessionId, setSessionId] = useState(null);
-  const [environmentImageFileName, setEnvironmentImageFileName] = useState(null);
-  const [tokens, setTokens] = useState(null);
+  const [session, setSession] = useState({ sessionId: null, environmentImageFileName: null, tokens: [] });
 
-  const updateSession = sessionObject => {
-    Object.keys(sessionObject).forEach(key => {
-      switch (key) {
-        case 'sessionId':
-          setSessionId(sessionObject.sessionId); break;
-        case 'environmentImageFileName':
-          setEnvironmentImageFileName(sessionObject.environmentImageFileName); break;
-        case 'tokens':
-          setTokens(sessionObject.tokens); break;
-      }
-    });
-  };
+  const { campaign } = useContext(Campaign);
 
-  const session = { sessionId, environmentImageFileName, tokens };
+  useEffect(() => {
+    if (campaign.campaignId) setSession(getSession(campaign.campaignId));
+  }, [campaign.campaignId]);
 
   return (
-    <Session.Provider value={{ session, updateSession }}>{props.children}</Session.Provider>
+    <Session.Provider value={{ session }}>{props.children}</Session.Provider>
   );
 }
