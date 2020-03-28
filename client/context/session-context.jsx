@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const Session = React.createContext(null);
 
 export function SessionContext(props) {
-  const [sessionId, setSessionId] = React.useState(null);
-  const [environmentImageFileName, setEnvironmentImageFileName] = React.useState(null);
-  const [tokens, setTokens] = React.useState(null);
-  const [room, setRoom] = React.useState(null);
-  const [roomUserList, setRoomUserList] = React.useState([]);
+  const [sessionId, setSessionId] = useState(null);
+  const [environmentImageFileName, setEnvironmentImageFileName] = useState(null);
+  const [tokens, setTokens] = useState(null);
+  const [room, setRoom] = useState(null);
+  const [roomUserList, setRoomUserList] = useState([]);
 
   const updateSession = sessionObject => {
     Object.keys(sessionObject).forEach(key => {
