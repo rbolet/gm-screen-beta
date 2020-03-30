@@ -44,15 +44,15 @@ function updateUserListInRoom(room) {
   return room;
 }
 
-exports.moveSocketToRoom = (socketId, campaignId) => {
+exports.moveSocketToRoom = (socketId, sessionId) => {
   const socket = socketList[socketId].socket;
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
       socket.leave(room, () => { updateUserListInRoom(room); });
     }
   });
-  socket.join(campaignId, () => {
-    updateUserListInRoom(campaignId);
-    socket.emit('roomChange', campaignId);
+  socket.join(sessionId, () => {
+    updateUserListInRoom(sessionId);
+    socket.emit('roomChange', sessionId);
   });
 };
