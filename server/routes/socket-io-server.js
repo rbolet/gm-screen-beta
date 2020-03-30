@@ -28,14 +28,30 @@ exports.configSocket = user => {
   const socket = socketList[user.socketId].socket;
   socket.join('Lobby', () => {
     socket.emit('roomChange', 'Lobby');
-    ioServer.in('Lobby').clients((err, clients) => {
-      if (err) { console.error(err); return null; }
-      const userList = clients.map(socketId => {
-        return socketList[socketId].user;
-      });
-      ioServer.to('Lobby').emit('updateRoomList', userList);
-      ioServer.to('Lobby').emit('playerJoined', `${user.userName} has joined the lobby`);
-    });
+    updateUserListInRoom('Lobby');
   });
   return socketList[user.socketId].user.userName;
+};
+
+function updateUserListInRoom(room) {
+  ioServer.in(room).clients((err, clients) => {
+    if (err) { console.error(err); return null; }
+    const userList = clients.map(socketId => {
+      return socketList[socketId].user;
+    });
+    ioServer.to(room).emit('updateRoomList', userList);
+  });
+  return room;
+}
+
+exports.moveSocketToRoom = (socketId, campaignId) => {
+  const socket = socketList[socketId].socket;
+  Object.keys(socket.rooms).forEach(room => {
+    if (room !== socket.id) {
+      socket.leave(room, () => { updateUserListInRoom(room); });
+    }
+  });
+  socket.join(campaignId, () => {
+    updateUserListInRoom(campaignId);
+  });
 };

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const db = require('../_config');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 
-router.get('/:campaignId', (req, res) => {
+router.get('/:campaignId/socket/:socketId', (req, res) => {
   const campaignId = req.params.campaignId;
 
   db.query(`SELECT sessionId FROM sessions WHERE sessions.campaignId = ${campaignId};`)
