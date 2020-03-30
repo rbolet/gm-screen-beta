@@ -55,8 +55,8 @@ export function getCampaignAssets(campaignId) {
     });
 }
 
-export async function getSession(campaignId) {
-  return fetch(`/session/${campaignId}`, headers)
+export async function getSession(campaignId, socketId) {
+  return fetch(`/session/${campaignId}/socket/${socketId}`, headers)
     .then(res => res.json())
     .then(session => session)
     .catch(err => {
