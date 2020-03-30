@@ -44,6 +44,7 @@ router.post('/environment/:sessionId', (req, res) => {
   })
     .then(session => {
       SocketIO.updateSession(session);
+      res.json({ sessionNote: `pushing ${req.body.alias} to session ${session.sessionId}` });
     });
 });
 
