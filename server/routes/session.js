@@ -33,7 +33,7 @@ router.get('/:campaignId/socket/:socketId', (req, res) => {
 router.post('/environment/:sessionId', (req, res) => {
   const sessionId = req.params.sessionId;
 
-  const fileName = req.body.image.fileName ? `"${req.body.newImage.fileName}"` : null;
+  const fileName = req.body.fileName ? `"${req.body.fileName}"` : null;
   const query = `UPDATE sessions
     SET updated = ${justNow},
       environmentImageFileName = ${fileName}

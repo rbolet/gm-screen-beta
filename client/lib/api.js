@@ -63,3 +63,12 @@ export async function getSession(campaignId, socketId) {
       console.error('Error getting session', err);
     });
 }
+
+export async function postEnvironment(sessionId, image) {
+  const body = JSON.stringify(image);
+  return fetch(`/session/environment/${sessionId}`, {
+    method: 'POST',
+    headers,
+    body
+  });
+}
