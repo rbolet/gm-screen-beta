@@ -1,10 +1,16 @@
 import './MainDisplay.css';
 import React, { useContext, useState, useEffect } from 'react';
 import { Session } from '@client/context/session-context';
+import Loading from '@components/UI/Loading';
 
 export default function MainDisplay() {
   const { session } = useContext(Session);
   const [Tokens, setTokens] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(session.loading);
+  }, [session.Loading]);
 
   useEffect(() => {
     if (session.tokens.length) {
@@ -24,12 +30,16 @@ export default function MainDisplay() {
     }
   }, [session.tokens]);
 
-  return (
-    <div className="environment-image"
-      style={{ backgroundImage: `url(./images/${session.environmentImageFileName})` }}>
-      <div className="tokens-container">
-        {Tokens}
+  if (loading) {
+    return <Loading/>;
+  } else {
+    return (
+      <div className="environment-image"
+        style={{ backgroundImage: `url(./images/${session.environmentImageFileName})` }}>
+        <div className="tokens-container">
+          {Tokens}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
