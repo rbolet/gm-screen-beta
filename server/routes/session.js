@@ -26,7 +26,7 @@ router.get('/:campaignId/socket/:socketId', (req, res) => {
       return session;
     })
     .then(() => {
-      SocketIO.moveSocketToRoom(campaignId, socketId);
+      SocketIO.moveSocketToRoom(socketId, campaignId);
     });
 });
 
