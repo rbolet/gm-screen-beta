@@ -33,6 +33,7 @@ exports.configSocket = user => {
   return socketList[user.socketId].user.userName;
 };
 
+// moving rooms
 function updateUserListInRoom(room) {
   ioServer.in(room).clients((err, clients) => {
     if (err) { console.error(err); return null; }
@@ -55,4 +56,10 @@ exports.moveSocketToRoom = (socketId, sessionId) => {
     updateUserListInRoom(sessionId);
     socket.emit('roomChange', sessionId);
   });
+};
+
+// updating state
+exports.updateSession = session => {
+  ioServer.to(session.sessionId).emit('updateSession', { session });
+  return session;
 };

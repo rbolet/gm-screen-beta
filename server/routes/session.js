@@ -43,7 +43,7 @@ router.post('/environment/:sessionId', (req, res) => {
     return buildSession(sessionId);
   })
     .then(session => {
-
+      SocketIO.updateSession(session);
     });
 });
 
