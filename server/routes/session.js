@@ -1,9 +1,11 @@
 const router = require('express').Router();
 const db = require('../_config');
+const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 
 router.get('/:campaignId/socket/:socketId', (req, res) => {
   const campaignId = req.params.campaignId;
+  const socketId = req.params.socketId;
 
   db.query(`SELECT sessionId FROM sessions WHERE sessions.campaignId = ${campaignId};`)
     .then(([sessionRes]) => {
@@ -21,6 +23,10 @@ router.get('/:campaignId/socket/:socketId', (req, res) => {
     })
     .then(session => {
       res.json(session);
+      return session;
+    })
+    .then(() => {
+      SocketIO.moveSocketToRoom(campaignId, socketId);
     });
 });
 

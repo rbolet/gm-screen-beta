@@ -53,5 +53,6 @@ exports.moveSocketToRoom = (socketId, campaignId) => {
   });
   socket.join(campaignId, () => {
     updateUserListInRoom(campaignId);
+    socket.emit('roomChange', campaignId);
   });
 };
