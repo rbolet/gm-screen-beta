@@ -25,8 +25,26 @@ router.get('/:campaignId/socket/:socketId', (req, res) => {
       res.json(session);
       return session;
     })
-    .then(() => {
-      SocketIO.moveSocketToRoom(socketId, campaignId);
+    .then(session => {
+      SocketIO.moveSocketToRoom(socketId, session.sessionId);
+    });
+});
+
+router.post('/environment/:sessionId', (req, res) => {
+  const sessionId = req.params.sessionId;
+
+  const fileName = req.body.fileName ? `"${req.body.fileName}"` : null;
+  const query = `UPDATE sessions
+    SET updated = ${justNow},
+      environmentImageFileName = ${fileName}
+    WHERE sessionId = ${sessionId};`;
+
+  db.query(query).then(rowsAffected => {
+    return buildSession(sessionId);
+  })
+    .then(session => {
+      SocketIO.updateSession(session);
+      res.json({ sessionNote: `pushing ${req.body.alias} to session ${session.sessionId}` });
     });
 });
 

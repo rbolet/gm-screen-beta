@@ -33,6 +33,7 @@ exports.configSocket = user => {
   return socketList[user.socketId].user.userName;
 };
 
+// moving rooms
 function updateUserListInRoom(room) {
   ioServer.in(room).clients((err, clients) => {
     if (err) { console.error(err); return null; }
@@ -44,15 +45,21 @@ function updateUserListInRoom(room) {
   return room;
 }
 
-exports.moveSocketToRoom = (socketId, campaignId) => {
+exports.moveSocketToRoom = (socketId, sessionId) => {
   const socket = socketList[socketId].socket;
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
       socket.leave(room, () => { updateUserListInRoom(room); });
     }
   });
-  socket.join(campaignId, () => {
-    updateUserListInRoom(campaignId);
-    socket.emit('roomChange', campaignId);
+  socket.join(sessionId, () => {
+    updateUserListInRoom(sessionId);
+    socket.emit('roomChange', sessionId);
   });
+};
+
+// updating state
+exports.updateSession = session => {
+  ioServer.to(session.sessionId).emit('updateSession', { session });
+  return session;
 };

@@ -10,10 +10,12 @@ export function SessionContext(props) {
   const { user } = useContext(AppUser);
   const [session, setSession] = useState({ sessionId: null, environmentImageFileName: null, tokens: [] });
 
-  const updateSession = changesObject => {
-    if (!changesObject) {
+  const updateSession = newSessionState => {
+    if (!newSessionState) {
       getSession(campaign.campaignId, user.socketId)
         .then(session => { setSession(session); });
+    } else {
+      setSession(newSessionState);
     }
   };
 

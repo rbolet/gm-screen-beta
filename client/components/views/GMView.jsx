@@ -4,16 +4,18 @@ import ContainerCard from '@components/UI/ContainerCard';
 import ImageGrid from '@components/UI/ImageGrid';
 import MainDisplay from '@components/UI/MainDisplay';
 import { Session } from '@client/context/session-context';
+import { postEnvironment } from '@client/lib/api';
 
 export default function GMView(props) {
-  const { updateSession } = useContext(Session);
+  const { session } = useContext(Session);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    if (!selectedImage) return;
-    switch (selectedImage.category) {
-      case 'Environment':
-        updateSession({ environmentImageFileName: selectedImage.fileName });
+    if (selectedImage) {
+      switch (selectedImage.category) {
+        case 'Environment':
+          postEnvironment(session.sessionId, selectedImage);
+      }
     }
   }, [selectedImage]);
 
