@@ -1,14 +1,14 @@
 import './MainDisplay.css';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Session } from '@client/context/session-context';
 
 export default function MainDisplay() {
   const { session } = useContext(Session);
-  let Tokens = null;
+  const [Tokens, setTokens] = useState(null);
 
   useEffect(() => {
-    if (session.tokens) {
-      Tokens = session.tokens.map(token => {
+    if (session.tokens.length) {
+      const tokenElements = session.tokens.map(token => {
         return (
           <div
             key={token.tokenId}
@@ -20,21 +20,16 @@ export default function MainDisplay() {
           </div>
         );
       });
+      setTokens(tokenElements);
     }
   }, [session.tokens]);
 
   return (
-    <Environment backgroundImage={session.environmentImageFileName}>
+    <div className="environment-image"
+      style={{ backgroundImage: `url(./images/${session.environmentImageFileName})` }}>
       <div className="tokens-container">
         {Tokens}
       </div>
-    </Environment>
-  );
-}
-
-function Environment(props) {
-  return (
-    <div className="environment-image"
-      style={{ backgroundImage: `url(./images/${props.backgroundImage})` }} />
+    </div>
   );
 }
