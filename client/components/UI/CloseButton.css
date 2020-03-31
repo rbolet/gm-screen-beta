@@ -1,0 +1,14 @@
+ .close-button{
+  display: flex;
+  margin-left: auto;
+  height: 15px;
+  width: 15px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+ }
+
+ .close-button:hover{
+   background-color: white;
+   color: red;
+ }

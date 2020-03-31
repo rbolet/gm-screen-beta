@@ -1,9 +1,10 @@
 import './MainDisplay.css';
 import React, { useContext, useState, useEffect } from 'react';
 import { Session } from '@client/context/session-context';
+import CloseButton from '@components/UI/CloseButton';
 
 export default function MainDisplay() {
-  const { session } = useContext(Session);
+  const { session, postSession } = useContext(Session);
   const [Tokens, setTokens] = useState(null);
 
   useEffect(() => {
@@ -27,6 +28,8 @@ export default function MainDisplay() {
   return (
     <div className="environment-image"
       style={{ backgroundImage: `url(./images/${session.environmentImageFileName})` }}>
+      <CloseButton onCloseClick={() => { postSession({ environmentImage: { fileName: null } }); }}
+        icon={<i className="far fa-times-circle"/>}/>
       <div className="tokens-container">
         {Tokens}
       </div>
