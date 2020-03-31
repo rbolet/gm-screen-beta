@@ -15,7 +15,7 @@ export default function TokenModal() {
   return (
     <Portal>
       <ModalBackground>
-        <ContainerCard percentHeight={90} percentWidth={50} shadow={true}>
+        <ContainerCard percentHeight={90} percentWidth={50} bg="#343a40" shadow>
           <FeaturedImage image={tempImage}/>
         </ContainerCard>
       </ModalBackground>
