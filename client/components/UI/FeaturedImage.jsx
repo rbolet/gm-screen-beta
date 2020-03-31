@@ -10,7 +10,7 @@ export default function FeaturedImage(props) {
   let Featured = null;
 
   if (props.image) {
-    Featured = <Image src={`./images/${props.image.fileName}`} thumbnail />;
+    Featured = <Image className='mh-100' src={`./images/${props.image.fileName}`} thumbnail />;
   } else {
     Featured = (
       <div className="img-thumbnail mh-100 text-muted text-center d-block">
