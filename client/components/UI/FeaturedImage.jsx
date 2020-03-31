@@ -1,6 +1,5 @@
 import './FeaturedImage.css';
 import React, { useContext } from 'react';
-import Image from 'react-bootstrap/Image';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ContainerCard from '@components/UI/ContainerCard';
@@ -10,7 +9,7 @@ export default function FeaturedImage(props) {
   let Featured = null;
 
   if (props.image) {
-    Featured = <Image className='mh-100' src={`./images/${props.image.fileName}`} thumbnail />;
+    Featured = <div className='h-100 w-100' style={{ backgroundImage: `url(./images/${props.image.fileName})` }}/>;
   } else {
     Featured = (
       <div className="img-thumbnail mh-100 text-muted text-center d-block">
