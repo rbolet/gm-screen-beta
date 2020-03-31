@@ -6,6 +6,7 @@ import CloseButton from '@components/UI/CloseButton';
 export default function MainDisplay() {
   const { session, postSession } = useContext(Session);
   const [Tokens, setTokens] = useState(null);
+  const [environmentFilePath, setEnvironmentFilePath] = useState(`url(./images/${session.environmentImageFileName})`);
 
   useEffect(() => {
     if (session.tokens.length) {
@@ -25,15 +26,17 @@ export default function MainDisplay() {
     }
   }, [session.tokens]);
 
-  let environmentImageFileName = null;
   useEffect(() => {
-    environmentImageFileName = session.environmentImageFileName
-      ? `url(./images/${session.environmentImageFileName})`
-      : null;
+    if (session.environmentImageFileName) {
+      setEnvironmentFilePath(`url(./images/${session.environmentImageFileName})`);
+    } else {
+      setEnvironmentFilePath(null);
+    }
   }, [session.environmentImageFileName]);
+
   return (
     <div className="environment-image"
-      style={{ backgroundImage: environmentImageFileName }}>
+      style={{ backgroundImage: environmentFilePath }}>
       <CloseButton onCloseClick={() => { postSession({ environmentImage: { fileName: null } }); }}
         icon={<i className="far fa-times-circle"/>}/>
       <div className="tokens-container">
