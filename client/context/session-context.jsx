@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Campaign } from '@client/context/campaign-context';
 import { AppUser } from '@client/context/user-context';
-import { getSession } from '@client/lib/api';
+import { getSession, postEnvironment } from '@client/lib/api';
 
 export const Session = React.createContext(null);
 
@@ -19,7 +19,17 @@ export function SessionContext(props) {
     }
   };
 
+  const postSession = newSessionState => {
+    Object.keys(newSessionState).forEach(key => {
+      switch (key) {
+        case 'environmentImage':
+          postEnvironment(session.sessionId, newSessionState.environmentImage);
+          break;
+      }
+    });
+  };
+
   return (
-    <Session.Provider value={{ session, updateSession }}>{props.children}</Session.Provider>
+    <Session.Provider value={{ session, updateSession, postSession }}>{props.children}</Session.Provider>
   );
 }

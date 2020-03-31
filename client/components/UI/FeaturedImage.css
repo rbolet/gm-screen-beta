@@ -1,3 +1,9 @@
+div {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .featured-container {
   border-color: #343a40;
   border-radius: 50px;

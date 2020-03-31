@@ -1,10 +1,12 @@
 import './MainDisplay.css';
 import React, { useContext, useState, useEffect } from 'react';
 import { Session } from '@client/context/session-context';
+import CloseButton from '@components/UI/CloseButton';
 
 export default function MainDisplay() {
-  const { session } = useContext(Session);
+  const { session, postSession } = useContext(Session);
   const [Tokens, setTokens] = useState(null);
+  const [environmentFilePath, setEnvironmentFilePath] = useState(null);
 
   useEffect(() => {
     if (session.tokens.length) {
@@ -24,9 +26,21 @@ export default function MainDisplay() {
     }
   }, [session.tokens]);
 
+  useEffect(() => {
+    if (session.environmentImageFileName) {
+      setEnvironmentFilePath(`url(./images/${session.environmentImageFileName})`);
+    } else {
+      setEnvironmentFilePath(null);
+    }
+  }, [session.environmentImageFileName]);
+
   return (
     <div className="environment-image"
-      style={{ backgroundImage: `url(./images/${session.environmentImageFileName})` }}>
+      style={{ backgroundImage: environmentFilePath }}>
+      <CloseButton onCloseClick={() => {
+        postSession({ environmentImage: { fileName: null, category: 'Environment' } });
+      }}
+      icon={<i className="far fa-times-circle"/>}/>
       <div className="tokens-container">
         {Tokens}
       </div>

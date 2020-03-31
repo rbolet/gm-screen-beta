@@ -13,7 +13,7 @@ function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
   const { updateCampaign } = useContext(Campaign);
-  const { session } = useContext(Session);
+  const { session, updateSession } = useContext(Session);
 
   useEffect(() => {
     const reduceToBoolean = (acc, cur) => Boolean(acc && cur);
@@ -52,6 +52,10 @@ function App() {
 
     socket.on('updateRoomList', roomUserList => {
       updateCampaign({ roomUserList });
+    });
+
+    socket.on('updateSession', newSessionState => {
+      updateSession(newSessionState);
     });
   }
 
