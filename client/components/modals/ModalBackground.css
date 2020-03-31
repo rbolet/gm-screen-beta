@@ -1,6 +1,7 @@
 
 .modal-background {
   position: fixed;
+  z-index: 100;
   margin: 0;
   display: flex;
   backdrop-filter: blur(8px);
