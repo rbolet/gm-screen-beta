@@ -6,8 +6,12 @@ import MainDisplay from '@components/UI/MainDisplay';
 import { Session } from '@client/context/session-context';
 
 export default function GMView(props) {
-  const { postSession } = useContext(Session);
+  const { session, postSession } = useContext(Session);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    if (!session.environmentImageFileName) setSelectedImage(null);
+  }, [session.environmentImageFileName]);
 
   useEffect(() => {
     if (selectedImage) {
