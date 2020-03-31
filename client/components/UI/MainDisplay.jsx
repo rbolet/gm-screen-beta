@@ -25,9 +25,15 @@ export default function MainDisplay() {
     }
   }, [session.tokens]);
 
+  let environmentImageFileName = null;
+  useEffect(() => {
+    environmentImageFileName = session.environmentImageFileName
+      ? `url(./images/${session.environmentImageFileName})`
+      : null;
+  }, [session.environmentImageFileName]);
   return (
     <div className="environment-image"
-      style={{ backgroundImage: `url(./images/${session.environmentImageFileName})` }}>
+      style={{ backgroundImage: environmentImageFileName }}>
       <CloseButton onCloseClick={() => { postSession({ environmentImage: { fileName: null } }); }}
         icon={<i className="far fa-times-circle"/>}/>
       <div className="tokens-container">

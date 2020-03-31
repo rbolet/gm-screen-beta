@@ -60,6 +60,6 @@ exports.moveSocketToRoom = (socketId, sessionId) => {
 
 // updating state
 exports.updateSession = session => {
-  ioServer.to(session.sessionId).emit('updateSession', { session });
+  ioServer.to(session.sessionId).emit('updateSession', session);
   return session;
 };
