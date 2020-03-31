@@ -1,0 +1,7 @@
+
+.modal-background {
+  position: fixed;
+  margin: 0;
+  display: flex;
+  backdrop-filter: blur(8px);
+}
