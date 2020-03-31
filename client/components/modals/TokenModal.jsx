@@ -2,6 +2,7 @@ import React from 'react';
 import ModalBackground from '@components/modals/ModalBackground';
 import ContainerCard from '@components/UI/ContainerCard';
 import FeaturedImage from '@components/UI/FeaturedImage';
+import Portal from '@components/Portal';
 
 const tempImage = {
   imageId: 5,
@@ -12,10 +13,12 @@ const tempImage = {
 
 export default function TokenModal() {
   return (
-    <ModalBackground>
-      <ContainerCard percentHeight={90} percentWidth={50} shadow={true}>
-        <FeaturedImage image={tempImage}/>
-      </ContainerCard>
-    </ModalBackground>
+    <Portal>
+      <ModalBackground>
+        <ContainerCard percentHeight={90} percentWidth={50} shadow={true}>
+          <FeaturedImage image={tempImage}/>
+        </ContainerCard>
+      </ModalBackground>
+    </Portal>
   );
 }
