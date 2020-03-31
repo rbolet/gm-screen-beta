@@ -29,7 +29,7 @@ export default function GMView(props) {
 
   return (
     <Body>
-      {openTokenModal && <TokenModal/>}
+      {openTokenModal && <TokenModal closeModal={() => { setOpenTokenModal(false); }}/>}
       <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow={true}>
         <MainDisplay/>
       </ContainerCard>

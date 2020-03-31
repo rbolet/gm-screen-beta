@@ -1,9 +1,7 @@
 import './FeaturedImage.css';
-import React, { useContext } from 'react';
+import React from 'react';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import ContainerCard from '@components/UI/ContainerCard';
-import { Session } from '@client/context/session-context';
 
 export default function FeaturedImage(props) {
   let Featured = null;
@@ -19,23 +17,12 @@ export default function FeaturedImage(props) {
   }
 
   return (
-    <ContainerCard percentHeight={100} percentWidth={100}
-      footer={<FooterButtons/>}>
+    <ContainerCard percentHeight={100} percentWidth={100}>
       <Card className="featured-container w-100 h-100">
         <Card.Body className="w-100 d-flex align-items-center justify-content-center">
           {Featured}
         </Card.Body>
       </Card>
     </ContainerCard>
-  );
-}
-
-function FooterButtons(props) {
-  const { updateSession } = useContext(Session);
-
-  return (
-    <div className="footer-buttons">
-      <Button variant="success" onClick={() => { updateSession(); }}>Launch Session</Button>
-    </div>
   );
 }
