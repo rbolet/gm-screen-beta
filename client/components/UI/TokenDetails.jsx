@@ -18,8 +18,8 @@ export default function TokenDetails(props) {
   }, []);
 
   return (
-    <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
-      <Form>
+    <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-2">
+      <Form className="w-100">
         <Form.Group controlId="tokenName">
           <Form.Label className="text-light">Name</Form.Label>
           <Form.Control type="text"
