@@ -4,8 +4,8 @@ import ContainerCard from '@components/UI/ContainerCard';
 import ImageGrid from '@components/UI/ImageGrid';
 import MainDisplay from '@components/UI/MainDisplay';
 import TokenModal from '@components/modals/TokenModal';
-import { Session } from '@client/context/session-context';
 import CloseButton from '@components/UI/CloseButton';
+import { Session } from '@client/context/session-context';
 
 export default function GMView(props) {
   const { session, postSession } = useContext(Session);

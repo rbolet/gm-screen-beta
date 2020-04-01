@@ -72,3 +72,21 @@ export async function postEnvironment(sessionId, image) {
     body
   });
 }
+
+export async function postToken(token) {
+  let method = 'POST';
+  if (token.tokenId !== 'new') {
+    method = 'PATCH';
+  }
+  const body = JSON.stringify(token);
+
+  return fetch('/token', {
+    method,
+    headers,
+    body
+  })
+    .then(jsonResult => jsonResult.json())
+    .then(insertId => {
+    })
+    .catch(err => { console.error(err); });
+}
