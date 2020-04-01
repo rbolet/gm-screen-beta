@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
-import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
 export function TokenContext(props) {
-  const [token, setToken] = useState({
-    tokenId: null,
-    imageFileName: null,
-    tokenName: '',
-    tokenDetails: ''
-  });
+  const [tokenId, setTokenId] = useState(null);
+  const [imageFileName, setImageFileName] = useState(null);
+  const [tokenName, setTokenName] = useState('');
+  const [tokenDetails, setTokenDetails] = useState('');
 
-  const updateToken = (token, isNew) => {
-    const thisToken = isNew
-      ? {
-        tokenId: 'new',
-        imageFileName: token.fileName,
-        tokenName: token.alias,
-        tokenDetails: ''
-      } : token;
-    setToken(thisToken);
+  const updateToken = (newTokenState, isNew) => {
+    if (isNew) {
+      setTokenId('new');
+      setImageFileName(newTokenState.fileName);
+      setTokenName(newTokenState.alias);
+    } else {
+      Object.keys(newTokenState).forEach(key => {
+        switch (key) {
+          case 'tokenId': setTokenId(newTokenState.tokenId); break;
+          case 'imageFileName': setImageFileName(newTokenState.imageFileName); break;
+          case 'tokenName': setTokenName(newTokenState.tokenName); break;
+          case 'tokenDetails': setTokenDetails(newTokenState.tokenDetails); break;
+        }
+      });
+    }
   };
 
-  const addToken = async () => postToken(token);
+  const token = { tokenId, imageFileName, tokenName, tokenDetails };
 
   return (
-    <Token.Provider value={{ token, updateToken, addToken }}>{props.children}</Token.Provider>
+    <Token.Provider value={{ token, updateToken }}>{props.children}</Token.Provider>
   );
 }

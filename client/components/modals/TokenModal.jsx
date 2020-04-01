@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import ModalBackground from '@components/modals/ModalBackground';
 import ContainerCard from '@components/UI/ContainerCard';
@@ -8,16 +8,17 @@ import CloseButton from '@components/UI/CloseButton';
 import TokenDetails from '@components/UI/TokenDetails';
 import SelectVisibleTo from '@components/UI/SelectVisibleTo';
 import { AppUser } from '@client/context/user-context';
-
-const tempImage = {
-  imageId: 5,
-  fileName: '0c00a350-dfbb-4d8f-98af-e0815bbdaefb..png',
-  category: 'Secondary',
-  alias: 'Elf'
-};
+import { Token } from '@client/context/token-context';
+import { postToken } from '@client/lib/api';
 
 export default function TokenModal(props) {
+  const { token, updateToken } = useContext(Token);
   const { user } = useContext(AppUser);
+
+  useEffect(() => {
+    updateToken(props.image, true);
+  }, [props.image]);
+
   const isGM = user.userRole === 'gm';
 
   return (
@@ -28,11 +29,12 @@ export default function TokenModal(props) {
           <div className="w-100 h-100 d-flex justify-content-around align-items-center">
             <ContainerCard percentWidth={49} percentHeight={100}
               header={isGM && <SelectVisibleTo />}>
-              <FeaturedImage image={tempImage}/>
+              <FeaturedImage image={{ fileName: token.imageFileName }}/>
             </ContainerCard>
             <ContainerCard percentWidth={49} percentHeight={90} bg="#6c757d"
-              footer={isGM && <UpdateToken/>}>
-              <TokenDetails image={tempImage}/>
+              footer={isGM &&
+                <UpdateToken update={() => { postToken(token); props.closeModal(); }}/>}>
+              <TokenDetails/>
             </ContainerCard>
           </div>
         </ContainerCard>
@@ -41,10 +43,11 @@ export default function TokenModal(props) {
   );
 }
 
-function UpdateToken() {
+function UpdateToken(props) {
   return (
     <div className="w-100 d-flex justify-content-center">
-      <Button variant="success" className="mt-1">
+      <Button variant="success" className="mt-1"
+        onClick={props.update()}>
         <i className="far fa-edit" />
         <p className="button-text m-0">Update Details</p>
       </Button>

@@ -5,6 +5,7 @@ import ImageGrid from '@components/UI/ImageGrid';
 import MainDisplay from '@components/UI/MainDisplay';
 import TokenModal from '@components/modals/TokenModal';
 import CloseButton from '@components/UI/CloseButton';
+import { TokenContext } from '@client/context/token-context';
 import { Session } from '@client/context/session-context';
 
 export default function GMView(props) {
@@ -29,18 +30,22 @@ export default function GMView(props) {
   }, [selectedImage]);
 
   return (
-    <Body>
-      {openTokenModal && <TokenModal closeModal={() => { setOpenTokenModal(false); setSelectedImage(null); }}/>}
-      <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow={true}>
-        <CloseButton onCloseClick={() => {
-          postSession({ environmentImage: { fileName: null, category: 'Environment' } });
-        }}
-        icon={<i className="far fa-times-circle" />} />
-        <MainDisplay/>
-      </ContainerCard>
-      <ContainerCard percentHeight={100} percentWidth={32} bg="#343a40"shadow={true}>
-        <ImageGrid onImageClick={setSelectedImage}/>
-      </ContainerCard>
-    </Body>
+    <TokenContext>
+      <Body>
+        {openTokenModal &&
+          <TokenModal closeModal={() => { setOpenTokenModal(false); setSelectedImage(null); }}
+            image={selectedImage}/>}
+        <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow={true}>
+          <CloseButton onCloseClick={() => {
+            postSession({ environmentImage: { fileName: null, category: 'Environment' } });
+          }}
+          icon={<i className="far fa-times-circle" />} />
+          <MainDisplay/>
+        </ContainerCard>
+        <ContainerCard percentHeight={100} percentWidth={32} bg="#343a40"shadow={true}>
+          <ImageGrid onImageClick={setSelectedImage}/>
+        </ContainerCard>
+      </Body>
+    </TokenContext>
   );
 }
