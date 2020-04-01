@@ -1,11 +1,15 @@
 import './TokenDetails.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
+import { AppUser } from '@client/context/user-context';
 
 export default function TokenDetails(props) {
+  const { user } = useContext(AppUser);
   const [tokenName, setTokenName] = useState(null);
   const [tokenDetails, setTokenDetails] = useState(null);
+
+  const isPlayer = user.userRole === 'player';
 
   useEffect(() => {
     if (props.image) {
@@ -14,20 +18,24 @@ export default function TokenDetails(props) {
   }, []);
 
   return (
-    <Form>
-      <Form.Label>Name</Form.Label>
-      <Form.Row>
-        <Form.Control type="input" value={tokenName} onChange={event => { setTokenName(event.target.value); }}/>
-        <Button>E</Button>
-      </Form.Row>
-      <Form.Row>
-        <Form.Group >
-          <Form.Label>Details</Form.Label>
-          <Form.Control type="text-area" value={tokenDetails}
-            onChange={event => { setTokenDetails(event.target.value); }}
-            className="details-text-area"/>
+    <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
+      <Form>
+        <Form.Group controlId="tokenName">
+          <Form.Label className="text-light">Name</Form.Label>
+          <Form.Control type="text"
+            readOnly={isPlayer}
+            value={tokenName}
+            onChange={event => setTokenName(event.target.value)} />
         </Form.Group>
-      </Form.Row>
-    </Form>
+        <Form.Group controlId="tokenDetails">
+          <Form.Label className="text-light">Details</Form.Label>
+          <Form.Control className="details-text-area"
+            as="textarea" rows="6"
+            readOnly={isPlayer}
+            value={tokenDetails}
+            onChange={event => setTokenDetails(event.target.value)} />
+        </Form.Group>
+      </Form>
+    </div>
   );
 }
