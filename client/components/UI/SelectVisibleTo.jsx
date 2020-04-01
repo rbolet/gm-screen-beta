@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import { Campaign } from '@client/context/campaign-context';
 
 export default function SelectVisibleTo() {
+  const { campaign } = useContext(Campaign);
   const [all, setAll] = useState(true);
 
+  const players = campaign.roomUserList.filter(user => user.userRole === 'player');
+  let ToggleButtons = null;
+  if (players.length) {
+    ToggleButtons = players.map(user => {
+      return (
+        <ToggleButton key={user.userId} value={user.userId}
+          variant="outline-warning">{user.userName}</ToggleButton>
+      );
+    });
+  }
   const toggleAll = () => {
     setAll(!all);
   };
@@ -16,10 +28,7 @@ export default function SelectVisibleTo() {
     <ButtonToolbar className="w-100 d-flex justify-content-center">
       <ButtonGroup>
         <ToggleButtonGroup type="checkbox" onChange={() => { }}>
-          <ToggleButton variant="outline-warning" value={1}>Player 1</ToggleButton>
-          <ToggleButton variant="outline-warning" value={2}>Player 2</ToggleButton>
-          <ToggleButton variant="outline-warning" value={3}>Player 3</ToggleButton>
-          <ToggleButton variant="outline-warning" value={4}>Player 4</ToggleButton>
+          {ToggleButtons}
         </ToggleButtonGroup>
         <Button variant="outline-warning"
           style={{ width: '50px' }}
