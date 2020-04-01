@@ -20,10 +20,10 @@ export default function TokenModal(props) {
         <ContainerCard percentHeight={90} percentWidth={75} bg="#343a40" shadow>
           <CloseButton icon={<i className="far fa-times-circle"/>} onCloseClick={props.closeModal}/>
           <div className="w-100 h-100 d-flex justify-content-around align-items-center">
-            <ContainerCard percentWidth={74} percentHeight={100}>
+            <ContainerCard percentWidth={65} percentHeight={100}>
               <FeaturedImage image={tempImage}/>
             </ContainerCard>
-            <ContainerCard percentWidth={24} percentHeight={90} bg="#6c757d">
+            <ContainerCard percentWidth={32} percentHeight={90} bg="#6c757d">
               <TokenDetails image={tempImage}/>
             </ContainerCard>
           </div>

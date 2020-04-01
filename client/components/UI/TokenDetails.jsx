@@ -1,6 +1,7 @@
 import './TokenDetails.css';
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default function TokenDetails(props) {
   const [tokenName, setTokenName] = useState(null);
@@ -14,11 +15,10 @@ export default function TokenDetails(props) {
 
   return (
     <Form>
+      <Form.Label>Name</Form.Label>
       <Form.Row>
-        <Form.Group>
-          <label>Name</label>
-          <input type="input" value={tokenName} onChange={event => { setTokenName(event.target.value); }} />
-        </Form.Group>
+        <Form.Control type="input" value={tokenName} onChange={event => { setTokenName(event.target.value); }}/>
+        <Button>E</Button>
       </Form.Row>
       <Form.Row>
         <Form.Group >
