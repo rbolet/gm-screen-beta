@@ -33,7 +33,7 @@ function LaunchSession() {
   const { updateSession } = useContext(Session);
 
   return (
-    <div>
+    <div className="w-100 d-flex justify-content-center">
       <Button variant="success" onClick={() => { updateSession(); }}>Launch Session</Button>
     </div>
   );

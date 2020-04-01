@@ -18,13 +18,15 @@ export default function TokenModal(props) {
     <Portal>
       <ModalBackground>
         <ContainerCard percentHeight={90} percentWidth={75} bg="#343a40" shadow>
-          <>
-            <CloseButton icon={<i className="far fa-times-circle"/>} onCloseClick={props.closeModal}/>
-            <div className="d-flex justify-content-between w-100 h-100">
+          <CloseButton icon={<i className="far fa-times-circle"/>} onCloseClick={props.closeModal}/>
+          <div className="w-100 h-100 d-flex justify-content-around align-items-center">
+            <ContainerCard percentWidth={74} percentHeight={100}>
               <FeaturedImage image={tempImage}/>
+            </ContainerCard>
+            <ContainerCard percentWidth={24} percentHeight={90} bg="#6c757d">
               <TokenDetails image={tempImage}/>
-            </div>
-          </>
+            </ContainerCard>
+          </div>
         </ContainerCard>
       </ModalBackground>
     </Portal>

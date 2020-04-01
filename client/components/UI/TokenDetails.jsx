@@ -1,3 +1,4 @@
+import './TokenDetails.css';
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 
@@ -22,7 +23,9 @@ export default function TokenDetails(props) {
       <Form.Row>
         <Form.Group >
           <Form.Label>Details</Form.Label>
-          <Form.Control type="text-area" value={tokenDetails} onChange={event => { setTokenDetails(event.target.value); }}/>
+          <Form.Control type="text-area" value={tokenDetails}
+            onChange={event => { setTokenDetails(event.target.value); }}
+            className="details-text-area"/>
         </Form.Group>
       </Form.Row>
     </Form>
