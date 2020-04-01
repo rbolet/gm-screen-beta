@@ -80,7 +80,7 @@ export async function postToken(token) {
   }
   const body = JSON.stringify(token);
 
-  return fetch('/token', {
+  return fetch('session/token', {
     method,
     headers,
     body

@@ -1,25 +1,22 @@
 import './TokenDetails.css';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Form from 'react-bootstrap/Form';
-// import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
+import { Token } from '@client/context/token-context';
 import { AppUser } from '@client/context/user-context';
 
 export default function TokenDetails(props) {
   const { user } = useContext(AppUser);
-  const [tokenName, setTokenName] = useState(null);
-  const [tokenDetails, setTokenDetails] = useState(null);
+  const { token, updateToken } = useContext(Token);
+
+  const [tokenName, setTokenName] = useState(token.tokenName);
+  const [tokenDetails, setTokenDetails] = useState(token.tokenDetails);
 
   const isPlayer = user.userRole === 'player';
 
-  useEffect(() => {
-    if (props.image) {
-      setTokenName(props.image.alias);
-    }
-  }, []);
-
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-2">
-      <Form className="w-100">
+      <Form className="w-100" onSubmit={() => { updateToken({ tokenName, tokenDetails }); }}>
         <Form.Group controlId="tokenName">
           <Form.Label className="text-light">Name</Form.Label>
           <Form.Control type="text"
@@ -35,6 +32,10 @@ export default function TokenDetails(props) {
             value={tokenDetails}
             onChange={event => setTokenDetails(event.target.value)} />
         </Form.Group>
+        <Button variant="success" type="submit" className="mt-1">
+          <i className="far fa-edit" />
+          <p className="button-text m-0">Update Details</p>
+        </Button>
       </Form>
     </div>
   );

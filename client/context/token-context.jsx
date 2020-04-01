@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
@@ -7,6 +8,7 @@ export function TokenContext(props) {
   const [imageFileName, setImageFileName] = useState(null);
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
+  const token = { tokenId, imageFileName, tokenName, tokenDetails };
 
   const updateToken = (newTokenState, isNew) => {
     if (isNew) {
@@ -14,18 +16,19 @@ export function TokenContext(props) {
       setImageFileName(newTokenState.fileName);
       setTokenName(newTokenState.alias);
     } else {
-      Object.keys(newTokenState).forEach(key => {
-        switch (key) {
-          case 'tokenId': setTokenId(newTokenState.tokenId); break;
-          case 'imageFileName': setImageFileName(newTokenState.imageFileName); break;
-          case 'tokenName': setTokenName(newTokenState.tokenName); break;
-          case 'tokenDetails': setTokenDetails(newTokenState.tokenDetails); break;
-        }
+      const buildToken = new Promise(() => {
+        Object.keys(newTokenState).forEach(key => {
+          switch (key) {
+            case 'tokenId': setTokenId(newTokenState.tokenId); break;
+            case 'imageFileName': setImageFileName(newTokenState.imageFileName); break;
+            case 'tokenName': setTokenName(newTokenState.tokenName); break;
+            case 'tokenDetails': setTokenDetails(newTokenState.tokenDetails); break;
+          }
+        });
       });
+      buildToken.then(() => postToken(token));
     }
   };
-
-  const token = { tokenId, imageFileName, tokenName, tokenDetails };
 
   return (
     <Token.Provider value={{ token, updateToken }}>{props.children}</Token.Provider>
