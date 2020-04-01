@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import './SelectVisibleTo.css';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -11,12 +12,13 @@ export default function SelectVisibleTo() {
   const [all, setAll] = useState(true);
 
   const players = campaign.roomUserList.filter(user => user.userRole === 'player');
+
   let ToggleButtons = null;
   if (players.length) {
     ToggleButtons = players.map(user => {
       return (
         <ToggleButton key={user.userId} value={user.userId}
-          variant="outline-warning">{user.userName}</ToggleButton>
+          variant="outline-info" disabled={all}>{user.userName}</ToggleButton>
       );
     });
   }
@@ -25,12 +27,12 @@ export default function SelectVisibleTo() {
   };
 
   return (
-    <ButtonToolbar className="w-100 d-flex justify-content-center">
+    <ButtonToolbar className="visible-toolbar">
       <ButtonGroup>
         <ToggleButtonGroup type="checkbox" onChange={() => { }}>
           {ToggleButtons}
         </ToggleButtonGroup>
-        <Button variant="outline-warning"
+        <Button variant="outline-info" active={all}
           style={{ width: '50px' }}
           onClick={toggleAll}>
           {all

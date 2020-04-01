@@ -1,0 +1,10 @@
+ .visible-toolbar{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: .25rem;
+   border-radius: 10px;
+   background-color: lightgray;
+ }
