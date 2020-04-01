@@ -5,6 +5,7 @@ import ImageGrid from '@components/UI/ImageGrid';
 import MainDisplay from '@components/UI/MainDisplay';
 import TokenModal from '@components/modals/TokenModal';
 import { Session } from '@client/context/session-context';
+import CloseButton from '@components/UI/CloseButton';
 
 export default function GMView(props) {
   const { session, postSession } = useContext(Session);
@@ -31,6 +32,10 @@ export default function GMView(props) {
     <Body>
       {openTokenModal && <TokenModal closeModal={() => { setOpenTokenModal(false); setSelectedImage(null); }}/>}
       <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow={true}>
+        <CloseButton onCloseClick={() => {
+          postSession({ environmentImage: { fileName: null, category: 'Environment' } });
+        }}
+        icon={<i className="far fa-times-circle" />} />
         <MainDisplay/>
       </ContainerCard>
       <ContainerCard percentHeight={100} percentWidth={32} bg="#343a40"shadow={true}>
