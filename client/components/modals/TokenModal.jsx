@@ -31,15 +31,23 @@ export default function TokenModal(props) {
               <FeaturedImage image={tempImage}/>
             </ContainerCard>
             <ContainerCard percentWidth={49} percentHeight={90} bg="#6c757d"
-              footer={isGM && <Button variant="success" className="mt-1">
-                <i className="far fa-edit" />
-                <p className="button-text m-0">Update Details</p>
-              </Button>}>
+              footer={isGM && <UpdateToken/>}>
               <TokenDetails image={tempImage}/>
             </ContainerCard>
           </div>
         </ContainerCard>
       </ModalBackground>
     </Portal>
+  );
+}
+
+function UpdateToken() {
+  return (
+    <div className="w-100 d-flex justify-content-center">
+      <Button variant="success" className="mt-1">
+        <i className="far fa-edit" />
+        <p className="button-text m-0">Update Details</p>
+      </Button>
+    </div>
   );
 }
