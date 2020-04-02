@@ -6,13 +6,13 @@
   justify-content: center;
   align-items: center;
   margin-left: auto;
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   background-color: red;
   color: white;
-  border-radius: 50%;
-  font-size: 1.25rem;
+  border-radius: 25%;
   z-index: 100;
+  padding: 0;
  }
 
  .close-button:hover{
