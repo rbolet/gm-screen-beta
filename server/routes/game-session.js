@@ -48,6 +48,45 @@ router.post('/environment/:sessionId', (req, res) => {
     });
 });
 
+router.post('/token', (req, res, next) => {
+  const reqSessionId = req.body.sessionId;
+  const token = req.body.token;
+
+  const insertQuery = `INSERT INTO
+    tokens (sessionId, imageFileName, tokenName, tokenDetails)
+    VALUES(${reqSessionId}, "${token.imageFileName}", "${token.tokenName}", "${token.tokenDetails}")`;
+
+  db.query(insertQuery)
+    .then(insertRes => {
+      return buildSession(reqSessionId);
+    })
+    .then(session => {
+      SocketIO.updateSession(session);
+      res.json({ sessionNote: `pushing ${token.tokenName} to session ${session.sessionId}` });
+    })
+    .catch(error => { next(error); });
+});
+
+router.patch('/token', (req, res, next) => {
+  const reqSessionId = req.body.sessionId;
+  const token = req.body.token;
+
+  const updateQuery = `UPDATE tokens
+    SET tokenName = "${token.tokenName}", tokenDetails = "${token.tokenDetails}"
+    WHERE tokenId = ${token.tokenId};`;
+
+  db.query(updateQuery)
+    .then(rowsAffected => {
+      return buildSession(reqSessionId);
+    })
+    .then(session => {
+      SocketIO.updateSession(session);
+      res.json({ sessionNote: `updating ${token.tokenName} in session ${session.sessionId}` });
+    })
+    .catch(error => { next(error); });
+
+});
+
 function buildSession(sessionId) {
   let tokens = [];
   return new Promise(resolve => {

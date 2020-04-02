@@ -1,10 +1,12 @@
 import './MainDisplay.css';
 import React, { useContext, useState, useEffect } from 'react';
 import { Session } from '@client/context/session-context';
+import { AppUser } from '@client/context/user-context';
 import CloseButton from '@components/UI/CloseButton';
 
-export default function MainDisplay() {
-  const { session, postSession } = useContext(Session);
+export default function MainDisplay(props) {
+  const { session } = useContext(Session);
+  const { user } = useContext(AppUser);
   const [Tokens, setTokens] = useState(null);
   const [environmentFilePath, setEnvironmentFilePath] = useState(null);
 
@@ -16,7 +18,8 @@ export default function MainDisplay() {
             key={token.tokenId}
             style={{ backgroundImage: `url(./images/${token.imageFileName})` }}
             className="token mx-2 position-relative">
-            <div className="token-name-footer px-1 py-0 m-0">
+            <div className="token-name-footer px-1 py-0 m-0"
+              onClick={() => { props.editToken(token); }}>
               <p>{token.tokenName}</p>
             </div>
           </div>
@@ -37,11 +40,11 @@ export default function MainDisplay() {
   return (
     <div className="environment-image"
       style={{ backgroundImage: environmentFilePath }}>
-      <CloseButton onCloseClick={() => {
-        postSession({ environmentImage: { fileName: null, category: 'Environment' } });
-      }}
-      icon={<i className="far fa-times-circle"/>}/>
       <div className="tokens-container">
+        {user.userRole === 'gm' && <CloseButton onCloseClick={() => {
+
+        }}
+        icon={<i className="far fa-times-circle" />} />}
         {Tokens}
       </div>
     </div>

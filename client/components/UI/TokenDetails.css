@@ -1,0 +1,4 @@
+.details-text-area {
+  overflow-y: scroll;
+  resize: none;
+}
