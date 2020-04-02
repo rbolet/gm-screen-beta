@@ -101,6 +101,18 @@ router.delete('/:sessionId/token', (req, res, next) => {
     });
 });
 
+router.delete('/:sessionId/token/all', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
+  db.query(`DELETE FROM tokens WHERE sessionId = ${reqSessionId}`)
+    .then(affectedRows => {
+      return buildSession(reqSessionId);
+    })
+    .then(session => {
+      SocketIO.updateSession(session);
+      res.json({ sessionNote: `Deleting all tokens from session ${session.sessionId}` });
+    });
+});
+
 function buildSession(sessionId) {
   let tokens = [];
   return new Promise(resolve => {

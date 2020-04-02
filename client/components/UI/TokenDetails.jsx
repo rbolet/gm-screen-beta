@@ -17,6 +17,7 @@ export default function TokenDetails(props) {
 
   const isPlayer = user.userRole === 'player';
 
+  const buttonText = (token.tokenId === 'new') ? 'Add token' : 'Update details';
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-2">
       <Form className="w-100">
@@ -48,9 +49,9 @@ export default function TokenDetails(props) {
               .catch(err => { console.error(err); });
           }}>
           <i className="far fa-edit" />
-          <p className="button-text m-0">Update Details</p>
+          <p className="button-text m-0">{buttonText}</p>
         </Button>
-        {(typeof token.tokenId === 'number') &&
+        {token.tokenId !== 'new' &&
           <Button variant="danger"
             onClick={() => {
               deleteToken(token, session.sessionId)

@@ -91,9 +91,13 @@ export async function postToken(token, sessionId) {
 }
 
 export async function deleteToken(token, sessionId) {
+  let route = `session/${sessionId}/token`;
+  if (token === 'all') {
+    route += '/all';
+  }
   const body = JSON.stringify({ token });
 
-  return fetch(`session/${sessionId}/token`, {
+  return fetch(route, {
     method: 'DELETE',
     headers,
     body
