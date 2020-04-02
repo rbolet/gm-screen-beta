@@ -8,6 +8,7 @@ import Header from './Header';
 import Menu from './views/Menu';
 import { configUserSocket } from '@client/lib/api';
 import GMView from '@components/views/GMView';
+import PlayerView from '@components/views/PlayerView';
 
 function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
@@ -34,6 +35,7 @@ function App() {
     if (session.sessionId) {
       switch (user.userRole) {
         case 'gm': setCurrentView(<GMView />); break;
+        case 'player': setCurrentView(<PlayerView/>); break;
         default: setCurrentView(<Menu/>);
       }
 
