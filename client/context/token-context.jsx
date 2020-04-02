@@ -6,35 +6,36 @@ export const Token = React.createContext(null);
 
 export function TokenContext(props) {
   const { session } = useContext(Session);
+  const [token, setToken] = useState({});
+  const [loading, isLoading] = useState(false);
 
-  const [tokenId, setTokenId] = useState(null);
-  const [imageFileName, setImageFileName] = useState(null);
-  const [tokenName, setTokenName] = useState('');
-  const [tokenDetails, setTokenDetails] = useState('');
-  const token = { tokenId, imageFileName, tokenName, tokenDetails };
+  const newToken = async image => {
+    setToken({
+      tokenId: 'new',
+      imageFileName: image.fileName,
+      tokenName: image.alias,
+      tokenDetails: ''
+    });
+  };
 
-  const updateToken = (newTokenState, isNew) => {
+  const modifyToken = async newTokenState => {
+    setToken(Object.assign(token, newTokenState));
+  };
+
+  const updateToken = (newState, isNew) => {
+    isLoading(true);
     if (isNew) {
-      setTokenId('new');
-      setImageFileName(newTokenState.fileName);
-      setTokenName(newTokenState.alias);
+      newToken(newState).then(p => isLoading(false));
     } else {
-      const buildToken = new Promise(resolve => {
-        Object.keys(newTokenState).forEach(key => {
-          switch (key) {
-            case 'tokenId': setTokenId(newTokenState.tokenId); break;
-            case 'imageFileName': setImageFileName(newTokenState.imageFileName); break;
-            case 'tokenName': setTokenName(newTokenState.tokenName); break;
-            case 'tokenDetails': setTokenDetails(newTokenState.tokenDetails); break;
-          }
-        });
-        resolve(true);
-      });
-      buildToken.then(() => postToken(token, session.sessionId));
+      modifyToken(newState)
+        .then(p => {
+          postToken(token, session.sessionId);
+        })
+        .then(p => isLoading(false));
     }
   };
 
   return (
-    <Token.Provider value={{ token, updateToken }}>{props.children}</Token.Provider>
+    <Token.Provider value={{ loading, token, updateToken } }>{props.children}</Token.Provider>
   );
 }

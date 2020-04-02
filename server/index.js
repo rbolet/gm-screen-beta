@@ -17,7 +17,7 @@ app.use(sessions);
 app.use(bodyParser.json());
 app.use(express.static(staticPath));
 app.use('/config', require('./routes/config'));
-app.use('/session', require('./routes/session'));
+app.use('/session', require('./routes/game-session'));
 
 http.listen(3001, () => {
   // eslint-disable-next-line
