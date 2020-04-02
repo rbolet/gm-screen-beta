@@ -48,8 +48,8 @@ router.post('/environment/:sessionId', (req, res) => {
     });
 });
 
-router.post('/token', (req, res, next) => {
-  const reqSessionId = req.body.sessionId;
+router.post('/token/:sessionId', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
   const insertQuery = `INSERT INTO
@@ -67,8 +67,8 @@ router.post('/token', (req, res, next) => {
     .catch(error => { next(error); });
 });
 
-router.patch('/token', (req, res, next) => {
-  const reqSessionId = req.body.sessionId;
+router.patch('/token/:sessionId', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
   const updateQuery = `UPDATE tokens
@@ -85,6 +85,20 @@ router.patch('/token', (req, res, next) => {
     })
     .catch(error => { next(error); });
 
+});
+
+router.delete('/token/:sessionId', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
+  const token = req.body.token;
+
+  db.query(`DELETE FROM tokens WHERE tokenId = ${token.tokenId}`)
+    .then(affectedRows => {
+      return buildSession(reqSessionId);
+    })
+    .then(session => {
+      SocketIO.updateSession(session);
+      res.json({ sessionNote: `Deleting ${token.tokenName} from session ${session.sessionId}` });
+    });
 });
 
 function buildSession(sessionId) {

@@ -79,7 +79,7 @@ export async function postToken(token, sessionId) {
     method = 'PATCH';
   }
   const body = JSON.stringify({ token, sessionId });
-  return fetch('session/token', {
+  return fetch(`session/token/${sessionId}`, {
     method,
     headers,
     body
