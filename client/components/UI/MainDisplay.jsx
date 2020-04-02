@@ -2,7 +2,7 @@ import './MainDisplay.css';
 import React, { useContext, useState, useEffect } from 'react';
 import { Session } from '@client/context/session-context';
 
-export default function MainDisplay() {
+export default function MainDisplay(props) {
   const { session } = useContext(Session);
   const [Tokens, setTokens] = useState(null);
   const [environmentFilePath, setEnvironmentFilePath] = useState(null);
@@ -15,7 +15,8 @@ export default function MainDisplay() {
             key={token.tokenId}
             style={{ backgroundImage: `url(./images/${token.imageFileName})` }}
             className="token mx-2 position-relative">
-            <div className="token-name-footer px-1 py-0 m-0">
+            <div className="token-name-footer px-1 py-0 m-0"
+              onClick={() => { props.editToken(token); }}>
               <p>{token.tokenName}</p>
             </div>
           </div>

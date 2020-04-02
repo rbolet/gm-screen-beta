@@ -1,11 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { Session } from '@client/context/session-context';
-import { postToken } from '@client/lib/api';
+import React, { useState } from 'react';
 
 export const Token = React.createContext(null);
 
 export function TokenContext(props) {
-  const { session } = useContext(Session);
   const [token, setToken] = useState({});
   const [loading, isLoading] = useState(false);
 
@@ -22,15 +19,12 @@ export function TokenContext(props) {
     setToken(Object.assign(token, newTokenState));
   };
 
-  const updateToken = (newState, isNew) => {
+  const updateToken = async (newState, isNew) => {
     isLoading(true);
     if (isNew) {
       newToken(newState).then(p => isLoading(false));
     } else {
       modifyToken(newState)
-        .then(p => {
-          postToken(token, session.sessionId);
-        })
         .then(p => isLoading(false));
     }
   };

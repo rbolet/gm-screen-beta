@@ -16,7 +16,8 @@ export default function TokenModal(props) {
 
   useEffect(() => {
     if (props.image) updateToken(props.image, true);
-  }, [props.image]);
+    if (props.token) updateToken(props.token);
+  }, [props.image, props.token]);
 
   const isGM = user.userRole === 'gm';
 
