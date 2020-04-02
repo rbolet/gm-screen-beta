@@ -30,7 +30,7 @@ router.get('/:campaignId/socket/:socketId', (req, res) => {
     });
 });
 
-router.post('/environment/:sessionId', (req, res) => {
+router.post('/:sessionId/environment', (req, res) => {
   const sessionId = req.params.sessionId;
 
   const fileName = req.body.fileName ? `"${req.body.fileName}"` : null;
@@ -48,7 +48,7 @@ router.post('/environment/:sessionId', (req, res) => {
     });
 });
 
-router.post('/token/:sessionId', (req, res, next) => {
+router.post('/:sessionId/token', (req, res, next) => {
   const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
@@ -67,7 +67,7 @@ router.post('/token/:sessionId', (req, res, next) => {
     .catch(error => { next(error); });
 });
 
-router.patch('/token/:sessionId', (req, res, next) => {
+router.patch('/:sessionId/token', (req, res, next) => {
   const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
@@ -87,7 +87,7 @@ router.patch('/token/:sessionId', (req, res, next) => {
 
 });
 
-router.delete('/token/:sessionId', (req, res, next) => {
+router.delete('/:sessionId/token', (req, res, next) => {
   const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 

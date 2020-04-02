@@ -66,7 +66,7 @@ export async function getSession(campaignId, socketId) {
 
 export async function postEnvironment(sessionId, image) {
   const body = JSON.stringify(image);
-  return fetch(`/session/environment/${sessionId}`, {
+  return fetch(`/session/${sessionId}/environment`, {
     method: 'POST',
     headers,
     body
@@ -78,8 +78,8 @@ export async function postToken(token, sessionId) {
   if (token.tokenId !== 'new') {
     method = 'PATCH';
   }
-  const body = JSON.stringify({ token, sessionId });
-  return fetch(`session/token/${sessionId}`, {
+  const body = JSON.stringify({ token });
+  return fetch(`session/${sessionId}/token`, {
     method,
     headers,
     body
@@ -87,5 +87,17 @@ export async function postToken(token, sessionId) {
     .then(jsonResult => jsonResult.json())
     .then(insertId => {
     })
+    .catch(err => { console.error(err); });
+}
+
+export async function deleteToken(token, sessionId) {
+  const body = JSON.stringify({ token });
+
+  return fetch(`session/${sessionId}/token`, {
+    method: 'DELETE',
+    headers,
+    body
+  })
+    .then(jsonResult => jsonResult.json()) // expects "sessionNote"
     .catch(err => { console.error(err); });
 }

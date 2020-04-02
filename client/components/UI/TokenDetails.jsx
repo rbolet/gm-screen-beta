@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Token } from '@client/context/token-context';
 import { AppUser } from '@client/context/user-context';
 import { Session } from '@client/context/session-context';
-import { postToken } from '@client/lib/api';
+import { postToken, deleteToken } from '@client/lib/api';
 
 export default function TokenDetails(props) {
   const { user } = useContext(AppUser);
@@ -44,15 +44,25 @@ export default function TokenDetails(props) {
               .then(p => {
                 updateToken('clear');
                 props.closeModal();
-              });
+              })
+              .catch(err => { console.error(err); });
           }}>
           <i className="far fa-edit" />
           <p className="button-text m-0">Update Details</p>
         </Button>
-        {(typeof token.tokenId === 'number') && <Button variant="danger">
-          <i className="fas fa-trash-alt"/>
-          <p className="button-text m-0">Remove Token</p>
-        </Button>}
+        {(typeof token.tokenId === 'number') &&
+          <Button variant="danger"
+            onClick={() => {
+              deleteToken(token, session.sessionId)
+                .then(p => {
+                  updateToken('clear');
+                  props.closeModal();
+                })
+                .catch(err => console.error(err));
+            }}>
+            <i className="fas fa-trash-alt"/>
+            <p className="button-text m-0">Remove Token</p>
+          </Button>}
       </div>
     </div>
   );
