@@ -2,8 +2,9 @@ const router = require('express').Router();
 const db = require('../_config');
 const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
+// const activeGameSessions = [];
 
-router.get('/:campaignId/socket/:socketId', (req, res) => {
+router.get('/:campaignId/join/:socketId', (req, res) => {
   const campaignId = req.params.campaignId;
   const socketId = req.params.socketId;
 

@@ -4,12 +4,12 @@ import Login from '@components/Login';
 import CampaignConfig from '@components/CampaignConfig';
 import { AppUser } from '@client/context/user-context';
 import { Campaign } from '@client/context/campaign-context';
-// import ChooseCampaign from '@components/UI/ChooseCampaign';
-import { guestCampaign } from '@client/lib/guestUsers';
+import ChooseCampaign from '@components/ChooseCampaign';
+// import { guestCampaign } from '@client/lib/guestUsers';
 
 function Menu(props) {
   const { user } = useContext(AppUser);
-  const { campaign, updateCampaign } = useContext(Campaign);
+  const { campaign } = useContext(Campaign);
 
   const [CurrentMenu, setCurrentMenu] = useState(<Login/>);
 
@@ -17,7 +17,8 @@ function Menu(props) {
     if (!user.userId) {
       setCurrentMenu(<Login />);
     } else {
-      updateCampaign(guestCampaign);
+      // updateCampaign(guestCampaign);
+      setCurrentMenu(<ChooseCampaign/>);
     }
   }, [user.userId]);
 
