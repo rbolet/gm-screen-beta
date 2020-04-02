@@ -34,7 +34,10 @@ export default function TokenDetails(props) {
         </Form.Group>
       </Form>
       <Button variant="success" className="mt-1"
-        onClick={() => { updateToken({ tokenName, tokenDetails }); }}>
+        onClick={() => {
+          updateToken({ tokenName, tokenDetails });
+          props.closeModal();
+        }}>
         <i className="far fa-edit" />
         <p className="button-text m-0">Update Details</p>
       </Button>

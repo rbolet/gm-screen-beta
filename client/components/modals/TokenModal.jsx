@@ -27,7 +27,7 @@ export default function TokenModal(props) {
         <FeaturedImage image={{ fileName: token.imageFileName }} />
       </ContainerCard>
       <ContainerCard percentWidth={49} percentHeight={90} bg="#6c757d">
-        <TokenDetails />
+        <TokenDetails closeModal={props.closeModal}/>
       </ContainerCard>
     </div >
   );
