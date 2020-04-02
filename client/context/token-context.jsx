@@ -24,6 +24,7 @@ export function TokenContext(props) {
     if (isNew) {
       newToken(newState).then(p => isLoading(false));
     } else {
+      if (newState === 'clear') setToken({});
       modifyToken(newState)
         .then(p => isLoading(false));
     }

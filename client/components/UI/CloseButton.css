@@ -3,12 +3,16 @@
   top: 10px;
   right: 10px;
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: auto;
-  height: 15px;
-  width: 15px;
+  height: 25px;
+  width: 25px;
   background-color: red;
   color: white;
   border-radius: 50%;
+  font-size: 1.25rem;
+  z-index: 100;
  }
 
  .close-button:hover{

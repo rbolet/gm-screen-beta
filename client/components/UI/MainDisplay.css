@@ -8,9 +8,12 @@
   background-position: center;
   position: relative;
   z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .tokens-container{
+  position: relative;
   backdrop-filter: blur(8px);
   display: flex;
   justify-self: center;

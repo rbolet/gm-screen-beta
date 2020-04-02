@@ -36,17 +36,24 @@ export default function TokenDetails(props) {
             onChange={event => setTokenDetails(event.target.value)} />
         </Form.Group>
       </Form>
-      <Button variant="success" className="mt-1"
-        onClick={() => {
-          updateToken({ tokenName, tokenDetails })
-            .then(p => {
-              postToken(token, session.sessionId);
-              props.closeModal();
-            });
-        }}>
-        <i className="far fa-edit" />
-        <p className="button-text m-0">Update Details</p>
-      </Button>
+      <div className="row">
+        <Button variant="success" className="mt-1 mr-2"
+          onClick={() => {
+            updateToken({ tokenName, tokenDetails })
+              .then(p => postToken(token, session.sessionId))
+              .then(p => {
+                updateToken('clear');
+                props.closeModal();
+              });
+          }}>
+          <i className="far fa-edit" />
+          <p className="button-text m-0">Update Details</p>
+        </Button>
+        {(typeof token.tokenId === 'number') && <Button variant="danger">
+          <i className="fas fa-trash-alt"/>
+          <p className="button-text m-0">Remove Token</p>
+        </Button>}
+      </div>
     </div>
   );
 }
