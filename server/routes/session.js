@@ -58,7 +58,6 @@ router.post('/token', (req, res, next) => {
 
   db.query(insertQuery)
     .then(insertRes => {
-      res.json({ tokenId: insertRes[0].insertId });
       return buildSession(reqSessionId);
     })
     .then(session => {

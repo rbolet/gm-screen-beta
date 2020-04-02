@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Session } from '@client/context/session-context';
 import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
 export function TokenContext(props) {
+  const { session } = useContext(Session);
+
   const [tokenId, setTokenId] = useState(null);
   const [imageFileName, setImageFileName] = useState(null);
   const [tokenName, setTokenName] = useState('');
@@ -16,7 +19,7 @@ export function TokenContext(props) {
       setImageFileName(newTokenState.fileName);
       setTokenName(newTokenState.alias);
     } else {
-      const buildToken = new Promise(() => {
+      const buildToken = new Promise(resolve => {
         Object.keys(newTokenState).forEach(key => {
           switch (key) {
             case 'tokenId': setTokenId(newTokenState.tokenId); break;
@@ -25,8 +28,9 @@ export function TokenContext(props) {
             case 'tokenDetails': setTokenDetails(newTokenState.tokenDetails); break;
           }
         });
+        resolve(true);
       });
-      buildToken.then(() => postToken(token));
+      buildToken.then(() => postToken(token, session.sessionId));
     }
   };
 

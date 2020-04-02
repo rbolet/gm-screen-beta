@@ -16,7 +16,7 @@ export default function TokenDetails(props) {
 
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-2">
-      <Form className="w-100" onSubmit={() => { updateToken({ tokenName, tokenDetails }); }}>
+      <Form className="w-100">
         <Form.Group controlId="tokenName">
           <Form.Label className="text-light">Name</Form.Label>
           <Form.Control type="text"
@@ -32,11 +32,12 @@ export default function TokenDetails(props) {
             value={tokenDetails}
             onChange={event => setTokenDetails(event.target.value)} />
         </Form.Group>
-        <Button variant="success" type="submit" className="mt-1">
-          <i className="far fa-edit" />
-          <p className="button-text m-0">Update Details</p>
-        </Button>
       </Form>
+      <Button variant="success" className="mt-1"
+        onClick={() => { updateToken({ tokenName, tokenDetails }); }}>
+        <i className="far fa-edit" />
+        <p className="button-text m-0">Update Details</p>
+      </Button>
     </div>
   );
 }
