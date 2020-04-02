@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Token } from '@client/context/token-context';
 import { AppUser } from '@client/context/user-context';
 import { Session } from '@client/context/session-context';
-import { postToken } from '@client/lib/api';
+import { postToken, deleteToken } from '@client/lib/api';
 
 export default function TokenDetails(props) {
   const { user } = useContext(AppUser);
@@ -17,6 +17,7 @@ export default function TokenDetails(props) {
 
   const isPlayer = user.userRole === 'player';
 
+  const buttonText = (token.tokenId === 'new') ? 'Add token' : 'Update details';
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-2">
       <Form className="w-100">
@@ -44,15 +45,25 @@ export default function TokenDetails(props) {
               .then(p => {
                 updateToken('clear');
                 props.closeModal();
-              });
+              })
+              .catch(err => { console.error(err); });
           }}>
           <i className="far fa-edit" />
-          <p className="button-text m-0">Update Details</p>
+          <p className="button-text m-0">{buttonText}</p>
         </Button>
-        {(typeof token.tokenId === 'number') && <Button variant="danger">
-          <i className="fas fa-trash-alt"/>
-          <p className="button-text m-0">Remove Token</p>
-        </Button>}
+        {token.tokenId !== 'new' &&
+          <Button variant="danger"
+            onClick={() => {
+              deleteToken(token, session.sessionId)
+                .then(p => {
+                  updateToken('clear');
+                  props.closeModal();
+                })
+                .catch(err => console.error(err));
+            }}>
+            <i className="fas fa-trash-alt"/>
+            <p className="button-text m-0">Remove Token</p>
+          </Button>}
       </div>
     </div>
   );

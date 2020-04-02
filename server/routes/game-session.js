@@ -30,7 +30,7 @@ router.get('/:campaignId/socket/:socketId', (req, res) => {
     });
 });
 
-router.post('/environment/:sessionId', (req, res) => {
+router.post('/:sessionId/environment', (req, res) => {
   const sessionId = req.params.sessionId;
 
   const fileName = req.body.fileName ? `"${req.body.fileName}"` : null;
@@ -48,8 +48,8 @@ router.post('/environment/:sessionId', (req, res) => {
     });
 });
 
-router.post('/token', (req, res, next) => {
-  const reqSessionId = req.body.sessionId;
+router.post('/:sessionId/token', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
   const insertQuery = `INSERT INTO
@@ -67,8 +67,8 @@ router.post('/token', (req, res, next) => {
     .catch(error => { next(error); });
 });
 
-router.patch('/token', (req, res, next) => {
-  const reqSessionId = req.body.sessionId;
+router.patch('/:sessionId/token', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
   const updateQuery = `UPDATE tokens
@@ -85,6 +85,32 @@ router.patch('/token', (req, res, next) => {
     })
     .catch(error => { next(error); });
 
+});
+
+router.delete('/:sessionId/token', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
+  const token = req.body.token;
+
+  db.query(`DELETE FROM tokens WHERE tokenId = ${token.tokenId}`)
+    .then(affectedRows => {
+      return buildSession(reqSessionId);
+    })
+    .then(session => {
+      SocketIO.updateSession(session);
+      res.json({ sessionNote: `Deleting ${token.tokenName} from session ${session.sessionId}` });
+    });
+});
+
+router.delete('/:sessionId/token/all', (req, res, next) => {
+  const reqSessionId = req.params.sessionId;
+  db.query(`DELETE FROM tokens WHERE sessionId = ${reqSessionId}`)
+    .then(affectedRows => {
+      return buildSession(reqSessionId);
+    })
+    .then(session => {
+      SocketIO.updateSession(session);
+      res.json({ sessionNote: `Deleting all tokens from session ${session.sessionId}` });
+    });
 });
 
 function buildSession(sessionId) {

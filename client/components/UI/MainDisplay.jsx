@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Session } from '@client/context/session-context';
 import { AppUser } from '@client/context/user-context';
 import CloseButton from '@components/UI/CloseButton';
+import { deleteToken } from '@client/lib/api';
 
 export default function MainDisplay(props) {
   const { session } = useContext(Session);
@@ -26,6 +27,8 @@ export default function MainDisplay(props) {
         );
       });
       setTokens(tokenElements);
+    } else {
+      setTokens(null);
     }
   }, [session.tokens]);
 
@@ -42,7 +45,7 @@ export default function MainDisplay(props) {
       style={{ backgroundImage: environmentFilePath }}>
       <div className="tokens-container">
         {user.userRole === 'gm' && <CloseButton onCloseClick={() => {
-
+          deleteToken('all', session.sessionId);
         }}
         icon={<i className="far fa-times-circle" />} />}
         {Tokens}
