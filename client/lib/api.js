@@ -15,7 +15,7 @@ export function configUserSocket(user) {
   );
 }
 
-export function getCampaigns(user) {
+export async function getCampaigns(user) {
   return fetch(`campaign/${user.userRole}/${user.userId}`, {
     method: 'GET',
     headers
