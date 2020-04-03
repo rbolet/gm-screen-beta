@@ -12,7 +12,7 @@ export function SessionContext(props) {
 
   const updateSession = newSessionState => {
     if (!newSessionState) {
-      joinSession(campaign.campaignId, user.socketId)
+      joinSession(campaign, user)
         .then(session => { setSession(session); });
     } else {
       setSession(newSessionState);

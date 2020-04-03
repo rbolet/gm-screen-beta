@@ -2,18 +2,18 @@ const router = require('express').Router();
 const db = require('../_config');
 const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
-// const activeGameSessions = [];
+const activeGameSessions = [];
 
-router.get('/:campaignId/join/:socketId', (req, res) => {
-  const campaignId = req.params.campaignId;
-  const socketId = req.params.socketId;
+router.post('/join', (req, res) => {
+  const user = req.body.user;
+  const campaign = req.body.campaign;
 
-  db.query(`SELECT sessionId FROM sessions WHERE sessions.campaignId = ${campaignId};`)
+  db.query(`SELECT sessionId FROM sessions WHERE sessions.campaignId = ${campaign.campaignId};`)
     .then(([sessionRes]) => {
       if (sessionRes.length > 0) {
         return sessionRes[0];
       } else {
-        return db.query(`INSERT INTO sessions(campaignID, updated) VALUES(${campaignId}, ${justNow});`)
+        return db.query(`INSERT INTO sessions(campaignID, updated) VALUES(${campaign.campaignId}, ${justNow});`)
           .then(insertRes => {
             return { sessionId: insertRes[0].insertId };
           });
@@ -23,11 +23,13 @@ router.get('/:campaignId/join/:socketId', (req, res) => {
       return buildSession(result.sessionId);
     })
     .then(session => {
+      let alreadyActive = false;
+      for (const activeSession of activeGameSessions) {
+        if (activeSession.campaignId === campaign.campaignId) alreadyActive = true;
+      }
+      if (!alreadyActive) activeGameSessions.push(campaign);
+      SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
       res.json(session);
-      return session;
-    })
-    .then(session => {
-      SocketIO.moveSocketToRoom(socketId, session.sessionId);
     });
 });
 
