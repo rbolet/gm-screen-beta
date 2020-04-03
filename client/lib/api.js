@@ -1,20 +1,5 @@
 const headers = { 'Content-Type': 'application/json' };
 
-export function fetchCampaignAssets(campaign) {
-  const currentCampaign = JSON.stringify(campaign);
-
-  return (
-    fetch('/campaignAssets', {
-      method: 'POST',
-      headers,
-      body: currentCampaign
-    })
-      .then(jsonRes => jsonRes.json())
-      .then(campaignAssets => { return campaignAssets; })
-      .catch(error => { console.error(error); })
-  );
-}
-
 export function configUserSocket(user) {
   const body = JSON.stringify({ user });
 
@@ -30,6 +15,30 @@ export function configUserSocket(user) {
   );
 }
 
+export function getCampaigns(user) {
+  return fetch(`campaign/${user.userRole}/${user.userId}`, {
+    method: 'GET',
+    headers
+  })
+    .then(jsonRes => jsonRes.json())
+    .then(campaignArray => campaignArray)
+    .catch(err => {
+      console.error('Error getting campaigna', err);
+    });
+}
+
+export function getCampaignAssets(campaignId) {
+  return fetch(`campaign/${campaignId}/assets`, {
+    method: 'GET',
+    headers
+  })
+    .then(jsonRes => jsonRes.json())
+    .then(result => result)
+    .catch(err => {
+      console.error('Error getting campaign assets', err);
+    });
+}
+
 export function uploadImageForm(formData) {
   return fetch('/upload', {
     method: 'POST',
@@ -41,22 +50,13 @@ export function uploadImageForm(formData) {
     .catch(err => { console.error('Error sending form data', err); });
 }
 
-export function getCampaignAssets(campaignId) {
-  const body = JSON.stringify({ campaignId });
-  return fetch('/campaignAssets', {
+export async function joinSession(campaign, user) {
+  const body = JSON.stringify({ campaign, user });
+  return fetch(`/campaign/${campaign.campaignId}/join`, {
     method: 'POST',
     headers,
     body
   })
-    .then(jsonRes => jsonRes.json())
-    .then(result => result)
-    .catch(err => {
-      console.error('Error getting campaign assets', err);
-    });
-}
-
-export async function joinSession(campaignId, socketId) {
-  return fetch(`/session/${campaignId}/join/${socketId}`, headers)
     .then(res => res.json())
     .then(session => session)
     .catch(err => {

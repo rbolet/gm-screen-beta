@@ -1,7 +1,7 @@
 import React from 'react';
 import ContainerCard from '@components/UI/ContainerCard';
 import Button from 'react-bootstrap/Button';
-import { guestCampaign } from '@client/lib/guestUsers';
+import { guestCampaign } from '@client/lib/guest-users';
 import { Campaign } from '@client/context/campaign-context';
 
 export default function ChooseCampaign() {

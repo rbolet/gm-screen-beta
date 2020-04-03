@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import ContainerCard from '@components/UI/ContainerCard';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { createRandomGuest } from '@client/lib/guestUsers';
+import { createRandomGuest } from '@client/lib/guest-users';
 import { AppUser } from '@client/context/user-context';
 
 export default function Login(props) {

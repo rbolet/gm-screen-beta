@@ -10,7 +10,6 @@ const sessions = require('./sessions');
 const SocketIO = require('./routes/socket-io-server');
 SocketIO.io(http);
 // const fs = require('fs');
-// const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 
 const staticPath = path.join(__dirname, 'public');
 app.use(sessions);
@@ -18,6 +17,7 @@ app.use(bodyParser.json());
 app.use(express.static(staticPath));
 app.use('/config', require('./routes/config'));
 app.use('/session', require('./routes/game-session'));
+app.use('/campaign', require('./routes/campaign'));
 
 http.listen(3001, () => {
   // eslint-disable-next-line
