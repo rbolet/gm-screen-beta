@@ -57,7 +57,7 @@ export function getCampaignAssets(campaignId) {
 
 export async function joinSession(campaign, user) {
   const body = JSON.stringify({ campaign, user });
-  return fetch('/session/join/', {
+  return fetch('/campaign/join', {
     method: 'POST',
     headers,
     body

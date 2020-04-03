@@ -2,36 +2,7 @@ const router = require('express').Router();
 const db = require('../_config');
 const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
-const activeGameSessions = [];
-
-router.post('/join', (req, res) => {
-  const user = req.body.user;
-  const campaign = req.body.campaign;
-
-  db.query(`SELECT sessionId FROM sessions WHERE sessions.campaignId = ${campaign.campaignId};`)
-    .then(([sessionRes]) => {
-      if (sessionRes.length > 0) {
-        return sessionRes[0];
-      } else {
-        return db.query(`INSERT INTO sessions(campaignID, updated) VALUES(${campaign.campaignId}, ${justNow});`)
-          .then(insertRes => {
-            return { sessionId: insertRes[0].insertId };
-          });
-      }
-    })
-    .then(result => {
-      return buildSession(result.sessionId);
-    })
-    .then(session => {
-      let alreadyActive = false;
-      for (const activeSession of activeGameSessions) {
-        if (activeSession.campaignId === campaign.campaignId) alreadyActive = true;
-      }
-      if (!alreadyActive) activeGameSessions.push(campaign);
-      SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
-      res.json(session);
-    });
-});
+const buildSession = require('../build-session');
 
 router.post('/:sessionId/environment', (req, res) => {
   const sessionId = req.params.sessionId;
@@ -115,24 +86,5 @@ router.delete('/:sessionId/token/all', (req, res, next) => {
       res.json({ sessionNote: `Deleting all tokens from session ${session.sessionId}` });
     });
 });
-
-function buildSession(sessionId) {
-  let tokens = [];
-  return new Promise(resolve => {
-    db.query(`SELECT * FROM tokens WHERE sessionId = ${sessionId}`)
-      .then(([rows]) => {
-        tokens = rows;
-        return db.query(`SELECT * FROM sessions WHERE sessionId = ${sessionId}`);
-      })
-      .then(([result]) => {
-        return {
-          sessionId: result[0].sessionId,
-          environmentImageFileName: result[0].environmentImageFileName,
-          tokens
-        };
-      })
-      .then(done => resolve(done));
-  });
-}
 
 module.exports = router;
