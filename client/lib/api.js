@@ -15,6 +15,18 @@ export function configUserSocket(user) {
   );
 }
 
+export function getCampaigns(user) {
+  return fetch(`campaign/${user.userRole}/${user.userId}`, {
+    method: 'GET',
+    headers
+  })
+    .then(jsonRes => jsonRes.json())
+    .then(campaignArray => campaignArray)
+    .catch(err => {
+      console.error('Error getting campaigna', err);
+    });
+}
+
 export function getCampaignAssets(campaignId) {
   return fetch(`campaign/${campaignId}/assets`, {
     method: 'GET',
