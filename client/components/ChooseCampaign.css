@@ -5,3 +5,11 @@
   justify-content: center;
   align-items: center;
 }
+
+#campaign-list{
+  overflow-y: scroll;
+}
+
+.footer-button{
+  min-width: 80px;
+}
