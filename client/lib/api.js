@@ -1,20 +1,5 @@
 const headers = { 'Content-Type': 'application/json' };
 
-export function fetchCampaignAssets(campaign) {
-  const currentCampaign = JSON.stringify(campaign);
-
-  return (
-    fetch('/campaignAssets', {
-      method: 'POST',
-      headers,
-      body: currentCampaign
-    })
-      .then(jsonRes => jsonRes.json())
-      .then(campaignAssets => { return campaignAssets; })
-      .catch(error => { console.error(error); })
-  );
-}
-
 export function configUserSocket(user) {
   const body = JSON.stringify({ user });
 
@@ -30,17 +15,6 @@ export function configUserSocket(user) {
   );
 }
 
-export function uploadImageForm(formData) {
-  return fetch('/upload', {
-    method: 'POST',
-    headers: { 'content-type': 'multipart/form-data' },
-    body: formData
-  })
-    .then(res => res.json())
-    .then(result => result)
-    .catch(err => { console.error('Error sending form data', err); });
-}
-
 export function getCampaignAssets(campaignId) {
   return fetch(`campaign/${campaignId}/assets`, {
     method: 'GET',
@@ -51,6 +25,17 @@ export function getCampaignAssets(campaignId) {
     .catch(err => {
       console.error('Error getting campaign assets', err);
     });
+}
+
+export function uploadImageForm(formData) {
+  return fetch('/upload', {
+    method: 'POST',
+    headers: { 'content-type': 'multipart/form-data' },
+    body: formData
+  })
+    .then(res => res.json())
+    .then(result => result)
+    .catch(err => { console.error('Error sending form data', err); });
 }
 
 export async function joinSession(campaign, user) {
