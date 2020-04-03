@@ -42,11 +42,9 @@ export function uploadImageForm(formData) {
 }
 
 export function getCampaignAssets(campaignId) {
-  const body = JSON.stringify({ campaignId });
-  return fetch('/campaignAssets', {
-    method: 'POST',
-    headers,
-    body
+  return fetch(`campaign/${campaignId}/assets`, {
+    method: 'GET',
+    headers
   })
     .then(jsonRes => jsonRes.json())
     .then(result => result)
