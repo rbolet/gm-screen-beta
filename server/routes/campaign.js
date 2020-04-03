@@ -29,6 +29,15 @@ router.get('/player/:userId', (req, res, next) => {
 
 });
 
+router.get('/:campaignId/assets', (req, res) => {
+  db.query(`SELECT * FROM images
+              JOIN campaignImages ON images.imageId = campaignImages.imageId
+              WHERE campaignImages.campaignId = ${req.params.campaignId}`)
+    .then(([campaignAssets]) => {
+      res.status(200).json(campaignAssets).end();
+    });
+});
+
 router.post('/:campaignId/join', (req, res) => {
   const user = req.body.user;
   const campaign = req.body.campaign;
