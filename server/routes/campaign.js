@@ -14,6 +14,21 @@ router.get('/gm/:userId', (req, res) => {
     });
 });
 
+router.get('/player/:userId', (req, res, next) => {
+  const activeCampaigns = [];
+  if (activeGameSessions.length) {
+    for (const gameSession of activeGameSessions) {
+      const campaign = {
+        campaignId: gameSession.campaignId,
+        campaignName: gameSession.campaignName
+      };
+      activeCampaigns.push(campaign);
+    }
+  }
+  res.status(200).json(activeCampaigns);
+
+});
+
 router.post('/:campaignId/join', (req, res) => {
   const user = req.body.user;
   const campaign = req.body.campaign;
