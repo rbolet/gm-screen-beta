@@ -29,7 +29,7 @@ export default function ChooseCampaign() {
           variant="success"
           onClick={() => { updateCampaign(guestCampaign); }}>Guest Campaign</Button>
       </div>}>
-      <Campaigns/>
+      {Campaigns}
     </ContainerCard>
   );
 }
