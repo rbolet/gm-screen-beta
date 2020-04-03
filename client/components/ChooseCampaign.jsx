@@ -1,8 +1,8 @@
 import React from 'react';
-import ContainerCard from './ContainerCard';
+import ContainerCard from '@components/UI/ContainerCard';
 import Button from 'react-bootstrap/Button';
-import { guestCampaign } from '../logic/guestUsers';
-import { Campaign } from '../../context/campaign-context';
+import { guestCampaign } from '@client/lib/guestUsers';
+import { Campaign } from '@client/context/campaign-context';
 
 export default function ChooseCampaign() {
   const { updateCampaign } = React.useContext(Campaign);
