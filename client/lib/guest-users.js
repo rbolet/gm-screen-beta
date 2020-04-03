@@ -20,6 +20,6 @@ export const guestCampaign = {
 
 export function createRandomGuest(role) {
   const randomID = Date.now().toString().slice(9);
-  return { userId: randomID, userName: `Guest${randomID}`, userRole: role };
+  return { userId: `${randomID}`, userName: `Guest${randomID}`, userRole: role };
 
 }

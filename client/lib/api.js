@@ -16,7 +16,9 @@ export function configUserSocket(user) {
 }
 
 export async function getCampaigns(user) {
-  return fetch(`campaign/${user.userRole}/${user.userId}`, {
+  // manually set userId for guestGM
+  const userId = (typeof (user.userId) === 'string') ? 5 : user.userId;
+  return fetch(`campaign/${user.userRole}/${userId}`, {
     method: 'GET',
     headers
   })
