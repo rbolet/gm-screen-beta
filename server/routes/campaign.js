@@ -5,7 +5,16 @@ const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 const activeGameSessions = [];
 
-router.post('/join', (req, res) => {
+router.get('/gm/:userId', (req, res) => {
+  const gm = req.params.userId;
+  const query = `SELECT * FROM campaigns WHERE campaignGM = "${gm}";`;
+  db.query(query)
+    .then(([campaigns]) => {
+      res.status(200).json(campaigns);
+    });
+});
+
+router.post('/:campaignId/join', (req, res) => {
   const user = req.body.user;
   const campaign = req.body.campaign;
 
@@ -31,15 +40,6 @@ router.post('/join', (req, res) => {
       if (!alreadyActive) activeGameSessions.push(campaign);
       SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
       res.json(session);
-    });
-});
-
-router.get('/gm/:userId', (req, res) => {
-  const gm = req.params.userId;
-  const query = `SELECT * FROM campaigns WHERE campaignGM = "${gm}";`;
-  db.query(query)
-    .then(([campaigns]) => {
-      res.status(200).json(campaigns);
     });
 });
 
