@@ -1,14 +1,17 @@
 import './ChooseCampaign.css';
 import React, { useState, useEffect, useContext } from 'react';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 import ContainerCard from '@components/UI/ContainerCard';
 import Loading from '@components/UI/Loading';
-import Button from 'react-bootstrap/Button';
 import { AppUser } from '@client/context/user-context';
-// import { Campaign } from '@client/context/campaign-context';
+import { Campaign } from '@client/context/campaign-context';
 import { getCampaigns } from '@client/lib/api';
 
 export default function ChooseCampaign() {
+  const [selectedCampaign, setSelectedCampaign] = useState({});
+
   return (
     <ContainerCard
       className="align-self-center mx-auto"
@@ -21,10 +24,10 @@ export default function ChooseCampaign() {
             <CampaignListHeader/>
           </Card.Header>
           <Card.Body className="p-0 h-100 bg-light mb-2 rounded">
-            <CampaignList/>
+            <CampaignList setSelectedCampaign={setSelectedCampaign}/>
           </Card.Body>
           <Card.Footer className="d-flex justify-content-around p-0">
-            <CampaignListFooter/>
+            <CampaignListFooter selectedCampaign={selectedCampaign}/>
           </Card.Footer>
         </Card>
       </div>
@@ -49,7 +52,7 @@ function CampaignListHeader() {
   );
 }
 
-function CampaignList() {
+function CampaignList(props) {
   const { user } = useContext(AppUser);
   const [fetched, setFetched] = useState(false);
   const [CampaignRows, setCampaignRows] = useState([]);
@@ -61,20 +64,19 @@ function CampaignList() {
       setCampaignRows(
         campaigns.map(campaign => {
           return (
-            <tr
+            <ListGroup.Item
               key={campaign.campaignId}
-              className='list-display w-100 border-bottom row-no-gutters'
-              onClick={() => { }}>
-              <td className="p-2 col">{campaign.campaignName}</td>
-              <td className="d-flex justify-content-end col p-0 m-0">
-                {user.userRole === 'gm' &&
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => { }}>
-                    <i className="far fa-trash-alt" />
-                  </button>}
-              </td>
-            </tr>
+              onClick={() => { props.setSelectedCampaign(campaign); }}
+              className="p-2 d-flex align-items-center">
+              <div className="d-inline mr-auto">{campaign.campaignName}</div>
+              {user.userRole === 'gm' &&
+                <Button
+                  disabled={typeof (user.userId) === 'string'}
+                  variant="danger"
+                  onClick={() => { }}>
+                  <i className="far fa-trash-alt" />
+                </Button>}
+            </ListGroup.Item>
           );
         })
       );
@@ -85,19 +87,18 @@ function CampaignList() {
     return <Loading/>;
   } else if (CampaignRows.length) {
     return (
-      <table className="m-0 w-100 rounded">
-        <tbody>
-          {CampaignRows}
-        </tbody>
-      </table>
+      <ListGroup className="campaign-list">
+        {CampaignRows}
+      </ListGroup>
     );
   }
 
   return <EmptySet/>;
 }
 
-function CampaignListFooter() {
+function CampaignListFooter(props) {
   const { user } = useContext(AppUser);
+  const { updateCampaign } = useContext(Campaign);
 
   return (
     <>
@@ -113,7 +114,7 @@ function CampaignListFooter() {
           <p className="button-text m-0">Configure</p>
         </Button>}
       <Button variant="success" className="footer-button"
-        onClick={() => {}}>
+        onClick={() => { updateCampaign(props.selectedCampaign); }}>
         <i className="fas fa-play" />
         <p className="button-text m-0">{user.userRole === 'gm' ? 'Launch' : 'Join'}</p>
       </Button>
