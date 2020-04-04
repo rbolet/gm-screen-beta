@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import Body from '@components/UI/Body';
 import ContainerCard from '@components/UI/ContainerCard';
 import ImageGrid from '@components/UI/ImageGrid';
-import MainDisplay from '@components/UI/MainDisplay';
+import MainDisplay from '@components/MainDisplay';
 import TokenModal from '@components/modals/TokenModal';
 import CloseButton from '@components/UI/CloseButton';
 import { TokenContext } from '@client/context/token-context';

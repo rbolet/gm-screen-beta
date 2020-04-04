@@ -1,7 +1,7 @@
 import React from 'react';
 import Body from '@components/UI/Body';
 import ContainerCard from '@components/UI/ContainerCard';
-import MainDisplay from '@components/UI/MainDisplay';
+import MainDisplay from '@components/MainDisplay';
 
 export default function PlayerView() {
 
