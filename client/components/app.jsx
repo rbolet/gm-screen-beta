@@ -56,9 +56,18 @@ function App() {
       updateCampaign({ roomUserList });
     });
 
+    socket.on('kick', message => {
+      updateCampaign({
+        campaignId: null,
+        campaingName: null,
+        campaignGM: null,
+        campaignAssets: []
+      });
+    });
     socket.on('updateSession', newSessionState => {
       updateSession(newSessionState);
     });
+
   }
 
   return (
