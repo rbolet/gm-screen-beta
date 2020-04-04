@@ -76,7 +76,7 @@ router.post('/:campaignId/join', (req, res) => {
         if (activeSession.campaignId === campaign.campaignId) alreadyActive = true;
       }
       if (!alreadyActive) activeGameSessions.push(campaign);
-      SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
+      SocketIO.moveSocketToRoom(user.socketId, campaign.campaignId);
       res.json(session);
     });
 });

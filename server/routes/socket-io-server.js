@@ -1,5 +1,6 @@
 const bin = require('../lib/bin');
 const userSocketList = bin.userSocketList;
+const activeGameSessions = bin.activeGameSessions;
 
 let ioServer;
 
@@ -12,7 +13,17 @@ exports.io = function (server) {
     socket.emit('connected', socket.id);
 
     socket.on('disconnect', reason => {
-      delete userSocketList[socket.id];
+      const disconnectingUser = userSocketList[socket.id].user;
+      const removeActiveSession = new Promise(() => {
+        for (const campaignIndex in activeGameSessions) {
+          if (activeGameSessions[campaignIndex].campaignGM === disconnectingUser.userId) {
+            io.to(activeGameSessions[campaignIndex].campaignId).emit('kick', `${disconnectingUser.userName} has ended the session`);
+            activeGameSessions.splice(campaignIndex, 1);
+          }
+        }
+      });
+      removeActiveSession.then(() => delete userSocketList[socket.id]);
+
     });
 
     socket.on('error', error => {
@@ -46,16 +57,17 @@ function updateUserListInRoom(room) {
   return room;
 }
 
-exports.moveSocketToRoom = (socketId, sessionId) => {
+exports.moveSocketToRoom = (socketId, campaignId) => {
   const socket = userSocketList[socketId].socket;
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
       socket.leave(room, () => { updateUserListInRoom(room); });
     }
   });
-  socket.join(sessionId, () => {
-    updateUserListInRoom(sessionId);
-    socket.emit('roomChange', sessionId);
+  // room name === campaignId
+  socket.join(campaignId, () => {
+    updateUserListInRoom(campaignId);
+    socket.emit('roomChange', campaignId);
   });
 };
 
