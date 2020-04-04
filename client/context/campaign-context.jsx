@@ -18,7 +18,7 @@ export function CampaignContext(props) {
 
   }, [campaignId]);
 
-  const updateCampaign = campaignObject => {
+  const updateCampaign = async campaignObject => {
     Object.keys(campaignObject).forEach(key => {
       switch (key) {
         case 'campaignId':

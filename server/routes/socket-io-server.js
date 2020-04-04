@@ -14,9 +14,12 @@ exports.io = function (server) {
 
     socket.on('disconnect', reason => {
       const disconnectingUser = userSocketList[socket.id].user;
+
       const removeActiveSession = new Promise(() => {
+        const userId = disconnectingUser.userName.includes('Guest') ? 5 : disconnectingUser.userId;
         for (const campaignIndex in activeGameSessions) {
-          if (activeGameSessions[campaignIndex].campaignGM === disconnectingUser.userId) {
+
+          if (activeGameSessions[campaignIndex].campaignGM === userId) {
             const room = activeGameSessions[campaignIndex].campaignId;
             io.to(room)
               .emit('kick', `${disconnectingUser.userName} has ended the session`);
