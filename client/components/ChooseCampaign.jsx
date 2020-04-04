@@ -7,7 +7,7 @@ import ContainerCard from '@components/UI/ContainerCard';
 import Loading from '@components/UI/Loading';
 import { AppUser } from '@client/context/user-context';
 import { Campaign } from '@client/context/campaign-context';
-import { getCampaigns } from '@client/lib/api';
+import { getCampaigns, deleteCampaign } from '@client/lib/api';
 
 export default function ChooseCampaign() {
   const [selectedCampaign, setSelectedCampaign] = useState({});
@@ -73,7 +73,7 @@ function CampaignList(props) {
                 <Button
                   disabled={typeof (user.userId) === 'string'}
                   variant="danger"
-                  onClick={() => { }}>
+                  onClick={() => { deleteCampaign(campaign.campaignId).then(() => setFetched(false)); }}>
                   <i className="far fa-trash-alt" />
                 </Button>}
             </ListGroup.Item>

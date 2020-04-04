@@ -25,7 +25,16 @@ export async function getCampaigns(user) {
     .then(jsonRes => jsonRes.json())
     .then(campaignArray => campaignArray)
     .catch(err => {
-      console.error('Error getting campaigna', err);
+      console.error('Error getting campaigns', err);
+    });
+}
+
+export async function deleteCampaign(campaignId) {
+  return fetch(`campaign/${campaignId}`, { method: 'DELETE', headers })
+    .then(jsonRes => jsonRes.json())
+    .then(result => result)
+    .catch(err => {
+      console.error('Error deleting campaign', err);
     });
 }
 

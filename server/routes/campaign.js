@@ -67,4 +67,10 @@ router.post('/:campaignId/join', (req, res) => {
     });
 });
 
+router.delete('/:campaignId', (req, res) => {
+  const campaignId = req.params.campaignId;
+  db.query(`DELETE FROM campaigns WHERE campaignId = ${campaignId}`)
+    .then(rowsAffected => res.json({ confirmNote: `Successfully deleted ${rowsAffected} campaign` }));
+});
+
 module.exports = router;
