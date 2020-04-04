@@ -38,6 +38,18 @@ router.get('/:campaignId/assets', (req, res) => {
     });
 });
 
+router.post('/new', (req, res) => {
+  const campaignGM = req.body.userId;
+  const campaignName = req.body.campaignName;
+  db.query(`INSERT INTO campaigns(campaignGM, campaignName) VALUES(${campaignGM}, "${campaignName}");`)
+    .then(insertRes => {
+      return db.query(`SELECT * FROM campaigns WHERE campaignId = ${insertRes[0].insertId}`);
+    })
+    .then(([newCampaign]) => {
+      res.json(newCampaign[0]);
+    });
+});
+
 router.post('/:campaignId/join', (req, res) => {
   const user = req.body.user;
   const campaign = req.body.campaign;

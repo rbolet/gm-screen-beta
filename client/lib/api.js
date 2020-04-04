@@ -38,6 +38,20 @@ export async function deleteCampaign(campaignId) {
     });
 }
 
+export async function addNewCampaign(userId, campaignName) {
+  const body = JSON.stringify({ userId, campaignName });
+  return fetch('campaign/new', {
+    method: 'POST',
+    headers,
+    body
+  })
+    .then(jsonRes => jsonRes.json())
+    .then(newCampaign => newCampaign)
+    .catch(err => {
+      console.error('Error adding new campaign', err);
+    });
+}
+
 export async function getCampaignAssets(campaignId) {
   return fetch(`campaign/${campaignId}/assets`, {
     method: 'GET',
