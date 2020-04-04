@@ -17,7 +17,13 @@ exports.io = function (server) {
       const removeActiveSession = new Promise(() => {
         for (const campaignIndex in activeGameSessions) {
           if (activeGameSessions[campaignIndex].campaignGM === disconnectingUser.userId) {
-            io.to(activeGameSessions[campaignIndex].campaignId).emit('kick', `${disconnectingUser.userName} has ended the session`);
+            const room = activeGameSessions[campaignIndex].campaignId;
+            io.to(room)
+              .emit('kick', `${disconnectingUser.userName} has ended the session`);
+            ioServer.in(room).clients((err, clients) => {
+              clients.forEach(socketId => { moveSocketToRoom(socketId, 'lobby'); });
+              if (err) { console.error(err); return null; }
+            });
             activeGameSessions.splice(campaignIndex, 1);
           }
         }
@@ -57,7 +63,7 @@ function updateUserListInRoom(room) {
   return room;
 }
 
-exports.moveSocketToRoom = (socketId, campaignId) => {
+function moveSocketToRoom(socketId, campaignId) {
   const socket = userSocketList[socketId].socket;
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
@@ -69,7 +75,9 @@ exports.moveSocketToRoom = (socketId, campaignId) => {
     updateUserListInRoom(campaignId);
     socket.emit('roomChange', campaignId);
   });
-};
+}
+
+exports.moveSocketToRoom = moveSocketToRoom;
 
 // updating state
 exports.updateSession = session => {
