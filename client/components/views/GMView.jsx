@@ -42,7 +42,7 @@ export default function GMView(props) {
         {openTokenModal &&
           <TokenModal closeModal={() => { setOpenTokenModal(false); setSelectedImage(null); }}
             image={selectedImage} token={selectedToken}/>}
-        <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow={true}>
+        <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow>
           <CloseButton onCloseClick={() => {
             postSession({ environmentImage: { fileName: null, category: 'Environment' } });
           }}
