@@ -1,17 +1,38 @@
-const socketList = {};
+const bin = require('../lib/bin');
+const userSocketList = bin.userSocketList;
+const activeGameSessions = bin.activeGameSessions;
+
 let ioServer;
-exports.sockets = socketList;
 
 exports.io = function (server) {
 
   const io = require('socket.io')(server);
 
   io.on('connection', socket => {
-    socketList[socket.id] = { socket };
+    userSocketList[socket.id] = { socket };
     socket.emit('connected', socket.id);
 
     socket.on('disconnect', reason => {
-      delete socketList[socket.id];
+      const disconnectingUser = userSocketList[socket.id].user;
+
+      const removeActiveSession = new Promise(() => {
+        const userId = disconnectingUser.userName.includes('Guest') ? 5 : disconnectingUser.userId;
+        for (const campaignIndex in activeGameSessions) {
+
+          if (activeGameSessions[campaignIndex].campaignGM === userId) {
+            const room = activeGameSessions[campaignIndex].campaignId;
+            io.to(room)
+              .emit('kick', `${disconnectingUser.userName} has ended the session`);
+            ioServer.in(room).clients((err, clients) => {
+              clients.forEach(socketId => { moveSocketToRoom(socketId, 'lobby'); });
+              if (err) { console.error(err); return null; }
+            });
+            activeGameSessions.splice(campaignIndex, 1);
+          }
+        }
+      });
+      removeActiveSession.then(() => delete userSocketList[socket.id]);
+
     });
 
     socket.on('error', error => {
@@ -24,13 +45,13 @@ exports.io = function (server) {
 };
 
 exports.configSocket = user => {
-  socketList[user.socketId].user = user;
-  const socket = socketList[user.socketId].socket;
+  userSocketList[user.socketId].user = user;
+  const socket = userSocketList[user.socketId].socket;
   socket.join('Lobby', () => {
     socket.emit('roomChange', 'Lobby');
     updateUserListInRoom('Lobby');
   });
-  return socketList[user.socketId].user.userName;
+  return userSocketList[user.socketId].user.userName;
 };
 
 // moving rooms
@@ -38,25 +59,28 @@ function updateUserListInRoom(room) {
   ioServer.in(room).clients((err, clients) => {
     if (err) { console.error(err); return null; }
     const userList = clients.map(socketId => {
-      return socketList[socketId].user;
+      return userSocketList[socketId].user;
     });
     ioServer.to(room).emit('updateRoomList', userList);
   });
   return room;
 }
 
-exports.moveSocketToRoom = (socketId, sessionId) => {
-  const socket = socketList[socketId].socket;
+function moveSocketToRoom(socketId, campaignId) {
+  const socket = userSocketList[socketId].socket;
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
       socket.leave(room, () => { updateUserListInRoom(room); });
     }
   });
-  socket.join(sessionId, () => {
-    updateUserListInRoom(sessionId);
-    socket.emit('roomChange', sessionId);
+  // room name === campaignId
+  socket.join(campaignId, () => {
+    updateUserListInRoom(campaignId);
+    socket.emit('roomChange', campaignId);
   });
-};
+}
+
+exports.moveSocketToRoom = moveSocketToRoom;
 
 // updating state
 exports.updateSession = session => {

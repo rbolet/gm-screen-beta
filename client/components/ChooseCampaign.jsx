@@ -5,13 +5,16 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ContainerCard from '@components/UI/ContainerCard';
 import Loading from '@components/UI/Loading';
+import NewCampaignModal from '@components/modals/NewCampaignModal';
 import { AppUser } from '@client/context/user-context';
 import { Campaign } from '@client/context/campaign-context';
-import { getCampaigns } from '@client/lib/api';
+import { getCampaigns, deleteCampaign } from '@client/lib/api';
 
 export default function ChooseCampaign() {
   const [selectedCampaign, setSelectedCampaign] = useState({});
+  const [openNewCampaignModal, setOpenNewCampaignModal] = useState(false);
 
+  const toggleModal = () => setOpenNewCampaignModal(!openNewCampaignModal);
   return (
     <ContainerCard
       className="align-self-center mx-auto"
@@ -19,6 +22,7 @@ export default function ChooseCampaign() {
       percentWidth={25}
       bg="#343a40" shadow={true}>
       <div className="campaign-list-container">
+        { openNewCampaignModal && <NewCampaignModal addNewCampaign={() => {}} toggleModal={() => { toggleModal(); }}/>}
         <Card className="w-100 h-100 bg-dark border-0">
           <Card.Header>
             <CampaignListHeader/>
@@ -27,7 +31,7 @@ export default function ChooseCampaign() {
             <CampaignList setSelectedCampaign={setSelectedCampaign}/>
           </Card.Body>
           <Card.Footer className="d-flex justify-content-around p-0">
-            <CampaignListFooter selectedCampaign={selectedCampaign}/>
+            <CampaignListFooter selectedCampaign={selectedCampaign} toggleModal={() => { toggleModal(); }}/>
           </Card.Footer>
         </Card>
       </div>
@@ -73,7 +77,7 @@ function CampaignList(props) {
                 <Button
                   disabled={typeof (user.userId) === 'string'}
                   variant="danger"
-                  onClick={() => { }}>
+                  onClick={() => { deleteCampaign(campaign.campaignId).then(() => setFetched(false)); }}>
                   <i className="far fa-trash-alt" />
                 </Button>}
             </ListGroup.Item>
@@ -103,16 +107,11 @@ function CampaignListFooter(props) {
   return (
     <>
       <Button variant="outline-success" className="footer-button"
-        onClick={() => {}}>
+        disabled={user.userRole === 'gm' && (typeof user.userId === 'string')}
+        onClick={() => { props.toggleModal(); }}>
         <i className={`fas ${user.userRole === 'gm' ? 'fa-plus-circle' : 'fa-redo-alt'}`} />
         <p className="button-text m-0">{user.userRole === 'gm' ? 'New' : 'Refresh'}</p>
       </Button>
-      {user.userRole === 'gm' &&
-        <Button variant="secondary" className="footer-button"
-          onClick={() => {}}>
-          <i className="fas fa-file-upload" />
-          <p className="button-text m-0">Configure</p>
-        </Button>}
       <Button variant="success" className="footer-button"
         onClick={() => { updateCampaign(props.selectedCampaign); }}>
         <i className="fas fa-play" />

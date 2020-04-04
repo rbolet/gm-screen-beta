@@ -56,9 +56,27 @@ function App() {
       updateCampaign({ roomUserList });
     });
 
+    socket.on('kick', message => {
+      updateSession({
+        sessionId: null,
+        environmentImageFileName: null,
+        tokens: []
+      });
+
+      updateCampaign({
+        campaignId: null,
+        campaingName: null,
+        campaignGM: null
+      })
+        .then(() => updateCampaign({ campaignAssets: [] }))
+        .catch(err => {
+          console.error('Error clearing campaign', err);
+        });
+    });
     socket.on('updateSession', newSessionState => {
       updateSession(newSessionState);
     });
+
   }
 
   return (

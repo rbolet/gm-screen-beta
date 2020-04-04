@@ -27,7 +27,7 @@ function Header(props) {
       <Navbar.Text className="user-name">{user.userName}</Navbar.Text>
       <Navbar.Text className="role-icon">{RoleIcon}</Navbar.Text>
       <Navbar.Text className="campaign">{campaign.campaignName}</Navbar.Text>
-      <Chat/>
+      {user.userId && <Chat/>}
     </Navbar>
   );
 }

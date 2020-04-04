@@ -1,9 +1,11 @@
 const router = require('express').Router();
 const db = require('../_config');
-const buildSession = require('../build-session');
 const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
-const activeGameSessions = [];
+
+const bin = require('../lib/bin');
+const activeGameSessions = bin.activeGameSessions;
+const buildSession = bin.buildSession;
 
 router.get('/gm/:userId', (req, res) => {
   const gm = req.params.userId;
@@ -38,6 +40,18 @@ router.get('/:campaignId/assets', (req, res) => {
     });
 });
 
+router.post('/new', (req, res) => {
+  const campaignGM = req.body.userId;
+  const campaignName = req.body.campaignName;
+  db.query(`INSERT INTO campaigns(campaignGM, campaignName) VALUES(${campaignGM}, "${campaignName}");`)
+    .then(insertRes => {
+      return db.query(`SELECT * FROM campaigns WHERE campaignId = ${insertRes[0].insertId}`);
+    })
+    .then(([newCampaign]) => {
+      res.json(newCampaign[0]);
+    });
+});
+
 router.post('/:campaignId/join', (req, res) => {
   const user = req.body.user;
   const campaign = req.body.campaign;
@@ -62,9 +76,15 @@ router.post('/:campaignId/join', (req, res) => {
         if (activeSession.campaignId === campaign.campaignId) alreadyActive = true;
       }
       if (!alreadyActive) activeGameSessions.push(campaign);
-      SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
+      SocketIO.moveSocketToRoom(user.socketId, campaign.campaignId);
       res.json(session);
     });
+});
+
+router.delete('/:campaignId', (req, res) => {
+  const campaignId = req.params.campaignId;
+  db.query(`DELETE FROM campaigns WHERE campaignId = ${campaignId}`)
+    .then(rowsAffected => res.json({ confirmNote: `Successfully deleted ${rowsAffected} campaign` }));
 });
 
 module.exports = router;

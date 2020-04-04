@@ -1,6 +1,9 @@
-const db = require('./_config');
+const db = require('../_config');
 
-module.exports = function buildSession(sessionId) {
+exports.activeGameSessions = [];
+exports.userSocketList = {};
+
+exports.buildSession = function (sessionId) {
   let tokens = [];
   return new Promise(resolve => {
     db.query(`SELECT * FROM tokens WHERE sessionId = ${sessionId}`)
