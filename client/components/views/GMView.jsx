@@ -5,6 +5,7 @@ import ContainerCard from '@components/UI/ContainerCard';
 import ImageGrid from '@components/UI/ImageGrid';
 import MainDisplay from '@components/MainDisplay';
 import TokenModal from '@components/modals/TokenModal';
+import CampaignConfigModal from '@components/modals/CampaignConfigModal';
 import CloseButton from '@components/UI/CloseButton';
 import { TokenContext } from '@client/context/token-context';
 import { Session } from '@client/context/session-context';
@@ -15,6 +16,8 @@ export default function GMView(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [openTokenModal, setOpenTokenModal] = useState(false);
   const [selectedToken, setSelectedToken] = useState(null);
+
+  const [openConfigModal, setOpenConfigModal] = useState(false);
 
   useEffect(() => {
     if (!session.environmentImageFileName) setSelectedImage(null);
@@ -40,6 +43,7 @@ export default function GMView(props) {
   return (
     <TokenContext>
       <Body>
+        { openConfigModal && <CampaignConfigModal closeModal={() => { setOpenConfigModal(false); }}/>}
         {openTokenModal &&
           <TokenModal closeModal={() => { setOpenTokenModal(false); setSelectedImage(null); }}
             image={selectedImage} token={selectedToken}/>}
@@ -54,7 +58,7 @@ export default function GMView(props) {
           footer={
             <div className="d-flex justify-content-center">
               <Button variant="secondary" className="footer-button"
-                onClick={() => { }}>
+                onClick={() => { setOpenConfigModal(true); }}>
                 <div className="row no-gutters">
                   <p className="button-text text-light mr-2 my-0">Upload Images</p>
                   <i className="fas fa-file-upload" />
