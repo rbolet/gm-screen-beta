@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 import Body from '@components/UI/Body';
 import ContainerCard from '@components/UI/ContainerCard';
 import ImageGrid from '@components/UI/ImageGrid';
@@ -49,7 +50,19 @@ export default function GMView(props) {
           icon={<i className="far fa-times-circle" />} />
           <MainDisplay editToken={editToken}/>
         </ContainerCard>
-        <ContainerCard percentHeight={100} percentWidth={32} bg="#343a40"shadow={true}>
+        <ContainerCard percentHeight={100} percentWidth={32} bg="#343a40"shadow={true}
+          footer={
+            <div className="d-flex justify-content-center">
+              <Button variant="secondary" className="footer-button"
+                onClick={() => { }}>
+                <div className="row no-gutters">
+                  <p className="button-text text-light mr-2 my-0">Upload Images</p>
+                  <i className="fas fa-file-upload" />
+                </div>
+
+              </Button>
+            </div>
+          }>
           <ImageGrid onImageClick={setSelectedImage}/>
         </ContainerCard>
       </Body>

@@ -107,16 +107,11 @@ function CampaignListFooter(props) {
   return (
     <>
       <Button variant="outline-success" className="footer-button"
+        disabled={user.userRole === 'gm' && (typeof user.userId === 'string')}
         onClick={() => { props.toggleModal(); }}>
         <i className={`fas ${user.userRole === 'gm' ? 'fa-plus-circle' : 'fa-redo-alt'}`} />
         <p className="button-text m-0">{user.userRole === 'gm' ? 'New' : 'Refresh'}</p>
       </Button>
-      {user.userRole === 'gm' &&
-        <Button variant="secondary" className="footer-button"
-          onClick={() => {}}>
-          <i className="fas fa-file-upload" />
-          <p className="button-text m-0">Configure</p>
-        </Button>}
       <Button variant="success" className="footer-button"
         onClick={() => { updateCampaign(props.selectedCampaign); }}>
         <i className="fas fa-play" />
