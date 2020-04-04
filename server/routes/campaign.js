@@ -1,9 +1,11 @@
 const router = require('express').Router();
 const db = require('../_config');
-const buildSession = require('../build-session');
 const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
-const activeGameSessions = [];
+
+const bin = require('../lib/bin');
+const activeGameSessions = bin.activeGameSessions;
+const buildSession = bin.buildSession;
 
 router.get('/gm/:userId', (req, res) => {
   const gm = req.params.userId;

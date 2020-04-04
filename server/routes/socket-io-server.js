@@ -1,17 +1,18 @@
-const socketList = {};
+const bin = require('../lib/bin');
+const userSocketList = bin.userSocketList;
+
 let ioServer;
-exports.sockets = socketList;
 
 exports.io = function (server) {
 
   const io = require('socket.io')(server);
 
   io.on('connection', socket => {
-    socketList[socket.id] = { socket };
+    userSocketList[socket.id] = { socket };
     socket.emit('connected', socket.id);
 
     socket.on('disconnect', reason => {
-      delete socketList[socket.id];
+      delete userSocketList[socket.id];
     });
 
     socket.on('error', error => {
@@ -24,13 +25,13 @@ exports.io = function (server) {
 };
 
 exports.configSocket = user => {
-  socketList[user.socketId].user = user;
-  const socket = socketList[user.socketId].socket;
+  userSocketList[user.socketId].user = user;
+  const socket = userSocketList[user.socketId].socket;
   socket.join('Lobby', () => {
     socket.emit('roomChange', 'Lobby');
     updateUserListInRoom('Lobby');
   });
-  return socketList[user.socketId].user.userName;
+  return userSocketList[user.socketId].user.userName;
 };
 
 // moving rooms
@@ -38,7 +39,7 @@ function updateUserListInRoom(room) {
   ioServer.in(room).clients((err, clients) => {
     if (err) { console.error(err); return null; }
     const userList = clients.map(socketId => {
-      return socketList[socketId].user;
+      return userSocketList[socketId].user;
     });
     ioServer.to(room).emit('updateRoomList', userList);
   });
@@ -46,7 +47,7 @@ function updateUserListInRoom(room) {
 }
 
 exports.moveSocketToRoom = (socketId, sessionId) => {
-  const socket = socketList[socketId].socket;
+  const socket = userSocketList[socketId].socket;
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
       socket.leave(room, () => { updateUserListInRoom(room); });

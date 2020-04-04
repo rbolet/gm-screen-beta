@@ -2,7 +2,8 @@ const router = require('express').Router();
 const db = require('../_config');
 const SocketIO = require('./socket-io-server');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
-const buildSession = require('../build-session');
+const bin = require('../lib/bin');
+const buildSession = bin.buildSession;
 
 router.post('/:sessionId/environment', (req, res) => {
   const sessionId = req.params.sessionId;
