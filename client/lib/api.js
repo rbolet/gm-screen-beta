@@ -15,8 +15,10 @@ export function configUserSocket(user) {
   );
 }
 
-export function getCampaigns(user) {
-  return fetch(`campaign/${user.userRole}/${user.userId}`, {
+export async function getCampaigns(user) {
+  // manually set userId for guestGM
+  const userId = (typeof (user.userId) === 'string') ? 5 : user.userId;
+  return fetch(`campaign/${user.userRole}/${userId}`, {
     method: 'GET',
     headers
   })
@@ -27,7 +29,7 @@ export function getCampaigns(user) {
     });
 }
 
-export function getCampaignAssets(campaignId) {
+export async function getCampaignAssets(campaignId) {
   return fetch(`campaign/${campaignId}/assets`, {
     method: 'GET',
     headers
