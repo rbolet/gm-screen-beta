@@ -29,7 +29,7 @@ export async function getCampaigns(user) {
     });
 }
 
-export function getCampaignAssets(campaignId) {
+export async function getCampaignAssets(campaignId) {
   return fetch(`campaign/${campaignId}/assets`, {
     method: 'GET',
     headers

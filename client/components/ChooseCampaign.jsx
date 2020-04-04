@@ -122,6 +122,22 @@ function CampaignListFooter(props) {
   );
 }
 
+function EmptySet() {
+  const { user } = useContext(AppUser);
+  const Text = (user.userRole === 'gm')
+    ? <p>Start <span> <i className="fas fa-plus-circle text-success"/></span> a new Campaign</p>
+    : (<p>No active Campaign sessions to join.<br/>
+      Click <span> <i className="fas fa-redo-alt text-success"/></span> to check again!</p>);
+
+  return (
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className="img-thumbnail text-muted text-center">
+        {Text}
+      </div>
+    </div>
+  );
+}
+
 function useCampaigns(fetched) {
   const { user } = useContext(AppUser);
   const [loading, setLoading] = useState(false);
@@ -138,21 +154,4 @@ function useCampaigns(fetched) {
   }, [fetched]);
 
   return { loading, campaigns };
-}
-
-function EmptySet() {
-  const { user } = useContext(AppUser);
-  const Text = (user.userRole === 'gm')
-    ? <p>Start <span> <i className="fas fa-plus-circle text-success"/></span> a new Campaign</p>
-    : (<p>No active Campaign sessions to join.<br/>
-      Click <span> <i className="fas fa-redo-alt text-success"/></span> to check again!</p>);
-
-  return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="img-thumbnail text-muted text-center">
-        {Text}
-      </div>
-    </div>
-  );
-
 }

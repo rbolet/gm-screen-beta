@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getCampaignAssets } from '@client/lib/api';
 
 export const Campaign = React.createContext(null);
 
@@ -9,6 +10,13 @@ export function CampaignContext(props) {
   const [campaignAssets, setCampaignAssets] = useState([]);
   const [room, setRoom] = useState(null);
   const [roomUserList, setRoomUserList] = useState([]);
+
+  useEffect(() => {
+    getCampaignAssets(campaignId)
+      .then(assetsArray => setCampaignAssets(assetsArray))
+      .catch(err => console.error('Error fetching assets', err));
+
+  }, [campaignId]);
 
   const updateCampaign = campaignObject => {
     Object.keys(campaignObject).forEach(key => {
