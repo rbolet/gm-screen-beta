@@ -5,24 +5,16 @@ import ContainerCard from '@components/UI/ContainerCard';
 import Loading from '@components/UI/Loading';
 import Button from 'react-bootstrap/Button';
 import { AppUser } from '@client/context/user-context';
-import { Campaign } from '@client/context/campaign-context';
-import { guestCampaign } from '@client/lib/guest-users';
+// import { Campaign } from '@client/context/campaign-context';
 import { getCampaigns } from '@client/lib/api';
 
 export default function ChooseCampaign() {
-  const { updateCampaign } = useContext(Campaign);
-
   return (
     <ContainerCard
       className="align-self-center mx-auto"
       percentHeight={75}
       percentWidth={25}
-      bg="#343a40" shadow={true}
-      footer={<div className="d-flex justify-content-center align-items-center h-100 w-100">
-        <Button
-          variant="success"
-          onClick={() => { updateCampaign(guestCampaign); }}>Guest Campaign</Button>
-      </div>}>
+      bg="#343a40" shadow={true}>
       <div className="campaign-list-container">
         <Card className="w-100 h-100 bg-dark border-0">
           <Card.Header>
