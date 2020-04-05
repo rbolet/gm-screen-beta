@@ -1,5 +1,6 @@
 import './ImageGrid.css';
 import React, { useState, useContext } from 'react';
+import useWindowDimensions from '@components/logic/useWindowDimensions';
 import { Campaign } from '@client/context/campaign-context';
 import ContainerCard from '@components/UI/ContainerCard';
 
@@ -9,7 +10,9 @@ function ImageGrid(props) {
   return (
     <ContainerCard percentHeight={100} percentWidth={100}
       header={<GridHeaderButtons setSelectedCategory={setSelectedCategory}/>}>
-      <GridImages selectedTab={selectedCategory} onImageClick={props.onImageClick}/>
+      <div className="d-flex h-100 align-items-center">
+        <GridImages selectedTab={selectedCategory} onImageClick={props.onImageClick}/>
+      </div>
     </ContainerCard>
   );
 }
@@ -34,6 +37,8 @@ function GridHeaderButtons(props) {
 
 function GridImages(props) {
   const { campaign } = useContext(Campaign);
+  const { bodyHeight } = useWindowDimensions();
+  const maxHeight = bodyHeight * 0.65;
   let GridContent = null;
 
   if (campaign.campaignAssets.length) {
@@ -51,7 +56,7 @@ function GridImages(props) {
   }
 
   return (
-    <div className="w-100 image-grid-body mb-1 rounded bg-light">
+    <div className="image-grid-body mb-1 rounded bg-light" style={{ maxHeight }}>
       {GridContent}
     </div>);
 }

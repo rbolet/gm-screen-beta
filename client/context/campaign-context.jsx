@@ -20,7 +20,6 @@ export function CampaignContext(props) {
 
   const addImageToCampaign = async formData => {
     postUploadForm(formData)
-      .then(jsonResult => jsonResult.json())
       .then(addedImage => {
         const assetsCopy = campaignAssets.slice();
         assetsCopy.push(addedImage);
