@@ -66,17 +66,17 @@ function updateUserListInRoom(room) {
   return room;
 }
 
-function moveSocketToRoom(socketId, campaignId) {
+function moveSocketToRoom(socketId, sessionId) {
   const socket = userSocketList[socketId].socket;
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
       socket.leave(room, () => { updateUserListInRoom(room); });
     }
   });
-  // room name === campaignId
-  socket.join(campaignId, () => {
-    updateUserListInRoom(campaignId);
-    socket.emit('roomChange', campaignId);
+  // room name === sessionId
+  socket.join(sessionId, () => {
+    updateUserListInRoom(sessionId);
+    socket.emit('roomChange', sessionId);
   });
 }
 

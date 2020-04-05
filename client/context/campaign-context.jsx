@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AppUser } from '@client/context/user-context';
 import { getCampaignAssets, postUploadForm } from '@client/lib/api';
 
 export const Campaign = React.createContext(null);
@@ -10,11 +11,14 @@ export function CampaignContext(props) {
   const [campaignAssets, setCampaignAssets] = useState([]);
   const [room, setRoom] = useState(null);
   const [roomUserList, setRoomUserList] = useState([]);
+  const { user } = useContext(AppUser);
 
   useEffect(() => {
-    getCampaignAssets(campaignId)
-      .then(assetsArray => setCampaignAssets(assetsArray))
-      .catch(err => console.error('Error fetching assets', err));
+    if (user.userId) {
+      getCampaignAssets(campaignId)
+        .then(assetsArray => setCampaignAssets(assetsArray))
+        .catch(err => console.error('Error fetching assets', err));
+    }
 
   }, [campaignId]);
 
