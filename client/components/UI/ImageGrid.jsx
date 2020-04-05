@@ -1,8 +1,7 @@
 import './ImageGrid.css';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Campaign } from '@client/context/campaign-context';
 import ContainerCard from '@components/UI/ContainerCard';
-import Loading from '@components/UI/Loading';
 
 function ImageGrid(props) {
   const [selectedCategory, setSelectedCategory] = useState('Environment');
@@ -35,42 +34,25 @@ function GridHeaderButtons(props) {
 
 function GridImages(props) {
   const { campaign } = useContext(Campaign);
-  const [gridContent, setGridContent] = useState(null);
-  const [loading, setLoading] = useState(false);
+  let GridContent = null;
 
-  useEffect(() => {
-    if (campaign.campaignAssets.length) {
-      setLoading(true);
-      const generateElements = new Promise(resolve => {
-        resolve(setGridContent(campaign.campaignAssets.map(image => {
-          if (image.category === props.selectedTab) {
-            return (
-              <img
-                key={image.imageId}
-                src={`./images/${image.fileName}`}
-                className="grid-image m-1"
-                onClick={() => { props.onImageClick(image); }} />
-            );
-          }
-        })));
-      });
-      generateElements.then(() => { setLoading(false); });
-    } else {
-      setGridContent(
-        <div className="d-flex justify-content-center align-items-center h-100">
-          <div className="img-thumbnail text-muted">
-            {`No images have been added to ${props.campaignName}`}
-          </div>
-        </div>
-      );
-    }
-  }, [campaign.campaignAssets, props.selectedTab]);
-
-  if (loading) return <Loading/>;
+  if (campaign.campaignAssets.length) {
+    GridContent = campaign.campaignAssets.map(image => {
+      if (image.category === props.selectedTab) {
+        return (
+          <img
+            key={image.imageId}
+            src={`./images/${image.fileName}`}
+            className="grid-image m-1"
+            onClick={() => { props.onImageClick(image); }} />
+        );
+      }
+    });
+  }
 
   return (
     <div className="w-100 image-grid-body mb-1 rounded bg-light">
-      {gridContent}
+      {GridContent}
     </div>);
 }
 

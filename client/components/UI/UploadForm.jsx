@@ -2,34 +2,18 @@ import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Loading from '@components/UI/Loading';
 import { Campaign } from '@client/context/campaign-context';
-import { postUploadForm } from '@client/lib/api';
 
 export default function UploadForm(props) {
-  const { campaign, updateCampaign } = useContext(Campaign);
+  const { campaign, addImageToCampaign } = useContext(Campaign);
   const [filePathLabel, setFilePathLabel] = useState('Choose an image to upload');
-  const [loading, setLoading] = useState(false);
 
   function handleSubmit(event) {
     event.preventDefault();
-    setLoading(true);
     const formData = new FormData(event.target);
-    postUploadForm(formData)
-      .then(uploadedImage => {
-        const assetsCopy = campaign.campaignAssets.slice();
-        assetsCopy.push(uploadedImage);
-        updateCampaign({ campaignAssets: assetsCopy });
-      })
-      .then(() => {
-        setFilePathLabel('Choose an image to upload');
-        setLoading(false);
-      })
+    addImageToCampaign(formData);
+    setFilePathLabel('Choose an image to upload')
       .catch(err => console.error('Error submitting form', err));
-  }
-
-  if (loading) {
-    return <Loading/>;
   }
 
   return (
