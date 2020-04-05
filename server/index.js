@@ -2,13 +2,12 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const http = require('http').createServer(app);
-// const multer = require('multer');
-// const uuid = require('uuid/v4');
 const bodyParser = require('body-parser');
 const sessions = require('./sessions');
 // const db = require('./_config');
 const SocketIO = require('./routes/socket-io-server');
 SocketIO.io(http);
+global.rootDirName = __dirname;
 // const fs = require('fs');
 
 const staticPath = path.join(__dirname, 'public');
