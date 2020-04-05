@@ -19,7 +19,7 @@ export default function UploadForm(props) {
       .then(uploadedImage => {
         const assetsCopy = campaign.campaignAssets.slice();
         assetsCopy.push(uploadedImage);
-        updateCampaign(assetsCopy);
+        updateCampaign({ campaignAssets: assetsCopy });
       })
       .then(() => {
         setFilePathLabel('Choose an image to upload');

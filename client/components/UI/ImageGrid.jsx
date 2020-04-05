@@ -41,8 +41,8 @@ function GridImages(props) {
   useEffect(() => {
     if (campaign.campaignAssets.length) {
       setLoading(true);
-      const generateElements = new Promise(() => {
-        setGridContent(campaign.campaignAssets.map(image => {
+      const generateElements = new Promise(resolve => {
+        resolve(setGridContent(campaign.campaignAssets.map(image => {
           if (image.category === props.selectedTab) {
             return (
               <img
@@ -52,7 +52,7 @@ function GridImages(props) {
                 onClick={() => { props.onImageClick(image); }} />
             );
           }
-        }));
+        })));
       });
       generateElements.then(() => { setLoading(false); });
     } else {
@@ -64,7 +64,7 @@ function GridImages(props) {
         </div>
       );
     }
-  }, [campaign.campaignAssets]);
+  }, [campaign.campaignAssets, props.selectedTab]);
 
   if (loading) return <Loading/>;
 

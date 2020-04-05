@@ -108,13 +108,10 @@ router.post('/upload', upload.single('imageFile'), (req, res, next) => {
   db.query(insertImageSQL)
     .then(result => {
       responseObject = {
-        image: {
-          imageId: result[0].insertId,
-          filename: req.file.filename,
-          alias: req.body.alias,
-          category: req.body.category
-        },
-        campaignId: req.body.campaignId
+        imageId: result[0].insertId,
+        filename: req.file.filename,
+        alias: req.body.alias,
+        category: req.body.category
       };
       const insertCampaignImageSQL = `INSERT INTO
                                       campaignImages (campaignId, imageId)
