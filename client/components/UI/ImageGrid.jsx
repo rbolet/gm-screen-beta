@@ -1,5 +1,6 @@
 import './ImageGrid.css';
 import React, { useState, useContext } from 'react';
+import Button from 'react-bootstrap/Button';
 import useWindowDimensions from '@components/logic/useWindowDimensions';
 import { Campaign } from '@client/context/campaign-context';
 import ContainerCard from '@components/UI/ContainerCard';
@@ -9,7 +10,7 @@ function ImageGrid(props) {
 
   return (
     <ContainerCard percentHeight={100} percentWidth={100}
-      header={<GridHeaderButtons setSelectedCategory={setSelectedCategory}/>}>
+      header={<GridHeaderButtons setSelectedCategory={setSelectedCategory} selected={selectedCategory}/>}>
       <div className="d-flex h-100 align-items-center">
         <GridImages selectedTab={selectedCategory} onImageClick={props.onImageClick}/>
       </div>
@@ -23,10 +24,11 @@ function GridHeaderButtons(props) {
 
   const distinctCategories = [...new Set(campaign.campaignAssets.map(image => image.category))];
   const ButtonElements = distinctCategories.map(category => {
-    return (<button
+    return (<Button
       key={category}
+      active={props.selected === category}
       onClick={() => props.setSelectedCategory(category)}
-      className={'btn btn-outline-secondary'}>{category}</button>);
+      variant="outline-secondary">{category}</Button>);
   });
   return (
     <div className="btn-group row d-flex justify-content-start">
