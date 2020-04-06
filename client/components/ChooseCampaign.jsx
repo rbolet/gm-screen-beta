@@ -80,11 +80,11 @@ function CampaignList(props) {
           return (
             <ListGroup.Item
               key={campaign.campaignId}
-              onClick={() => { props.selectRow(event, campaign); }}
               className="p-2 d-flex align-items-center">
-              <div className="d-inline mr-auto">{campaign.campaignName}</div>
+              <div className="campaign-name" onClick={() => { props.selectRow(event, campaign); }}>{campaign.campaignName}</div>
               {user.userRole === 'gm' &&
                 <Button
+                  className="delete-campaign-button"
                   disabled={typeof (user.userId) === 'string'}
                   variant="danger"
                   onClick={() => { deleteCampaign(campaign.campaignId).then(() => setFetched(false)); }}>
