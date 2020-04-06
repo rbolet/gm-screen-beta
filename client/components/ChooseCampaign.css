@@ -6,11 +6,16 @@
   align-items: center;
 }
 
-.campaign-list{
+#campaign-list{
   overflow-y: scroll;
   height: 100%;
 }
 
 .footer-button{
   min-width: 80px;
+}
+
+.selected{
+  background-color: slategray;
+  color: white;
 }

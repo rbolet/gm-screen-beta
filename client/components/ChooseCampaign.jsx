@@ -15,6 +15,16 @@ export default function ChooseCampaign() {
   const [openNewCampaignModal, setOpenNewCampaignModal] = useState(false);
 
   const toggleModal = () => setOpenNewCampaignModal(!openNewCampaignModal);
+
+  const selectRow = (event, campaign) => {
+    const tableRows = document.getElementById('campaign-list').children;
+    for (let rowIndex = 0; rowIndex < tableRows.length; rowIndex++) {
+      tableRows[rowIndex].classList.remove('selected');
+    }
+    event.target.parentElement.classList.add('selected');
+    setSelectedCampaign(campaign);
+  };
+
   return (
     <ContainerCard
       className="align-self-center mx-auto"
@@ -28,7 +38,7 @@ export default function ChooseCampaign() {
             <CampaignListHeader/>
           </Card.Header>
           <Card.Body className="p-0 h-100 bg-light mb-2 rounded">
-            <CampaignList setSelectedCampaign={setSelectedCampaign}/>
+            <CampaignList selectRow={selectRow}/>
           </Card.Body>
           <Card.Footer className="d-flex justify-content-around p-0">
             <CampaignListFooter selectedCampaign={selectedCampaign} toggleModal={() => { toggleModal(); }}/>
@@ -70,7 +80,7 @@ function CampaignList(props) {
           return (
             <ListGroup.Item
               key={campaign.campaignId}
-              onClick={() => { props.setSelectedCampaign(campaign); }}
+              onClick={() => { props.selectRow(event, campaign); }}
               className="p-2 d-flex align-items-center">
               <div className="d-inline mr-auto">{campaign.campaignName}</div>
               {user.userRole === 'gm' &&
@@ -91,7 +101,7 @@ function CampaignList(props) {
     return <Loading/>;
   } else if (CampaignRows.length) {
     return (
-      <ListGroup className="campaign-list">
+      <ListGroup id="campaign-list">
         {CampaignRows}
       </ListGroup>
     );
