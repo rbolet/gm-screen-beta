@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { getCampaignAssets } from '@client/lib/api';
+import React, { useState, useEffect, useContext } from 'react';
+import { AppUser } from '@client/context/user-context';
+import { getCampaignAssets, postUploadForm } from '@client/lib/api';
 
 export const Campaign = React.createContext(null);
 
@@ -10,13 +11,27 @@ export function CampaignContext(props) {
   const [campaignAssets, setCampaignAssets] = useState([]);
   const [room, setRoom] = useState(null);
   const [roomUserList, setRoomUserList] = useState([]);
+  const { user } = useContext(AppUser);
 
   useEffect(() => {
-    getCampaignAssets(campaignId)
-      .then(assetsArray => setCampaignAssets(assetsArray))
-      .catch(err => console.error('Error fetching assets', err));
+    if (user.userId) {
+      getCampaignAssets(campaignId)
+        .then(assetsArray => setCampaignAssets(assetsArray))
+        .catch(err => console.error('Error fetching assets', err));
+    }
 
   }, [campaignId]);
+
+  const addImageToCampaign = async formData => {
+    postUploadForm(formData)
+      .then(addedImage => {
+        const assetsCopy = campaignAssets.slice();
+        assetsCopy.push(addedImage);
+        return { campaignAssets: assetsCopy };
+      })
+      .then(newState => updateCampaign(newState))
+      .catch(err => console.error('Error adding image to campaign', err));
+  };
 
   const updateCampaign = async campaignObject => {
     Object.keys(campaignObject).forEach(key => {
@@ -39,6 +54,6 @@ export function CampaignContext(props) {
 
   const campaign = { campaignId, campaignName, campaignGM, campaignAssets, room, roomUserList };
   return (
-    <Campaign.Provider value={{ campaign, updateCampaign }}>{props.children}</Campaign.Provider>
+    <Campaign.Provider value={{ campaign, updateCampaign, addImageToCampaign }}>{props.children}</Campaign.Provider>
   );
 }

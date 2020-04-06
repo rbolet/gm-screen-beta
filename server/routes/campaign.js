@@ -1,6 +1,9 @@
 const router = require('express').Router();
+const path = require('path');
 const db = require('../_config');
 const SocketIO = require('./socket-io-server');
+const multer = require('multer');
+const uuid = require('uuid/v4');
 const justNow = parseInt((Date.now() * 0.001).toFixed(0));
 
 const bin = require('../lib/bin');
@@ -76,9 +79,52 @@ router.post('/:campaignId/join', (req, res) => {
         if (activeSession.campaignId === campaign.campaignId) alreadyActive = true;
       }
       if (!alreadyActive) activeGameSessions.push(campaign);
-      SocketIO.moveSocketToRoom(user.socketId, campaign.campaignId);
+      SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
       res.json(session);
     });
+});
+
+// upload middleware config
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(global.rootDirName, '/public/images'));
+  },
+  filename: (req, file, cb) => {
+    const parsed = path.parse(file.originalname);
+    cb(null, `${uuid()}.${parsed.ext}`);
+  }
+});
+const upload = multer({ storage: storage });
+//
+
+router.post('/upload', upload.single('imageFile'), (req, res, next) => {
+  let responseObject = {};
+  const insertImageSQL = `INSERT INTO
+                            images (filename, alias, category)
+                          VALUES ('${req.file.filename}',
+                            '${req.body.alias}',
+                            '${req.body.category}'
+                            )`;
+  db.query(insertImageSQL)
+    .then(result => {
+      responseObject = {
+        imageId: result[0].insertId,
+        filename: req.file.filename,
+        alias: req.body.alias,
+        category: req.body.category
+      };
+      const insertCampaignImageSQL = `INSERT INTO
+                                      campaignImages (campaignId, imageId)
+                                    VALUES (${req.body.campaignId}, '${result[0].insertId}')`;
+      db.query(insertCampaignImageSQL)
+        .then(() => {
+        })
+        .catch(error => { next(error); });
+    })
+    .then(result => {
+      res.status(200).json(responseObject);
+    })
+    .catch(error => { next(error); });
 });
 
 router.delete('/:campaignId', (req, res) => {

@@ -23,7 +23,10 @@ export function SessionContext(props) {
     Object.keys(newSessionState).forEach(key => {
       switch (key) {
         case 'environmentImage':
-          postEnvironment(session.sessionId, newSessionState.environmentImage);
+          postEnvironment(session.sessionId, newSessionState.environmentImage)
+            .then(jsonResult => jsonResult.json())
+            .then(message => message)
+            .catch(err => console.error('Error posting new environment', err));
           break;
       }
     });

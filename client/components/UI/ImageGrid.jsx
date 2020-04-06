@@ -1,15 +1,19 @@
 import './ImageGrid.css';
 import React, { useState, useContext } from 'react';
-import { Campaign } from '../../context/campaign-context';
-import ContainerCard from './ContainerCard';
+import Button from 'react-bootstrap/Button';
+import useWindowDimensions from '@components/logic/useWindowDimensions';
+import { Campaign } from '@client/context/campaign-context';
+import ContainerCard from '@components/UI/ContainerCard';
 
 function ImageGrid(props) {
   const [selectedCategory, setSelectedCategory] = useState('Environment');
 
   return (
     <ContainerCard percentHeight={100} percentWidth={100}
-      header={<GridHeaderButtons setSelectedCategory={setSelectedCategory}/>}>
-      <GridImages selectedTab={selectedCategory} onImageClick={props.onImageClick}/>
+      header={<GridHeaderButtons setSelectedCategory={setSelectedCategory} selected={selectedCategory}/>}>
+      <div className="d-flex h-100 align-items-center">
+        <GridImages selectedTab={selectedCategory} onImageClick={props.onImageClick}/>
+      </div>
     </ContainerCard>
   );
 }
@@ -20,10 +24,11 @@ function GridHeaderButtons(props) {
 
   const distinctCategories = [...new Set(campaign.campaignAssets.map(image => image.category))];
   const ButtonElements = distinctCategories.map(category => {
-    return (<button
+    return (<Button
       key={category}
+      active={props.selected === category}
       onClick={() => props.setSelectedCategory(category)}
-      className={'btn btn-outline-secondary'}>{category}</button>);
+      variant="outline-secondary">{category}</Button>);
   });
   return (
     <div className="btn-group row d-flex justify-content-start">
@@ -34,6 +39,8 @@ function GridHeaderButtons(props) {
 
 function GridImages(props) {
   const { campaign } = useContext(Campaign);
+  const { bodyHeight } = useWindowDimensions();
+  const maxHeight = bodyHeight * 0.65;
   let GridContent = null;
 
   if (campaign.campaignAssets.length) {
@@ -44,22 +51,14 @@ function GridImages(props) {
             key={image.imageId}
             src={`./images/${image.fileName}`}
             className="grid-image m-1"
-            onClick={() => { props.onImageClick(image); }}/>
+            onClick={() => { props.onImageClick(image); }} />
         );
       }
     });
-  } else {
-    GridContent = (
-      <div className="d-flex justify-content-center align-items-center h-100">
-        <div className="img-thumbnail text-muted">
-          {`No images have been added to ${props.campaignName}`}
-        </div>
-      </div>
-    );
   }
 
   return (
-    <div className="w-100 image-grid-body mb-1 rounded bg-light">
+    <div className="image-grid-body mb-1 rounded bg-light" style={{ maxHeight }}>
       {GridContent}
     </div>);
 }

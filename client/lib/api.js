@@ -64,10 +64,9 @@ export async function getCampaignAssets(campaignId) {
     });
 }
 
-export function uploadImageForm(formData) {
-  return fetch('/upload', {
+export async function postUploadForm(formData) {
+  return fetch('/campaign/upload', {
     method: 'POST',
-    headers: { 'content-type': 'multipart/form-data' },
     body: formData
   })
     .then(res => res.json())
