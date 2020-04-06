@@ -11,7 +11,8 @@ export function TokenContext(props) {
       tokenId: 'new',
       imageFileName: image.fileName,
       tokenName: image.alias,
-      tokenDetails: ''
+      tokenDetails: '',
+      hidden: 0
     });
   };
 
