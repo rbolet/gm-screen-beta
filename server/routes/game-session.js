@@ -28,8 +28,8 @@ router.post('/:sessionId/token', (req, res, next) => {
   const token = req.body.token;
 
   const insertQuery = `INSERT INTO
-    tokens (sessionId, imageFileName, tokenName, tokenDetails)
-    VALUES(${reqSessionId}, "${token.imageFileName}", "${token.tokenName}", "${token.tokenDetails}")`;
+    tokens (sessionId, imageFileName, tokenName, tokenDetails, hidden)
+    VALUES(${reqSessionId}, "${token.imageFileName}", "${token.tokenName}", "${token.tokenDetails}", ${token.hidden})`;
 
   db.query(insertQuery)
     .then(insertRes => {
@@ -47,7 +47,7 @@ router.patch('/:sessionId/token', (req, res, next) => {
   const token = req.body.token;
 
   const updateQuery = `UPDATE tokens
-    SET tokenName = "${token.tokenName}", tokenDetails = "${token.tokenDetails}"
+    SET tokenName = "${token.tokenName}", tokenDetails = "${token.tokenDetails}, hidden = ${token.hidden}"
     WHERE tokenId = ${token.tokenId};`;
 
   db.query(updateQuery)
