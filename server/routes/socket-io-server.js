@@ -88,10 +88,10 @@ exports.updateSession = session => {
   return session;
 };
 
-exports.updateHiddenTokensBySocket = (tokens, socketIdArray) => {
+exports.updateSessionBySocket = (session, socketIdArray) => {
   socketIdArray.forEach(socketId => {
     const socket = userSocketList[socketId].socket;
-    socket.emit('updateHiddenTokens', tokens);
+    socket.emit('updateSession', session);
   });
   return socketIdArray;
 };
