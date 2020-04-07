@@ -20,7 +20,7 @@ export function TokenContext(props) {
     if (tokenId) {
       postToken(token, session.sessionId).then(setLoading(false));
     }
-  });
+  }, [tokenId, tokenName, tokenDetails, imageFileName, hidden]);
 
   const newToken = async image => {
     setTokenId('new');
