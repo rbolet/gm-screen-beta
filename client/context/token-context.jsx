@@ -23,9 +23,12 @@ export function TokenContext(props) {
   }, [tokenId, tokenName, tokenDetails, imageFileName, hidden]);
 
   const newToken = async image => {
-    setTokenId('new');
-    setImageFileName(image.fileName);
-    setTokenName(image.alias);
+    setToken({
+      tokenId: 'new',
+      imageFileName: image.fileName,
+      tokenName: image.alias,
+      tokenDetails: ''
+    });
   };
 
   const modifyToken = async newState => {
