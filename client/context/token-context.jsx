@@ -22,10 +22,23 @@ export function TokenContext(props) {
 
   };
 
+  const clearToken = () => {
+    updateToken({
+      tokenId: null,
+      imageFileName: null,
+      tokenName: '',
+      tokenDetails: '',
+      hidden: 0
+    }
+    );
+  };
+
   const updateToken = async (newState, isNew) => {
     setLoading(true);
     if (isNew) {
       newToken(newState);
+    } else if (newState === 'clear') {
+      clearToken();
     } else {
       await Object.keys(newState).forEach(key => {
         switch (key) {
@@ -40,16 +53,7 @@ export function TokenContext(props) {
   };
 
   const postCurrentToken = async () => {
-    postToken(token).then(p => {
-      updateToken({
-        tokenId: null,
-        imageFileName: null,
-        tokenName: '',
-        tokenDetails: '',
-        hidden: 0
-      }
-      );
-    });
+    postToken(token).then(p => { clearToken(); });
   };
 
   let token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
