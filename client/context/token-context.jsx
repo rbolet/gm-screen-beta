@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { Session } from '@client/context/session-context';
+import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
@@ -8,7 +10,17 @@ export function TokenContext(props) {
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
   const [hidden, setHidden] = useState(0);
-  const [loading, isLoading] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const { session } = useContext(Session);
+  let token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
+
+  useEffect(() => {
+    token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
+    if (tokenId) {
+      postToken(token, session.sessionId).then(setLoading(false));
+    }
+  });
 
   const newToken = async image => {
     setTokenId('new');
@@ -20,35 +32,33 @@ export function TokenContext(props) {
     Object.keys(newState).forEach(key => {
       switch (key) {
         case 'tokenId':
-          setTokenId(newState.tokenId); break;
+          setTokenId(newState[key]); break;
         case 'tokenName':
-          setTokenName(newState.tokenName); break;
+          setTokenName(newState[key]); break;
         case 'imageFileName':
-          setImageFileName(newState.imageFileName); break;
+          setImageFileName(newState[key]); break;
         case 'tokenDetails':
-          setTokenDetails(newState.tokenDetails); break;
+          setTokenDetails(newState[key]); break;
         case 'hidden':
-          setHidden(newState.hidden); break;
+          setHidden(newState[key]); break;
       }
     });
   };
 
   const updateToken = async (newState, isNew) => {
-    isLoading(true);
+    setLoading(true);
     if (isNew) {
-      newToken(newState).then(p => isLoading(false));
+      newToken(newState);
     } else {
       if (newState === 'clear') {
         setTokenId(null); setImageFileName(null); setTokenName('');
         setTokenDetails(''); setHidden(0);
       } else {
-        modifyToken(newState)
-          .then(p => isLoading(false));
+        modifyToken(newState);
       }
     }
   };
 
-  const token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
   return (
     <Token.Provider value={{ loading, token, updateToken } }>{props.children}</Token.Provider>
   );

@@ -98,7 +98,6 @@ export async function postEnvironment(sessionId, image) {
 }
 
 export async function postToken(token, sessionId) {
-  token.hidden = token.hidden || 0;
   let method = 'POST';
   if (token.tokenId !== 'new') {
     method = 'PATCH';

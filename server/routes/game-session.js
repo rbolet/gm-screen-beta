@@ -47,7 +47,7 @@ router.patch('/:sessionId/token', (req, res, next) => {
   const token = req.body.token;
 
   const updateQuery = `UPDATE tokens
-    SET tokenName = "${token.tokenName}", tokenDetails = "${token.tokenDetails}, hidden = ${token.hidden}"
+    SET tokenName = "${token.tokenName}", tokenDetails = "${token.tokenDetails}", hidden = ${token.hidden}
     WHERE tokenId = ${token.tokenId};`;
 
   db.query(updateQuery)
