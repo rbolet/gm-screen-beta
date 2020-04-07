@@ -9,31 +9,40 @@ export function TokenContext(props) {
   const [tokenDetails, setTokenDetails] = useState('');
   const [hidden, setHidden] = useState(0);
 
-  const [loading, isLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const newToken = async image => {
-    setToken({
-      tokenId: 'new',
-      imageFileName: image.fileName,
-      tokenName: image.alias,
-      tokenDetails: ''
-    });
-  };
+  const newToken = image => {
 
-  const modifyToken = async newTokenState => {
-    setToken(Object.assign(token, newTokenState));
+    setTokenId('new');
+    setImageFileName(image.fileName);
+    setTokenName(image.alias);
+    setTokenDetails('');
+    setHidden(0);
+
   };
 
   const updateToken = async (newState, isNew) => {
-    isLoading(true);
+    setLoading(true);
     if (isNew) {
-      newToken(newState).then(p => isLoading(false));
+      newToken(newState);
     } else {
-      if (newState === 'clear') setToken({});
-      modifyToken(newState)
-        .then(p => isLoading(false));
+      await Object.keys(newState).forEach(key => {
+        switch (key) {
+          case 'tokenId': setTokenId(newState[key]); break;
+          case 'imageFileName': setImageFileName(newState[key]); break;
+          case 'tokenName': setTokenName(newState[key]); break;
+          case 'tokenDetails': setTokenDetails(newState[key]); break;
+          case 'hidden': setHidden(newState[key]); break;
+        }
+      });
     }
   };
+
+  let token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
+  useEffect(() => {
+    const setToken = new Promise(() => { token = { tokenId, imageFileName, tokenName, tokenDetails, hidden }; });
+    setToken.then(p => { setLoading(false); });
+  }, [tokenId, tokenName, tokenDetails, hidden]);
 
   return (
     <Token.Provider value={{ loading, token, updateToken } }>{props.children}</Token.Provider>
