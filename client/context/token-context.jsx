@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const Token = React.createContext(null);
 
 export function TokenContext(props) {
-  const [token, setToken] = useState({});
+  const [tokenId, setTokenId] = useState(null);
+  const [imageFileName, setImageFileName] = useState(null);
+  const [tokenName, setTokenName] = useState('');
+  const [tokenDetails, setTokenDetails] = useState('');
+  const [hidden, setHidden] = useState(0);
+
   const [loading, isLoading] = useState(false);
 
   const newToken = async image => {

@@ -7,7 +7,7 @@ import MainDisplay from '@components/MainDisplay';
 import TokenModal from '@components/modals/TokenModal';
 import CampaignConfigModal from '@components/modals/CampaignConfigModal';
 import CloseButton from '@components/UI/CloseButton';
-import { TokenContext } from '@client/context/token-context';
+import { } from '@client/context/token-context';
 import { Session } from '@client/context/session-context';
 
 export default function GMView(props) {
@@ -41,35 +41,33 @@ export default function GMView(props) {
   };
 
   return (
-    <TokenContext>
-      <Body>
-        { openConfigModal && <CampaignConfigModal closeModal={() => { setOpenConfigModal(false); }}/>}
-        {openTokenModal &&
+    <Body>
+      { openConfigModal && <CampaignConfigModal closeModal={() => { setOpenConfigModal(false); }}/>}
+      {openTokenModal &&
           <TokenModal closeModal={() => { setOpenTokenModal(false); setSelectedImage(null); }}
             image={selectedImage} token={selectedToken}/>}
-        <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow>
-          <CloseButton onCloseClick={() => {
-            postSession({ environmentImage: { fileName: null, category: 'Environment' } });
-          }}
-          icon={<i className="far fa-times-circle" />} />
-          <MainDisplay editToken={editToken}/>
-        </ContainerCard>
-        <ContainerCard percentHeight={100} percentWidth={32} bg="#343a40"shadow={true}
-          footer={
-            <div className="d-flex justify-content-center">
-              <Button variant="secondary" className="footer-button"
-                onClick={() => { setOpenConfigModal(true); }}>
-                <div className="row no-gutters">
-                  <p className="button-text text-light mr-2 my-0">Upload Images</p>
-                  <i className="fas fa-file-upload" />
-                </div>
+      <ContainerCard percentHeight={100} percentWidth={66} bg="#343a40" shadow>
+        <CloseButton onCloseClick={() => {
+          postSession({ environmentImage: { fileName: null, category: 'Environment' } });
+        }}
+        icon={<i className="far fa-times-circle" />} />
+        <MainDisplay editToken={editToken}/>
+      </ContainerCard>
+      <ContainerCard percentHeight={100} percentWidth={32} bg="#343a40"shadow={true}
+        footer={
+          <div className="d-flex justify-content-center">
+            <Button variant="secondary" className="footer-button"
+              onClick={() => { setOpenConfigModal(true); }}>
+              <div className="row no-gutters">
+                <p className="button-text text-light mr-2 my-0">Upload Images</p>
+                <i className="fas fa-file-upload" />
+              </div>
 
-              </Button>
-            </div>
-          }>
-          <ImageGrid onImageClick={setSelectedImage}/>
-        </ContainerCard>
-      </Body>
-    </TokenContext>
+            </Button>
+          </div>
+        }>
+        <ImageGrid onImageClick={setSelectedImage}/>
+      </ContainerCard>
+    </Body>
   );
 }
