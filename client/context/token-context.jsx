@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
@@ -38,6 +39,19 @@ export function TokenContext(props) {
     }
   };
 
+  const postCurrentToken = async () => {
+    postToken(token).then(p => {
+      updateToken({
+        tokenId: null,
+        imageFileName: null,
+        tokenName: '',
+        tokenDetails: '',
+        hidden: 0
+      }
+      );
+    });
+  };
+
   let token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
   useEffect(() => {
     const setToken = new Promise(() => { token = { tokenId, imageFileName, tokenName, tokenDetails, hidden }; });
@@ -45,6 +59,6 @@ export function TokenContext(props) {
   }, [tokenId, tokenName, tokenDetails, hidden]);
 
   return (
-    <Token.Provider value={{ loading, token, updateToken } }>{props.children}</Token.Provider>
+    <Token.Provider value={{ loading, token, updateToken, postCurrentToken } }>{props.children}</Token.Provider>
   );
 }
