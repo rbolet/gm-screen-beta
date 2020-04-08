@@ -9,7 +9,7 @@ import { deleteToken } from '@client/lib/api';
 
 export default function TokenDetails(props) {
   const { user } = useContext(AppUser);
-  const { token, updateToken } = useContext(Token);
+  const { token, updateToken, postCurrentToken } = useContext(Token);
   const { session } = useContext(Session);
 
   const [formName, setFormName] = useState(token.tokenName);
@@ -41,10 +41,7 @@ export default function TokenDetails(props) {
         <Button variant="success" className="mt-1 mr-2"
           onClick={() => {
             updateToken({ tokenName: formName, tokenDetails: formDetails })
-              .then(p => {
-                updateToken('clear');
-                props.closeModal();
-              })
+              .then(done => { postCurrentToken(); })
               .catch(err => { console.error(err); });
           }}>
           <i className="far fa-edit" />
@@ -56,7 +53,6 @@ export default function TokenDetails(props) {
               deleteToken(token, session.sessionId)
                 .then(p => {
                   updateToken('clear');
-                  props.closeModal();
                 })
                 .catch(err => console.error(err));
             }}>

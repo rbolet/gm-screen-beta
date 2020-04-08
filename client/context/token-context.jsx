@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Session } from '@client/context/session-context';
 import { postToken } from '@client/lib/api';
 
@@ -12,57 +12,59 @@ export function TokenContext(props) {
   const [hidden, setHidden] = useState(0);
 
   const [loading, setLoading] = useState(false);
+  const [fetch, setFetch] = useState(false);
+
   const { session } = useContext(Session);
-  let token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
-
-  useEffect(() => {
-    token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
-    if (tokenId) {
-      postToken(token, session.sessionId).then(setLoading(false));
-    }
-  }, [tokenId, tokenName, tokenDetails, imageFileName, hidden]);
-
-  const newToken = async image => {
-    setToken({
-      tokenId: 'new',
-      imageFileName: image.fileName,
-      tokenName: image.alias,
-      tokenDetails: ''
-    });
-  };
-
-  const modifyToken = async newState => {
-    Object.keys(newState).forEach(key => {
-      switch (key) {
-        case 'tokenId':
-          setTokenId(newState[key]); break;
-        case 'tokenName':
-          setTokenName(newState[key]); break;
-        case 'imageFileName':
-          setImageFileName(newState[key]); break;
-        case 'tokenDetails':
-          setTokenDetails(newState[key]); break;
-        case 'hidden':
-          setHidden(newState[key]); break;
-      }
-    });
-  };
 
   const updateToken = async (newState, isNew) => {
-    setLoading(true);
     if (isNew) {
-      newToken(newState);
+      setTokenId('new'); setImageFileName(newState.fileName); setTokenName(newState.alias);
+    } else if (newState === 'clear') {
+      setTokenId(null); setImageFileName(null); setTokenName('');
+      setTokenDetails(''); setHidden(0);
     } else {
-      if (newState === 'clear') {
-        setTokenId(null); setImageFileName(null); setTokenName('');
-        setTokenDetails(''); setHidden(0);
-      } else {
-        modifyToken(newState);
-      }
+      Object.keys(newState).forEach(key => {
+        switch (key) {
+          case 'tokenId': setTokenId(newState[key]); break;
+          case 'imageFileName': setImageFileName(newState[key]); break;
+          case 'tokenName': setTokenName(newState[key]); break;
+          case 'tokenDetails': setTokenDetails(newState[key]); break;
+          case 'hidden': setHidden(newState[key]); break;
+        }
+      });
     }
   };
 
+  const postCurrentToken = () => { setFetch(true); };
+
+  useEffect(() => {
+    if (fetch && tokenId) {
+      setLoading(true);
+      postToken({ tokenId, imageFileName, tokenName, tokenDetails, hidden }, session.sessionId)
+        .then(p => {
+          updateToken('clear');
+          setFetch(false)
+          ;
+        })
+        .then(p => setLoading(false));
+    }
+  }, [fetch]);
+
   return (
-    <Token.Provider value={{ loading, token, updateToken } }>{props.children}</Token.Provider>
+    <Token.Provider
+      value={{
+        token: {
+          tokenId,
+          imageFileName,
+          tokenName,
+          tokenDetails,
+          hidden
+        },
+        updateToken,
+        postCurrentToken,
+        loading
+      }}>
+      {props.children}
+    </Token.Provider>
   );
 }
