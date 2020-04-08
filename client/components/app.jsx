@@ -13,7 +13,6 @@ import PlayerView from '@components/views/PlayerView';
 
 function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
-  const [headsUp, setHeadsUp] = useState(null);
   const { user, updateUser } = useContext(AppUser);
   const { updateCampaign } = useContext(Campaign);
   const { session, updateSession } = useContext(Session);
@@ -80,14 +79,26 @@ function App() {
     });
 
     socket.on('updateHidden', hiddenTokenObject => {
-      setHeadsUp('!');
+
     });
+
+    socket.on('connect_error', error => {
+      console.error('connect_error:', error);
+    });
+
+    socket.on('connect_timeout', timeout => {
+      console.error('connect_timeout:', timeout);
+    });
+
+    socket.on('error', error => {
+      console.error('io error:', error);
+    });
+
   }
 
   return (
     <div>
       <Header />
-      {headsUp}
       {CurrentView}
     </div>
   );
