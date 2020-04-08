@@ -13,6 +13,7 @@ import PlayerView from '@components/views/PlayerView';
 
 function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
+  const [headsUp, setHeadsUp] = useState(null);
   const { user, updateUser } = useContext(AppUser);
   const { updateCampaign } = useContext(Campaign);
   const { session, updateSession } = useContext(Session);
@@ -78,11 +79,15 @@ function App() {
       updateSession(newSessionState);
     });
 
+    socket.on('updateHidden', hiddenTokenObject => {
+      setHeadsUp('!');
+    });
   }
 
   return (
     <div>
       <Header />
+      {headsUp}
       {CurrentView}
     </div>
   );

@@ -28,6 +28,9 @@ export function SessionContext(props) {
             .then(message => message)
             .catch(err => console.error('Error posting new environment', err));
           break;
+        case 'hiddenToken':
+          console.log(newSessionState);
+          break;
       }
     });
   };
