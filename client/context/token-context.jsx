@@ -10,6 +10,8 @@ export function TokenContext(props) {
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
   const [hidden, setHidden] = useState(0);
+
+  const [loading, setLoading] = useState(false);
   const [fetch, setFetch] = useState(false);
 
   const { session } = useContext(Session);
@@ -37,21 +39,32 @@ export function TokenContext(props) {
 
   useEffect(() => {
     if (fetch && tokenId) {
+      setLoading(true);
       postToken({ tokenId, imageFileName, tokenName, tokenDetails, hidden }, session.sessionId)
         .then(p => {
-          updateToken({
-            tokenId: null,
-            imageFileName: null,
-            tokenName: '',
-            tokenDetails: '',
-            hidden: 0
-          });
-          setFetch(false);
-        });
+          updateToken('clear');
+          setFetch(false)
+          ;
+        })
+        .then(p => setLoading(false));
     }
   }, [fetch]);
 
   return (
-    <Token.Provider value={{ token: { tokenId, imageFileName, tokenName, tokenDetails, hidden }, updateToken, postCurrentToken }}>{props.children}</Token.Provider>
+    <Token.Provider
+      value={{
+        token: {
+          tokenId,
+          imageFileName,
+          tokenName,
+          tokenDetails,
+          hidden
+        },
+        updateToken,
+        postCurrentToken,
+        loading
+      }}>
+      {props.children}
+    </Token.Provider>
   );
 }
