@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import { AppUser } from '@client/context/user-context';
 import { Campaign } from '@client/context/campaign-context';
 import { Session } from '@client/context/session-context';
+import { TokenContext } from '@client/context/token-context';
 import Header from './Header';
 import Menu from './views/Menu';
 import { configUserSocket } from '@client/lib/api';
@@ -34,7 +35,7 @@ function App() {
   useEffect(() => {
     if (session.sessionId) {
       switch (user.userRole) {
-        case 'gm': setCurrentView(<GMView />); break;
+        case 'gm': setCurrentView(<TokenContext><GMView /></TokenContext>); break;
         case 'player': setCurrentView(<PlayerView/>); break;
         default: setCurrentView(<Menu/>);
       }
