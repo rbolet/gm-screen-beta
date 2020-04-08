@@ -21,14 +21,14 @@ export default function TokenDetails(props) {
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-2">
       <Form className="w-100">
-        <Form.Group controlId="tokenName">
+        <Form.Group controlId="formName">
           <Form.Label className="text-light">Name</Form.Label>
           <Form.Control type="text"
             readOnly={isPlayer}
             value={formName}
             onChange={event => setFormName(event.target.value)} />
         </Form.Group>
-        <Form.Group controlId="tokenDetails">
+        <Form.Group controlId="formDetails">
           <Form.Label className="text-light">Details</Form.Label>
           <Form.Control className="details-text-area"
             as="textarea" rows="6"

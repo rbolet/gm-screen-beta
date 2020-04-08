@@ -87,3 +87,11 @@ exports.updateSession = session => {
   ioServer.to(session.sessionId).emit('updateSession', session);
   return session;
 };
+
+exports.updateSessionBySocket = (session, socketIdArray) => {
+  socketIdArray.forEach(socketId => {
+    const socket = userSocketList[socketId].socket;
+    socket.emit('updateSession', session);
+  });
+  return socketIdArray;
+};
