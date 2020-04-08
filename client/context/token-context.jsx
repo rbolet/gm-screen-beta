@@ -10,6 +10,7 @@ export function TokenContext(props) {
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
   const [hidden, setHidden] = useState(false);
+  const [visibleTo, setVisibleTo] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [fetch, setFetch] = useState(false);
@@ -30,6 +31,7 @@ export function TokenContext(props) {
           case 'tokenName': setTokenName(newState[key]); break;
           case 'tokenDetails': setTokenDetails(newState[key]); break;
           case 'hidden': setHidden(newState[key]); break;
+          case 'visibleTo': setVisibleTo(newState[key]); break;
         }
       });
     }
@@ -58,7 +60,8 @@ export function TokenContext(props) {
           imageFileName,
           tokenName,
           tokenDetails,
-          hidden
+          hidden,
+          visibleTo
         },
         updateToken,
         postCurrentToken,
