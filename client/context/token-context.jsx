@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Session } from '@client/context/session-context';
+import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
@@ -8,7 +10,9 @@ export function TokenContext(props) {
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
   const [hidden, setHidden] = useState(0);
-  let token = {};
+  const [fetch, setFetch] = useState(false);
+
+  const { session } = useContext(Session);
 
   const updateToken = async (newState, isNew) => {
     if (isNew) {
@@ -29,10 +33,25 @@ export function TokenContext(props) {
     }
   };
 
+  const postCurrentToken = () => { setFetch(true); };
+
   useEffect(() => {
-    token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
-  }, [tokenId, imageFileName, tokenName, tokenDetails, hidden]);
+    if (fetch && tokenId) {
+      postToken({ tokenId, imageFileName, tokenName, tokenDetails, hidden }, session.sessionId)
+        .then(p => {
+          updateToken({
+            tokenId: null,
+            imageFileName: null,
+            tokenName: '',
+            tokenDetails: '',
+            hidden: 0
+          });
+          setFetch(false);
+        });
+    }
+  }, [fetch]);
+
   return (
-    <Token.Provider value={{ token, updateToken }}>{props.children}</Token.Provider>
+    <Token.Provider value={{ token: { tokenId, imageFileName, tokenName, tokenDetails, hidden }, updateToken, postCurrentToken }}>{props.children}</Token.Provider>
   );
 }

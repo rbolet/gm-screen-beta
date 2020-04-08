@@ -5,11 +5,11 @@ import Button from 'react-bootstrap/Button';
 import { Token } from '@client/context/token-context';
 import { AppUser } from '@client/context/user-context';
 import { Session } from '@client/context/session-context';
-import { postToken, deleteToken } from '@client/lib/api';
+import { deleteToken } from '@client/lib/api';
 
 export default function TokenDetails(props) {
   const { user } = useContext(AppUser);
-  const { token, updateToken } = useContext(Token);
+  const { token, updateToken, postCurrentToken } = useContext(Token);
   const { session } = useContext(Session);
 
   const [formName, setFormName] = useState(token.tokenName);
@@ -41,7 +41,7 @@ export default function TokenDetails(props) {
         <Button variant="success" className="mt-1 mr-2"
           onClick={() => {
             updateToken({ tokenName: formName, tokenDetails: formDetails })
-              .then(done => { postToken(token, session.sessionId); })
+              .then(done => { postCurrentToken(); })
               .catch(err => { console.error(err); });
           }}>
           <i className="far fa-edit" />
