@@ -8,14 +8,24 @@ export const Session = React.createContext(null);
 export function SessionContext(props) {
   const { campaign } = useContext(Campaign);
   const { user } = useContext(AppUser);
-  const [session, setSession] = useState({ sessionId: null, environmentImageFileName: null, tokens: [] });
+  const [sessionId, setSessionId] = useState(null);
+  const [environmentImageFileName, setEnvironmentImageFileName] = useState(null);
+  const [tokens, setTokens] = useState([]);
+  const [hiddenTokens, setHiddenTokens] = useState([]);
 
   const updateSession = newSessionState => {
     if (!newSessionState) {
       joinSession(campaign, user)
-        .then(session => { setSession(session); });
+        .then(session => { updateSession(session); });
     } else {
-      setSession(newSessionState);
+      Object.keys(newSessionState).forEach(key => {
+        switch (key) {
+          case 'sessionId': setSessionId(newSessionState[key]); break;
+          case 'environmentImageFileName': setEnvironmentImageFileName(newSessionState[key]); break;
+          case 'tokens': setTokens(newSessionState[key]); break;
+          case 'hiddenTokens': setHiddenTokens(newSessionState[key]); break;
+        }
+      });
     }
   };
 
@@ -23,19 +33,25 @@ export function SessionContext(props) {
     Object.keys(newSessionState).forEach(key => {
       switch (key) {
         case 'environmentImage':
-          postEnvironment(session.sessionId, newSessionState.environmentImage)
+          postEnvironment(sessionId, newSessionState.environmentImage)
             .then(jsonResult => jsonResult.json())
             .then(message => message)
             .catch(err => console.error('Error posting new environment', err));
-          break;
-        case 'hiddenToken':
-          console.log(newSessionState);
           break;
       }
     });
   };
 
   return (
-    <Session.Provider value={{ session, updateSession, postSession }}>{props.children}</Session.Provider>
+    <Session.Provider value={{
+      session: {
+        sessionId,
+        environmentImageFileName,
+        tokens,
+        hiddenTokens
+      },
+      updateSession,
+      postSession
+    }}>{props.children}</Session.Provider>
   );
 }
