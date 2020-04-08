@@ -23,7 +23,12 @@ export function SessionContext(props) {
           case 'sessionId': setSessionId(newSessionState[key]); break;
           case 'environmentImageFileName': setEnvironmentImageFileName(newSessionState[key]); break;
           case 'tokens': setTokens(newSessionState[key]); break;
-          case 'hiddenTokens': setHiddenTokens(newSessionState[key]); break;
+          case 'hiddenToken': {
+            const copy = hiddenTokens.splice();
+            copy.push(newSessionState[key]);
+            setHiddenTokens(copy);
+            break;
+          }
         }
       });
     }

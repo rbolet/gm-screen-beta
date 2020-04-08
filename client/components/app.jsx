@@ -14,7 +14,7 @@ import PlayerView from '@components/views/PlayerView';
 function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
-  const { updateCampaign } = useContext(Campaign);
+  const { campaign, updateCampaign } = useContext(Campaign);
   const { session, updateSession } = useContext(Session);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function App() {
   }, [user.userId, user.socketId]);
 
   useEffect(() => {
-    if (session.sessionId) {
+    if (session.sessionId === campaign.room) {
       switch (user.userRole) {
         case 'gm': setCurrentView(<TokenContext><GMView /></TokenContext>); break;
         case 'player': setCurrentView(<TokenContext><PlayerView/></TokenContext>); break;
@@ -41,7 +41,7 @@ function App() {
       }
 
     }
-  }, [session.sessionId]);
+  }, [session.sessionId, campaign.room]);
 
   function connectSocket() {
     const socket = io('/');
@@ -78,8 +78,8 @@ function App() {
       updateSession(newSessionState);
     });
 
-    socket.on('updateHidden', ({ token, userList }) => {
-
+    socket.on('updateHidden', hiddenToken => {
+      updateSession({ hiddenToken });
     });
 
     socket.on('connect_error', error => {
