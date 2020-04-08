@@ -73,8 +73,9 @@ function CampaignList(props) {
   const { loading, campaigns } = useCampaigns(fetched);
 
   useEffect(() => {
+    if (!loading) setFetched(true);
+
     if (campaigns.length) {
-      setFetched(true);
       setCampaignRows(
         campaigns.map(campaign => {
           return (
@@ -95,7 +96,7 @@ function CampaignList(props) {
         })
       );
     }
-  }, [campaigns]);
+  }, [campaigns, loading]);
 
   if (loading) {
     return <Loading/>;
@@ -107,7 +108,7 @@ function CampaignList(props) {
     );
   }
 
-  return <EmptySet/>;
+  return <EmptySet refreshList={() => { setFetched(false); }}/>;
 }
 
 function CampaignListFooter(props) {
@@ -116,12 +117,13 @@ function CampaignListFooter(props) {
 
   return (
     <>
+      {user.userRole === 'gm' &&
       <Button variant="outline-success" className="footer-button"
         disabled={user.userRole === 'gm' && (typeof user.userId === 'string')}
         onClick={() => { props.toggleModal(); }}>
-        <i className={`fas ${user.userRole === 'gm' ? 'fa-plus-circle' : 'fa-redo-alt'}`} />
-        <p className="button-text m-0">{user.userRole === 'gm' ? 'New' : 'Refresh'}</p>
-      </Button>
+        <i className={'fas fa-plus-circle'} />
+        <p className="button-text m-0">New</p>
+      </Button>}
       <Button variant="success" className="footer-button"
         onClick={() => { updateCampaign(props.selectedCampaign); }}>
         <i className="fas fa-play" />
@@ -131,12 +133,18 @@ function CampaignListFooter(props) {
   );
 }
 
-function EmptySet() {
+function EmptySet(props) {
   const { user } = useContext(AppUser);
   const Text = (user.userRole === 'gm')
     ? <p>Start <span> <i className="fas fa-plus-circle text-success"/></span> a new Campaign</p>
     : (<p>No active Campaign sessions to join.<br/>
-      Click <span> <i className="fas fa-redo-alt text-success"/></span> to check again!</p>);
+        Click <span>
+        <Button variant="outline-success"
+          onClick={props.refreshList}>
+          <i className="fas fa-redo-alt text-success"/>
+        </Button>
+      </span> to check again!</p>
+    );
 
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
