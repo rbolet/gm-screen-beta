@@ -27,6 +27,7 @@
 }
 
 .token{
+  position: relative;
   bottom: 0px;
   height: 100%;
   width: 15%;

@@ -14,7 +14,7 @@ import PlayerView from '@components/views/PlayerView';
 function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
   const { user, updateUser } = useContext(AppUser);
-  const { updateCampaign } = useContext(Campaign);
+  const { campaign, updateCampaign } = useContext(Campaign);
   const { session, updateSession } = useContext(Session);
 
   useEffect(() => {
@@ -33,15 +33,15 @@ function App() {
   }, [user.userId, user.socketId]);
 
   useEffect(() => {
-    if (session.sessionId) {
+    if (session.sessionId === campaign.room) {
       switch (user.userRole) {
         case 'gm': setCurrentView(<TokenContext><GMView /></TokenContext>); break;
-        case 'player': setCurrentView(<PlayerView/>); break;
+        case 'player': setCurrentView(<TokenContext><PlayerView/></TokenContext>); break;
         default: setCurrentView(<Menu/>);
       }
 
     }
-  }, [session.sessionId]);
+  }, [session.sessionId, campaign.room]);
 
   function connectSocket() {
     const socket = io('/');
@@ -76,6 +76,22 @@ function App() {
     });
     socket.on('updateSession', newSessionState => {
       updateSession(newSessionState);
+    });
+
+    socket.on('updateHidden', hiddenToken => {
+      updateSession({ hiddenToken });
+    });
+
+    socket.on('connect_error', error => {
+      console.error('connect_error:', error);
+    });
+
+    socket.on('connect_timeout', timeout => {
+      console.error('connect_timeout:', timeout);
+    });
+
+    socket.on('error', error => {
+      console.error('io error:', error);
     });
 
   }

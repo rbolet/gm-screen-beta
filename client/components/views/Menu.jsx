@@ -16,10 +16,10 @@ function Menu(props) {
   useEffect(() => {
     if (!user.userId) {
       setCurrentMenu(<Login />);
-    } else {
+    } else if (campaign.room) {
       setCurrentMenu(<ChooseCampaign/>);
     }
-  }, [user.userId]);
+  }, [user.userId, campaign.room]);
 
   useEffect(() => {
     if (campaign.campaignId) updateSession();
