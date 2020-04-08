@@ -78,7 +78,7 @@ function App() {
       updateSession(newSessionState);
     });
 
-    socket.on('updateHidden', hiddenTokenObject => {
+    socket.on('updateHidden', ({ token, userList }) => {
 
     });
 

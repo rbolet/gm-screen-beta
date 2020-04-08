@@ -88,8 +88,8 @@ exports.updateSession = session => {
   return session;
 };
 
-exports.updateTokenVisibility = function (hiddenToken, userList) {
-  console.log({ hiddenToken, userList });
-  ioServer.to(hiddenToken.sessionId).emit('updateHidden', { hiddenToken, userList });
+exports.updateTokenVisibility = function (token, userIdList) {
+  const hiddenToken = { ...token, visibleTo: userIdList };
+  ioServer.to(hiddenToken.sessionId).emit('updateHidden', hiddenToken);
   return hiddenToken;
 };
