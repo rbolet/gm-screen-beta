@@ -36,7 +36,7 @@ function App() {
     if (session.sessionId) {
       switch (user.userRole) {
         case 'gm': setCurrentView(<TokenContext><GMView /></TokenContext>); break;
-        case 'player': setCurrentView(<PlayerView/>); break;
+        case 'player': setCurrentView(<TokenContext><PlayerView/></TokenContext>); break;
         default: setCurrentView(<Menu/>);
       }
 
