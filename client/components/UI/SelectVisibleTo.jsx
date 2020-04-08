@@ -12,7 +12,6 @@ export default function SelectVisibleTo() {
   const { campaign } = useContext(Campaign);
   const { token, updateToken } = useContext(Token);
   const [ToggleButtons, setToggleButtons] = useState(null);
-  // const [all, setAll] = useState(true);
 
   useEffect(() => {
     const players = campaign.roomUserList.filter(user => user.userRole === 'player');
@@ -21,15 +20,11 @@ export default function SelectVisibleTo() {
       setToggleButtons(players.map(user => {
         return (
           <ToggleButton size="sm" key={user.userId} value={user.userId} className="text-dark"
-            variant="outline-info" disabled={token.hidden}>{user.userName}</ToggleButton>
+            variant="outline-info" disabled={!token.hidden}>{user.userName}</ToggleButton>
         );
       }));
     }
   }, [campaign.roomUserList]);
-
-  // const toggleAll = () => {
-  //   setAll(!all);
-  // };
 
   return (
     <ButtonToolbar className="visible-toolbar">
@@ -37,10 +32,10 @@ export default function SelectVisibleTo() {
         <ToggleButtonGroup type="checkbox" onChange={() => { }}>
           {ToggleButtons}
         </ToggleButtonGroup>
-        <Button variant="outline-info" active={token.hidden} size="sm"
+        <Button variant="outline-info" active={!token.hidden} size="sm"
           style={{ width: '50px' }}
           onClick={() => { updateToken({ hidden: !token.hidden }); }}>
-          {token.hidden
+          {!token.hidden
             ? <i className="far fa-eye" />
             : <i className="far fa-eye-slash" />}
         </Button>

@@ -8,6 +8,9 @@ exports.buildSession = function (sessionId) {
   return new Promise(resolve => {
     db.query(`SELECT * FROM tokens WHERE sessionId = ${sessionId}`)
       .then(([rows]) => {
+        for (const token of rows) {
+          token.hidden = Boolean(token.hidden);
+        }
         tokens = rows;
         return db.query(`SELECT * FROM sessions WHERE sessionId = ${sessionId}`);
       })

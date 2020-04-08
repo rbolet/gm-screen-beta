@@ -9,7 +9,7 @@ export function TokenContext(props) {
   const [imageFileName, setImageFileName] = useState(null);
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
-  const [hidden, setHidden] = useState(0);
+  const [hidden, setHidden] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [fetch, setFetch] = useState(false);
@@ -21,7 +21,7 @@ export function TokenContext(props) {
       setTokenId('new'); setImageFileName(newState.fileName); setTokenName(newState.alias);
     } else if (newState === 'clear') {
       setTokenId(null); setImageFileName(null); setTokenName('');
-      setTokenDetails(''); setHidden(0);
+      setTokenDetails(''); setHidden(false);
     } else {
       Object.keys(newState).forEach(key => {
         switch (key) {
