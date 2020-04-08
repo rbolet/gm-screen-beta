@@ -41,9 +41,9 @@ function TokenDisplay() {
             key={token.tokenId}
             style={{ backgroundImage: `url(./images/${token.imageFileName})` }}
             className="token mx-2 position-relative">
-            <div className="hidden-badge">
+            {token.hidden && <div className="hidden-badge">
               <Badge variant="info"><i className="far fa-eye-slash" /></Badge>
-            </div>
+            </div>}
             <div className="token-name-footer px-1 py-0 m-0"
               onClick={() => { updateToken(token); }}>
               <p>{token.tokenName}</p>
