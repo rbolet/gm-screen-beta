@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
@@ -9,38 +8,16 @@ export function TokenContext(props) {
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
   const [hidden, setHidden] = useState(0);
-
-  const [loading, setLoading] = useState(false);
-
-  const newToken = image => {
-
-    setTokenId('new');
-    setImageFileName(image.fileName);
-    setTokenName(image.alias);
-    setTokenDetails('');
-    setHidden(0);
-
-  };
-
-  const clearToken = () => {
-    updateToken({
-      tokenId: null,
-      imageFileName: null,
-      tokenName: '',
-      tokenDetails: '',
-      hidden: 0
-    }
-    );
-  };
+  let token = {};
 
   const updateToken = async (newState, isNew) => {
-    setLoading(true);
     if (isNew) {
-      newToken(newState);
+      setTokenId('new'); setImageFileName(newState.fileName); setTokenName(newState.alias);
     } else if (newState === 'clear') {
-      clearToken();
+      setTokenId(null); setImageFileName(null); setTokenName('');
+      setTokenDetails(''); setHidden(0);
     } else {
-      await Object.keys(newState).forEach(key => {
+      Object.keys(newState).forEach(key => {
         switch (key) {
           case 'tokenId': setTokenId(newState[key]); break;
           case 'imageFileName': setImageFileName(newState[key]); break;
@@ -52,17 +29,10 @@ export function TokenContext(props) {
     }
   };
 
-  const postCurrentToken = async () => {
-    postToken(token).then(p => { clearToken(); });
-  };
-
-  let token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
   useEffect(() => {
-    const setToken = new Promise(() => { token = { tokenId, imageFileName, tokenName, tokenDetails, hidden }; });
-    setToken.then(p => { setLoading(false); });
-  }, [tokenId, tokenName, tokenDetails, hidden]);
-
+    token = { tokenId, imageFileName, tokenName, tokenDetails, hidden };
+  }, [tokenId, imageFileName, tokenName, tokenDetails, hidden]);
   return (
-    <Token.Provider value={{ loading, token, updateToken, postCurrentToken } }>{props.children}</Token.Provider>
+    <Token.Provider value={{ token, updateToken }}>{props.children}</Token.Provider>
   );
 }

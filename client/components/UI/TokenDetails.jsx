@@ -12,8 +12,8 @@ export default function TokenDetails(props) {
   const { token, updateToken } = useContext(Token);
   const { session } = useContext(Session);
 
-  const [tokenName, setTokenName] = useState(token.tokenName);
-  const [tokenDetails, setTokenDetails] = useState(token.tokenDetails);
+  const [formName, setFormName] = useState(token.tokenName);
+  const [formDetails, setFormDetails] = useState(token.tokenDetails);
 
   const isPlayer = user.userRole === 'player';
 
@@ -25,27 +25,23 @@ export default function TokenDetails(props) {
           <Form.Label className="text-light">Name</Form.Label>
           <Form.Control type="text"
             readOnly={isPlayer}
-            value={tokenName}
-            onChange={event => setTokenName(event.target.value)} />
+            value={formName}
+            onChange={event => setFormName(event.target.value)} />
         </Form.Group>
         <Form.Group controlId="tokenDetails">
           <Form.Label className="text-light">Details</Form.Label>
           <Form.Control className="details-text-area"
             as="textarea" rows="6"
             readOnly={isPlayer}
-            value={tokenDetails}
-            onChange={event => setTokenDetails(event.target.value)} />
+            value={formDetails}
+            onChange={event => setFormDetails(event.target.value)} />
         </Form.Group>
       </Form>
       <div className="row">
         <Button variant="success" className="mt-1 mr-2"
           onClick={() => {
-            updateToken({ tokenName, tokenDetails })
-              .then(p => postToken(token, session.sessionId))
-              .then(p => {
-                updateToken('clear');
-                props.closeModal();
-              })
+            updateToken({ tokenName: formName, tokenDetails: formDetails })
+              .then(done => { postToken(token, session.sessionId); })
               .catch(err => { console.error(err); });
           }}>
           <i className="far fa-edit" />
@@ -57,7 +53,6 @@ export default function TokenDetails(props) {
               deleteToken(token, session.sessionId)
                 .then(p => {
                   updateToken('clear');
-                  props.closeModal();
                 })
                 .catch(err => console.error(err));
             }}>
