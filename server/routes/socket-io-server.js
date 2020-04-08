@@ -90,6 +90,16 @@ exports.updateSession = session => {
 
 exports.updateTokenVisibility = function (token, userIdList) {
   const hiddenToken = { ...token, visibleTo: userIdList };
-  ioServer.to(hiddenToken.sessionId).emit('updateHidden', hiddenToken);
+  console.log('hidden token!', hiddenToken);
+  Object.values(userSocketList).forEach(userSocket => {
+    const socket = userSocket.socket;
+    for (const user of userIdList) {
+      console.log(`in socket list: ${userSocket.user.userId} in token list: ${user.userId}`);
+      if (userSocket.user.userId === user.userId) {
+        console.log('Match!');
+        socket.emit('updateHidden', hiddenToken);
+      }
+    }
+  });
   return hiddenToken;
 };
