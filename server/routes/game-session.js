@@ -33,8 +33,19 @@ router.post('/:sessionId/token', (req, res, next) => {
 
   db.query(insertQuery)
     .then(insertRes => {
-      return buildSession(reqSessionId);
-    })
+      if (req.body.token.visibleTo) {
+        const visibleToArray = req.body.token.visibleTo;
+
+        let valuesLine = '';
+        for (const index in visibleToArray) {
+          const comma = visibleToArray.length > 1 && index === visibleToArray.length - 1 ? ',' : '';
+          valuesLine = `${valuesLine} (${token.tokenId}, ${visibleToArray[index]})${comma}`;
+        }
+        const visibleToQuery = `INSERT INTO tokenVisibleTo (tokenId, userId) VALUES ${valuesLine};`;
+        return db.query(visibleToQuery);
+      } else return false;
+
+    }).then(visibleInsertRes => { return buildSession(reqSessionId); })
     .then(session => {
       SocketIO.updateSession(session);
       res.json({ sessionNote: `pushing ${token.tokenName} to session ${session.sessionId}` });
