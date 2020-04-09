@@ -43,7 +43,7 @@ export function TokenContext(props) {
     if (fetch && tokenId) {
       setLoading(true);
       updateSession({ tokens: [] });
-      postToken({ tokenId, imageFileName, tokenName, tokenDetails, hidden }, session.sessionId)
+      postToken({ tokenId, imageFileName, tokenName, tokenDetails, hidden, visibleTo }, session.sessionId)
         .then(p => {
           updateToken('clear');
           setFetch(false)
