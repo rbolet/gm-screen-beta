@@ -35,13 +35,17 @@ function TokenDisplay() {
   const [TokenElements, setTokenElements] = useState([]);
 
   useEffect(() => {
-    setDisplayedTokens([...displayedTokens, ...session.tokens, ...session.hiddenTokens]);
+    setDisplayedTokens([...displayedTokens, ...session.tokens]);
   }
-  , [session.tokens, session.hiddenTokens]);
+  , [session.tokens]);
+
+  useEffect(() => {
+    setDisplayedTokens([...displayedTokens, ...session.hiddenTokens]);
+  }, [session.hiddenTokens]);
 
   useEffect(() => {
     if (displayedTokens.length) {
-      setTokenElements(session.tokens.map(token => {
+      setTokenElements(displayedTokens.map(token => {
         return (
           <div
             key={token.tokenId}
