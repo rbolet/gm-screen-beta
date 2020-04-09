@@ -5,6 +5,8 @@ import { postToken } from '@client/lib/api';
 export const Token = React.createContext(null);
 
 export function TokenContext(props) {
+  const { session, updateSession } = useContext(Session);
+
   const [tokenId, setTokenId] = useState(null);
   const [imageFileName, setImageFileName] = useState(null);
   const [tokenName, setTokenName] = useState('');
@@ -14,8 +16,6 @@ export function TokenContext(props) {
 
   const [loading, setLoading] = useState(false);
   const [fetch, setFetch] = useState(false);
-
-  const { session } = useContext(Session);
 
   const updateToken = async (newState, isNew) => {
     if (isNew) {
@@ -42,6 +42,7 @@ export function TokenContext(props) {
   useEffect(() => {
     if (fetch && tokenId) {
       setLoading(true);
+      updateSession({ tokens: [] });
       postToken({ tokenId, imageFileName, tokenName, tokenDetails, hidden }, session.sessionId)
         .then(p => {
           updateToken('clear');

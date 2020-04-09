@@ -25,13 +25,23 @@ export function SessionContext(props) {
           case 'tokens': setTokens(newSessionState[key]); break;
           case 'hiddenToken': {
             const copy = hiddenTokens.splice();
-            copy.push(newSessionState[key]);
+            if (!updatingHiddenToken(newSessionState[key], copy)) copy.push(newSessionState[key]);
             setHiddenTokens(copy);
             break;
           }
         }
       });
     }
+  };
+
+  const updatingHiddenToken = (token, copy) => {
+    for (const index in hiddenTokens) {
+      if (hiddenTokens[index].tokenId === token.tokenId) {
+        copy.splice(index, 1, token);
+        return copy;
+      }
+    }
+    return false;
   };
 
   const postSession = newSessionState => {
