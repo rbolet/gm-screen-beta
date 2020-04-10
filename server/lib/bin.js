@@ -3,7 +3,7 @@ const db = require('../_config');
 exports.activeGameSessions = [];
 exports.userSocketList = {};
 
-exports.buildSession = function (sessionId) {
+exports.buildSession = async function (sessionId) {
   const joinedQuery = `SELECT tokenId,
                               sessionId,
                               imageFileName,
@@ -21,18 +21,19 @@ exports.buildSession = function (sessionId) {
                             JOIN tokenVisibleTo ON tokens.tokenId = tokenVisibleTo.tokenId) AS combined
                       WHERE combined.sessionId = ${sessionId}
                       GROUP BY tokenId;`;
-  // db.query(joinedQuery).then(([rows]) => rows).catch(err => console.error(err));
+
   let tokens = [];
-  return new Promise(resolve => {
+  return (
     db.query(`SELECT * FROM tokens WHERE sessionId = ${sessionId} AND hidden = 0;`)
       .then(([nonHiddenTokens]) => {
-        db.query(joinedQuery)
-          .then(([hiddenTokens]) => {
-            tokens = [...hiddenTokens, ...nonHiddenTokens];
-            for (const token of tokens) {
-              token.hidden = Boolean(token.hidden);
-            }
-          });
+        return db.query(joinedQuery)
+          .then(([hiddenTokens]) => [...hiddenTokens, ...nonHiddenTokens]);
+      })
+      .then(allTokens => {
+        for (const token of allTokens) {
+          token.hidden = Boolean(token.hidden);
+        }
+        tokens = allTokens;
         return db.query(`SELECT * FROM sessions WHERE sessionId = ${sessionId}`);
       })
       .then(([result]) => {
@@ -42,6 +43,6 @@ exports.buildSession = function (sessionId) {
           tokens
         };
       })
-      .then(done => resolve(done));
-  });
+      .catch(err => console.error(err))
+  );
 };

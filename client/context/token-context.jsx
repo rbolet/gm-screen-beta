@@ -22,7 +22,7 @@ export function TokenContext(props) {
       setTokenId('new'); setImageFileName(newState.fileName); setTokenName(newState.alias);
     } else if (newState === 'clear') {
       setTokenId(null); setImageFileName(null); setTokenName('');
-      setTokenDetails(''); setHidden(false);
+      setTokenDetails(''); setHidden(false); setVisibleTo([]);
     } else {
       Object.keys(newState).forEach(key => {
         switch (key) {

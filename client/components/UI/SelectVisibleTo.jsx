@@ -20,8 +20,8 @@ export default function SelectVisibleTo() {
     if (players.length) {
       setToggleButtons(players.map(user => {
         return (
-          <ToggleButton size="sm" key={user.userId} value={user.userId} className="text-dark"
-            variant="outline-info" disabled={!token.hidden}
+          <ToggleButton size="sm" type="checkbox" key={user.userId} value={parseInt(user.userId)} className="text-dark"
+            variant="outline-info"
           >{user.userName}</ToggleButton>
         );
       }));
@@ -35,13 +35,13 @@ export default function SelectVisibleTo() {
   return (
     <ButtonToolbar className="visible-toolbar">
       <ButtonGroup>
-        <ToggleButtonGroup type="checkbox" defaultValue={whoCanSee || null}
+        <ToggleButtonGroup type="checkbox" defaultValue={whoCanSee || null} value={whoCanSee}
           onChange={value => {
             setWhoCanSee([...whoCanSee, value]);
           }}>
           {ToggleButtons}
         </ToggleButtonGroup>
-        <Button variant="info" size="sm"
+        <Button variant="outline-info" size="sm" active={!token.hidden}
           style={{ width: '50px' }}
           onClick={() => {
             if (token.hidden) {
