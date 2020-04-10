@@ -16,10 +16,9 @@ exports.io = function (server) {
       const disconnectingUser = userSocketList[socket.id].user;
 
       const removeActiveSession = new Promise(() => {
-        const userId = disconnectingUser.userName.includes('Guest') ? 5 : disconnectingUser.userId;
         for (const campaignIndex in activeGameSessions) {
 
-          if (activeGameSessions[campaignIndex].campaignGM === userId) {
+          if (activeGameSessions[campaignIndex].campaignGM === disconnectingUser.userId) {
             const room = activeGameSessions[campaignIndex].campaignId;
             io.to(room)
               .emit('kick', `${disconnectingUser.userName} has ended the session`);
@@ -84,6 +83,9 @@ exports.moveSocketToRoom = moveSocketToRoom;
 
 // updating state
 exports.updateSession = session => {
+  for (const token of session.tokens) {
+    token.hidden = Boolean(token.hidden);
+  }
   ioServer.to(session.sessionId).emit('updateSession', session);
   return session;
 };

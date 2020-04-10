@@ -13,7 +13,7 @@ export function TokenContext(props) {
   const [imageFileName, setImageFileName] = useState(null);
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(null);
   const [visibleTo, setVisibleTo] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export function TokenContext(props) {
       setTokenId('new'); setImageFileName(newState.fileName); setTokenName(newState.alias);
     } else if (newState === 'clear') {
       setTokenId(null); setImageFileName(null); setTokenName('');
-      setTokenDetails(''); setHidden(false); setVisibleTo([]);
+      setTokenDetails(''); setHidden(null); setVisibleTo([]);
     } else {
       Object.keys(newState).forEach(key => {
         switch (key) {
@@ -33,7 +33,9 @@ export function TokenContext(props) {
           case 'tokenName': setTokenName(newState[key]); break;
           case 'tokenDetails': setTokenDetails(newState[key]); break;
           case 'hidden':
-            if (!hidden) {
+            if (hidden === null) {
+              setHidden(newState[key]);
+            } else if (!hidden) {
               setVisibleTo([campaign.campaignGM]);
               setHidden(true);
             } else {
