@@ -37,15 +37,17 @@ export default function SelectVisibleTo() {
       <ButtonGroup>
         <ToggleButtonGroup type="checkbox" defaultValue={whoCanSee || null}
           onChange={value => {
-            setWhoCanSee(typeof whoCanSee !== 'object' ? [whoCanSee, value] : [...whoCanSee, value]);
+            setWhoCanSee([...whoCanSee, value]);
           }}>
           {ToggleButtons}
         </ToggleButtonGroup>
-        <Button variant="outline-info" active={!token.hidden} size="sm"
+        <Button variant="info" size="sm"
           style={{ width: '50px' }}
           onClick={() => {
             if (token.hidden) {
               updateToken({ hidden: false, visibleTo: [] });
+            } else {
+              updateToken({ hidden: true, visibleTo: [campaign.campaignGM] });
             }
           }}>
           {!token.hidden

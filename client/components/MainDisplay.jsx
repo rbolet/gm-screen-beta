@@ -41,7 +41,8 @@ function TokenDisplay() {
         if (token.hidden) {
           let canSee = false;
           for (const userId of token.visibleTo) {
-            if (userId === user.userId) canSee = true;
+            // eslint-disable-next-line eqeqeq
+            if (userId == user.userId) canSee = true; // guest IDs are strings
           }
           hide = canSee ? '' : ' d-none';
         }
