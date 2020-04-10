@@ -22,17 +22,18 @@ exports.buildSession = function (sessionId) {
                       WHERE combined.sessionId = ${sessionId}
                       GROUP BY tokenId;`;
 
-  let tokens = [];
-  return new Promise(resolve => {
+  const tokens = [];
+  return (
     db.query(`SELECT * FROM tokens WHERE sessionId = ${sessionId} AND hidden = 0;`)
-      .then(([nonHiddenTokens]) => {
-        db.query(joinedQuery)
-          .then(([hiddenTokens]) => {
-            tokens = [...hiddenTokens, ...nonHiddenTokens];
-            for (const token of tokens) {
-              token.hidden = Boolean(token.hidden);
-            }
-          });
+      .then(([results]) => results)
+      .then(nonHiddenTokens => {
+        return db.query(joinedQuery)
+          .then(([hiddenTokens]) => [...hiddenTokens, ...nonHiddenTokens]);
+      })
+      .then(tokens => {
+        for (const token of tokens) {
+          token.hidden = Boolean(token.hidden);
+        }
         return db.query(`SELECT * FROM sessions WHERE sessionId = ${sessionId}`);
       })
       .then(([result]) => {
@@ -42,6 +43,6 @@ exports.buildSession = function (sessionId) {
           tokens
         };
       })
-      .then(done => resolve(done));
-  });
+      .catch(err => console.error(err))
+  );
 };
