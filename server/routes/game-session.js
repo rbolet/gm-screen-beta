@@ -33,7 +33,7 @@ router.post('/:sessionId/token', (req, res, next) => {
 
   db.query(insertQuery)
     .then(insertRes => {
-      if (req.body.token.visibleTo) {
+      if (req.body.token.visibleTo.length) {
         const visibleToArray = req.body.token.visibleTo;
 
         let valuesLine = '';
@@ -42,6 +42,7 @@ router.post('/:sessionId/token', (req, res, next) => {
           valuesLine = `${valuesLine} (${token.tokenId}, ${visibleToArray[index]})${comma}`;
         }
         const visibleToQuery = `INSERT INTO tokenVisibleTo (tokenId, userId) VALUES ${valuesLine};`;
+        console.log(visibleToQuery);
         return db.query(visibleToQuery);
       } else return false;
 
