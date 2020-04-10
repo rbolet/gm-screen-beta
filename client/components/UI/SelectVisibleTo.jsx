@@ -10,8 +10,9 @@ import { Token } from '@client/context/token-context';
 
 export default function SelectVisibleTo() {
   const { campaign } = useContext(Campaign);
-  const { token } = useContext(Token);
+  const { token, updateToken } = useContext(Token);
   const [ToggleButtons, setToggleButtons] = useState(null);
+  const [whoCanSee, setWhoCanSee] = useState(token.visibleTo || null);
 
   useEffect(() => {
     const players = campaign.roomUserList.filter(user => user.userRole === 'player');
@@ -27,18 +28,26 @@ export default function SelectVisibleTo() {
     }
   }, [campaign.roomUserList, token.visibleTo]);
 
+  useEffect(() => {
+    updateToken({ visibleTo: whoCanSee });
+  }, [whoCanSee]);
+
   return (
     <ButtonToolbar className="visible-toolbar">
       <ButtonGroup>
-        <ToggleButtonGroup type="checkbox" /* defaultValue={} */
-          onChange={() => {
-
+        <ToggleButtonGroup type="checkbox" defaultValue={whoCanSee || null}
+          onChange={value => {
+            setWhoCanSee(typeof whoCanSee !== 'object' ? [whoCanSee, value] : [...whoCanSee, value]);
           }}>
           {ToggleButtons}
         </ToggleButtonGroup>
         <Button variant="outline-info" active={!token.hidden} size="sm"
           style={{ width: '50px' }}
-          onClick={() => { }}>
+          onClick={() => {
+            if (token.hidden) {
+              updateToken({ hidden: false, visibleTo: [] });
+            }
+          }}>
           {!token.hidden
             ? <i className="far fa-eye" />
             : <i className="far fa-eye-slash" />}

@@ -37,11 +37,19 @@ function TokenDisplay() {
   useEffect(() => {
     if (session.tokens.length) {
       setTokenElements(session.tokens.map(token => {
+        let hide = '';
+        if (token.hidden) {
+          let canSee = false;
+          for (const userId of token.visibleTo) {
+            if (userId === user.userId) canSee = true;
+          }
+          hide = canSee ? '' : ' d-none';
+        }
         return (
           <div
             key={token.tokenId}
             style={{ backgroundImage: `url(./images/${token.imageFileName})` }}
-            className="token mx-2 position-relative">
+            className={`token mx-2 position-relative${hide}`}>
             {token.hidden && <div className="hidden-badge">
               <Badge variant="info"><i className="far fa-eye-slash" /></Badge>
             </div>}
