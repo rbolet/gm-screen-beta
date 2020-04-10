@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Session } from '@client/context/session-context';
+import { Campaign } from '@client/context/campaign-context';
 import { postToken } from '@client/lib/api';
 
 export const Token = React.createContext(null);
 
 export function TokenContext(props) {
   const { session, updateSession } = useContext(Session);
+  const { campaign } = useContext(Campaign);
 
   const [tokenId, setTokenId] = useState(null);
   const [imageFileName, setImageFileName] = useState(null);
@@ -30,7 +32,15 @@ export function TokenContext(props) {
           case 'imageFileName': setImageFileName(newState[key]); break;
           case 'tokenName': setTokenName(newState[key]); break;
           case 'tokenDetails': setTokenDetails(newState[key]); break;
-          case 'hidden': setHidden(newState[key]); break;
+          case 'hidden':
+            if (!hidden) {
+              setVisibleTo([campaign.campaignGM]);
+              setHidden(true);
+            } else {
+              setVisibleTo([]);
+              setHidden(false);
+            }
+            break;
           case 'visibleTo': setVisibleTo(newState[key]); break;
         }
       });

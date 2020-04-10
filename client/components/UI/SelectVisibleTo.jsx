@@ -26,7 +26,7 @@ export default function SelectVisibleTo() {
         );
       }));
     }
-  }, [campaign.roomUserList, token.visibleTo]);
+  }, [campaign.roomUserList]);
 
   useEffect(() => {
     updateToken({ visibleTo: whoCanSee });
@@ -37,19 +37,13 @@ export default function SelectVisibleTo() {
       <ButtonGroup>
         <ToggleButtonGroup type="checkbox" defaultValue={whoCanSee || null} value={whoCanSee}
           onChange={value => {
-            setWhoCanSee([...whoCanSee, value]);
+            setWhoCanSee([...value]);
           }}>
           {ToggleButtons}
         </ToggleButtonGroup>
         <Button variant="outline-info" size="sm" active={!token.hidden}
           style={{ width: '50px' }}
-          onClick={() => {
-            if (token.hidden) {
-              updateToken({ hidden: false, visibleTo: [] });
-            } else {
-              updateToken({ hidden: true, visibleTo: [campaign.campaignGM] });
-            }
-          }}>
+          onClick={() => { updateToken({ hidden: !token.hidden }); }}>
           {!token.hidden
             ? <i className="far fa-eye" />
             : <i className="far fa-eye-slash" />}
