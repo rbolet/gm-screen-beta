@@ -10,8 +10,9 @@ import { Token } from '@client/context/token-context';
 
 export default function SelectVisibleTo() {
   const { campaign } = useContext(Campaign);
-  const { token } = useContext(Token);
+  const { token, updateToken } = useContext(Token);
   const [ToggleButtons, setToggleButtons] = useState(null);
+  const [whoCanSee, setWhoCanSee] = useState(token.visibleTo || null);
 
   useEffect(() => {
     const players = campaign.roomUserList.filter(user => user.userRole === 'player');
@@ -27,18 +28,28 @@ export default function SelectVisibleTo() {
     }
   }, [campaign.roomUserList, token.visibleTo]);
 
+  useEffect(() => {
+    updateToken({ visibleTo: whoCanSee });
+  }, [whoCanSee]);
+
   return (
     <ButtonToolbar className="visible-toolbar">
       <ButtonGroup>
-        <ToggleButtonGroup type="checkbox" /* defaultValue={} */
-          onChange={() => {
-
+        <ToggleButtonGroup type="checkbox" defaultValue={whoCanSee || null}
+          onChange={value => {
+            setWhoCanSee([...whoCanSee, value]);
           }}>
           {ToggleButtons}
         </ToggleButtonGroup>
-        <Button variant="outline-info" active={!token.hidden} size="sm"
+        <Button variant="info" size="sm"
           style={{ width: '50px' }}
-          onClick={() => { }}>
+          onClick={() => {
+            if (token.hidden) {
+              updateToken({ hidden: false, visibleTo: [] });
+            } else {
+              updateToken({ hidden: true, visibleTo: [campaign.campaignGM] });
+            }
+          }}>
           {!token.hidden
             ? <i className="far fa-eye" />
             : <i className="far fa-eye-slash" />}
