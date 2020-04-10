@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import ContainerCard from '@components/UI/ContainerCard';
 import Loading from '@components/UI/Loading';
 import Button from 'react-bootstrap/Button';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import { createRandomGuest } from '@client/lib/guest-users';
 import { AppUser } from '@client/context/user-context';
@@ -39,12 +41,14 @@ export default function Login(props) {
     }
   }, [user.userId, user.socketId]);
 
-  const ButtonGroup = (
+  const GuestButtonGroup = (
     <div className="d-flex justify-content-around">
       <Button variant="danger"
         onClick={() => { updateUser(createRandomGuest('gm')); }}>Guest GM</Button>
-      <Button variant="info"
-        onClick={() => { updateUser(createRandomGuest('player')); }}>Guest Player</Button>
+      <DropdownButton id="dropdown-basic-button" title="Guest Player">
+        <Dropdown.Item onSelect={() => { updateUser(createRandomGuest('player', 1)); }}>Sam (Guest)</Dropdown.Item>
+        <Dropdown.Item onSelect={() => { updateUser(createRandomGuest('player', 2)); }}>Max (Guest)</Dropdown.Item>
+      </DropdownButton>
     </div>
   );
 
@@ -54,7 +58,7 @@ export default function Login(props) {
       percentHeight={75}
       percentWidth={25}
       bg="#343a40" shadow={true}
-      footer={ButtonGroup}
+      footer={GuestButtonGroup}
       header={<div className="login-message text-light mb-3 text-center">Login disabled for demonstration purposes</div>}>
       {Body}
     </ContainerCard>

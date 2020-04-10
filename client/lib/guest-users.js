@@ -18,9 +18,16 @@ export const guestCampaign = {
   ]
 };
 
-export function createRandomGuest(role) {
-  const randomID = Date.now().toString().slice(9);
-  const guestId = role === 'gm' ? 5 : 6;
-  return { userId: `${guestId}`, userName: `Guest${randomID}`, userRole: role };
+export function createRandomGuest(userRole, playerNum) {
+  let userId, userName;
+  if (userRole === 'gm') {
+    userId = '5';
+    userName = 'Game Master (Guest)';
+  } else {
+    userId = playerNum === 1 ? '6' : '7';
+    userName = playerNum === 1 ? 'Sam (Guest)' : 'Max (Guest)';
+  }
+
+  return { userId, userName, userRole };
 
 }
