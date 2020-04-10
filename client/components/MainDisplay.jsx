@@ -35,9 +35,8 @@ function TokenDisplay() {
   const [TokenElements, setTokenElements] = useState([]);
 
   useEffect(() => {
-    const displayedTokens = [...session.tokens, ...session.hiddenTokens];
-    if (displayedTokens.length) {
-      setTokenElements(displayedTokens.map(token => {
+    if (session.tokens.length) {
+      setTokenElements(session.tokens.map(token => {
         return (
           <div
             key={token.tokenId}
@@ -56,7 +55,7 @@ function TokenDisplay() {
     } else {
       setTokenElements([]);
     }
-  }, [session.tokens, session.hiddenTokens]);
+  }, [session.tokens]);
 
   return (
     <div className="tokens-container">
