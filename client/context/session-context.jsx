@@ -11,7 +11,6 @@ export function SessionContext(props) {
   const [sessionId, setSessionId] = useState(null);
   const [environmentImageFileName, setEnvironmentImageFileName] = useState(null);
   const [tokens, setTokens] = useState([]);
-  const [hiddenTokens, setHiddenTokens] = useState([]);
 
   const updateSession = newSessionState => {
     if (!newSessionState) {
@@ -23,12 +22,6 @@ export function SessionContext(props) {
           case 'sessionId': setSessionId(newSessionState[key]); break;
           case 'environmentImageFileName': setEnvironmentImageFileName(newSessionState[key]); break;
           case 'tokens': setTokens(newSessionState[key]); break;
-          case 'hiddenToken': {
-            const copy = hiddenTokens.splice();
-            copy.push(newSessionState[key]);
-            setHiddenTokens(copy);
-            break;
-          }
         }
       });
     }
@@ -52,8 +45,7 @@ export function SessionContext(props) {
       session: {
         sessionId,
         environmentImageFileName,
-        tokens,
-        hiddenTokens
+        tokens
       },
       updateSession,
       postSession

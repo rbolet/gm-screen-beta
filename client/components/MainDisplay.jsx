@@ -31,16 +31,11 @@ function TokenDisplay() {
   const { session } = useContext(Session);
   const { user } = useContext(AppUser);
   const { updateToken } = useContext(Token);
-  const [displayedTokens, setDisplayedTokens] = useState(session.tokens);
+
   const [TokenElements, setTokenElements] = useState([]);
 
   useEffect(() => {
-    setDisplayedTokens([...displayedTokens, ...session.tokens, ...session.hiddenTokens]);
-  }
-  , [session.tokens, session.hiddenTokens]);
-
-  useEffect(() => {
-    if (displayedTokens.length) {
+    if (session.tokens.length) {
       setTokenElements(session.tokens.map(token => {
         return (
           <div
@@ -60,7 +55,7 @@ function TokenDisplay() {
     } else {
       setTokenElements([]);
     }
-  }, [displayedTokens]);
+  }, [session.tokens]);
 
   return (
     <div className="tokens-container">
