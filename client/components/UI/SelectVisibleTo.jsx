@@ -41,7 +41,7 @@ export default function SelectVisibleTo() {
           }}>
           {ToggleButtons}
         </ToggleButtonGroup>
-        <Button variant="info" size="sm"
+        <Button variant="outline-info" size="sm" active={!token.hidden}
           style={{ width: '50px' }}
           onClick={() => {
             if (token.hidden) {
