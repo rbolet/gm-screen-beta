@@ -3,7 +3,7 @@ const db = require('../_config');
 exports.activeGameSessions = [];
 exports.userSocketList = {};
 
-exports.buildSession = function (sessionId) {
+exports.buildSession = async function (sessionId) {
   const joinedQuery = `SELECT tokenId,
                               sessionId,
                               imageFileName,
@@ -22,18 +22,18 @@ exports.buildSession = function (sessionId) {
                       WHERE combined.sessionId = ${sessionId}
                       GROUP BY tokenId;`;
 
-  const tokens = [];
+  let tokens = [];
   return (
     db.query(`SELECT * FROM tokens WHERE sessionId = ${sessionId} AND hidden = 0;`)
-      .then(([results]) => results)
-      .then(nonHiddenTokens => {
+      .then(([nonHiddenTokens]) => {
         return db.query(joinedQuery)
           .then(([hiddenTokens]) => [...hiddenTokens, ...nonHiddenTokens]);
       })
-      .then(tokens => {
-        for (const token of tokens) {
+      .then(allTokens => {
+        for (const token of allTokens) {
           token.hidden = Boolean(token.hidden);
         }
+        tokens = allTokens;
         return db.query(`SELECT * FROM sessions WHERE sessionId = ${sessionId}`);
       })
       .then(([result]) => {
