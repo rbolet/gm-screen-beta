@@ -55,7 +55,7 @@ function TokenDisplay() {
               <Badge variant="info"><i className="far fa-eye-slash" /></Badge>
             </div>}
             <div className="token-name-footer px-1 py-0 m-0"
-              onClick={() => { updateToken(token); }}>
+              onClick={() => { console.log(token); updateToken(token); }}>
               <p>{token.tokenName}</p>
             </div>
           </div>

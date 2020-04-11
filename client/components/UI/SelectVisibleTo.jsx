@@ -20,8 +20,8 @@ export default function SelectVisibleTo() {
     if (players.length) {
       setToggleButtons(players.map(user => {
         return (
-          <ToggleButton size="sm" type="checkbox" key={user.userId} value={parseInt(user.userId)} className="text-dark"
-            variant="outline-info"
+          <ToggleButton size="sm" type="checkbox" key={user.userId} value={parseInt(user.userId)}
+            className="text-dark" variant="outline-info" disabled={!token.hidden}
           >{user.userName}</ToggleButton>
         );
       }));

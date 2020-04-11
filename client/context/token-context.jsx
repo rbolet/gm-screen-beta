@@ -13,7 +13,7 @@ export function TokenContext(props) {
   const [imageFileName, setImageFileName] = useState(null);
   const [tokenName, setTokenName] = useState('');
   const [tokenDetails, setTokenDetails] = useState('');
-  const [hidden, setHidden] = useState(null);
+  const [hidden, setHidden] = useState(false);
   const [visibleTo, setVisibleTo] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -32,17 +32,7 @@ export function TokenContext(props) {
           case 'imageFileName': setImageFileName(newState[key]); break;
           case 'tokenName': setTokenName(newState[key]); break;
           case 'tokenDetails': setTokenDetails(newState[key]); break;
-          case 'hidden':
-            if (hidden === null) {
-              setHidden(newState[key]);
-            } else if (!hidden) {
-              setVisibleTo([campaign.campaignGM]);
-              setHidden(true);
-            } else {
-              setVisibleTo([]);
-              setHidden(false);
-            }
-            break;
+          case 'hidden': setTokenDetails(newState[key]); break;
           case 'visibleTo': setVisibleTo(newState[key]); break;
         }
       });
@@ -64,6 +54,13 @@ export function TokenContext(props) {
         .then(p => setLoading(false));
     }
   }, [fetch]);
+
+  useEffect(() => {
+    switch (hidden) {
+      case true: setVisibleTo([campaign.campaignGM]); break;
+      case false: setVisibleTo([]);
+    }
+  }, [hidden]);
 
   return (
     <Token.Provider
