@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './App.css';
 import React, { useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
@@ -50,14 +51,17 @@ function App() {
     });
 
     socket.on('roomChange', room => {
+      console.log(`"roomChange" -  room: ${room}`);
       updateCampaign({ room });
     });
 
     socket.on('updateRoomList', roomUserList => {
+      console.log('"UpdateRoomList" - ', roomUserList);
       updateCampaign({ roomUserList });
     });
 
     socket.on('kick', message => {
+      console.log('"kick" - ', message);
       updateSession({
         sessionId: null,
         environmentImageFileName: null,
@@ -75,10 +79,12 @@ function App() {
         });
     });
     socket.on('updateSession', newSessionState => {
+      console.log('"updateSession" - ', newSessionState);
       updateSession(newSessionState);
     });
 
     socket.on('updateHidden', hiddenToken => {
+      console.log('"updateHidden" - ', hiddenToken);
       updateSession({ hiddenToken });
     });
 

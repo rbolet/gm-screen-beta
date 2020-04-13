@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+/* eslint-disable no-console */
+import React, { useState, useContext, useEffect } from 'react';
 import { Campaign } from '@client/context/campaign-context';
 import { AppUser } from '@client/context/user-context';
 import { joinSession, postEnvironment } from '@client/lib/api';
@@ -40,6 +41,13 @@ export function SessionContext(props) {
     });
   };
 
+  useEffect(() => {
+    console.log('Session context - ', {
+      sessionId,
+      environmentImageFileName,
+      tokens
+    });
+  });
   return (
     <Session.Provider value={{
       session: {

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useContext } from 'react';
 import './SelectVisibleTo.css';
 import Button from 'react-bootstrap/Button';
@@ -31,6 +32,10 @@ export default function SelectVisibleTo() {
   useEffect(() => {
     updateToken({ visibleTo: whoCanSee });
   }, [whoCanSee]);
+
+  useEffect(() => {
+    console.log(`Select Visible component - whoCanSee: ${whoCanSee}`);
+  });
 
   return (
     <ButtonToolbar className="visible-toolbar">

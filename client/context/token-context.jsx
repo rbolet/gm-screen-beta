@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useContext } from 'react';
 import { Session } from '@client/context/session-context';
 import { Campaign } from '@client/context/campaign-context';
@@ -62,6 +63,16 @@ export function TokenContext(props) {
     }
   }, [hidden]);
 
+  useEffect(() => {
+    console.log('token-context:', {
+      tokenId,
+      imageFileName,
+      tokenName,
+      tokenDetails,
+      hidden,
+      visibleTo
+    });
+  });
   return (
     <Token.Provider
       value={{
