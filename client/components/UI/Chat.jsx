@@ -2,26 +2,26 @@ import './Chat.css';
 import React, { useContext } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import { Campaign } from '@client/context/campaign-context';
 
 export default function Chat(props) {
+  const { campaign } = useContext(Campaign);
 
   return (
 
     <Accordion className="chat">
+
       <Card className="chat-card bg-dark">
+        <div className="border-div">
+          <Accordion.Toggle as={Card.Header} variant="secondary" eventKey="0" className="text-light text-center">
+            <em>{campaign.room === 'Lobby' ? 'Lobby' : campaign.campaignName}</em>
+          </Accordion.Toggle>
+        </div>
         <Accordion.Collapse eventKey="0">
           <Card.Body className="p-2 d-flex">
-            <div className="chat-messages"></div>
             <UserList/>
           </Card.Body>
         </Accordion.Collapse>
-        <Card.Footer className="chat-footer">
-          <Accordion.Toggle as={Button} variant="secondary" eventKey="0">
-              v
-          </Accordion.Toggle>
-        </Card.Footer>
       </Card>
     </Accordion>
 

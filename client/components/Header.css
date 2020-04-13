@@ -3,21 +3,27 @@
 }
 
 .logo{
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
 }
 
 .header-brand{
-  font-size: 2rem;
+  font-size: 1.75rem;
 }
 
 .user-name{
-  width: 12rem;
+  max-width: 10rem;
   text-align: right;
+  margin-right: 1rem;
 }
 
 .role-icon{
-  width: 3rem;
+  max-width: 3rem;
+  text-align: center;
+  margin-right: 1rem;
+}
+
+.campaign{
   text-align: center;
 }
