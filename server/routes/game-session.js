@@ -58,14 +58,27 @@ router.patch('/:sessionId/token', (req, res, next) => {
   const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
+  const deleteQuery = `DELETE FROM visibleTo where tokenId = ${token.tokenId};`;
   const updateQuery = `UPDATE tokens
     SET tokenName = "${token.tokenName}", tokenDetails = "${token.tokenDetails}", hidden = ${token.hidden}
     WHERE tokenId = ${token.tokenId};`;
 
   db.query(updateQuery)
+    .then(rowsAffected => { return db.query(deleteQuery); })
     .then(rowsAffected => {
-      return buildSession(reqSessionId);
+      if (req.body.token.visibleTo.length) {
+        const visibleToArray = req.body.token.visibleTo;
+
+        let valuesLine = '';
+        for (const index in visibleToArray) {
+          const comma = visibleToArray.length > 1 && index < visibleToArray.length - 1 ? ',' : '';
+          valuesLine = `${valuesLine} (${token.tokenId}, ${visibleToArray[index]})${comma}`;
+        }
+        const visibleToQuery = `INSERT INTO tokenVisibleTo (tokenId, userId) VALUES ${valuesLine};`;
+        return db.query(visibleToQuery);
+      } else return false;
     })
+    .then(insertRes => { return buildSession(reqSessionId); })
     .then(session => {
       SocketIO.updateSession(session);
       res.json({ sessionNote: `updating ${token.tokenName} in session ${session.sessionId}` });
@@ -78,7 +91,7 @@ router.delete('/:sessionId/token', (req, res, next) => {
   const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
-  db.query(`DELETE FROM tokens WHERE tokenId = ${token.tokenId}`)
+  db.query(`DELETE FROM tokens WHERE tokenId = ${token.tokenId};`)
     .then(affectedRows => {
       return buildSession(reqSessionId);
     })
