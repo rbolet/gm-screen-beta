@@ -1,11 +1,23 @@
 import './Chat.css';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import Loading from '@components/UI/Loading';
 import { Campaign } from '@client/context/campaign-context';
 
 export default function Chat(props) {
   const { campaign } = useContext(Campaign);
+  const [ChatHeader, setChatHeader] = useState(<Loading/>);
+
+  useEffect(() => {
+    if (campaign.campaignName) {
+      setChatHeader(<em>{campaign.campaignName}</em>);
+    } else if (campaign.room === 'Lobby') {
+      setChatHeader(<em>Lobby</em>);
+    } else {
+      setChatHeader(<Loading/>);
+    }
+  }, [campaign.room, campaign.campaignName]);
 
   return (
 
@@ -14,7 +26,7 @@ export default function Chat(props) {
       <Card className="chat-card bg-dark">
         <div className="border-div">
           <Accordion.Toggle as={Card.Header} variant="secondary" eventKey="0" className="text-light text-center">
-            <em>{campaign.room === 'Lobby' ? 'Lobby' : campaign.campaignName}</em>
+            {ChatHeader}
           </Accordion.Toggle>
         </div>
         <Accordion.Collapse eventKey="0">
