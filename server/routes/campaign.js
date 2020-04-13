@@ -16,7 +16,8 @@ router.get('/gm/:userId', (req, res) => {
   db.query(query)
     .then(([campaigns]) => {
       res.status(200).json(campaigns);
-    });
+    })
+    .catch(err => console.error(err));
 });
 
 router.get('/player/:userId', (req, res, next) => {

@@ -2,12 +2,10 @@ import './Header.css';
 import React, { useContext } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import { AppUser } from '@client/context/user-context';
-import { Campaign } from '@client/context/campaign-context';
 import Chat from '@components/UI/Chat';
 
 function Header(props) {
   const { user } = useContext(AppUser);
-  const { campaign } = useContext(Campaign);
 
   let RoleIcon = null;
   switch (user.userRole) {
@@ -22,11 +20,17 @@ function Header(props) {
   return (
     <Navbar bg="dark" variant="dark" style={{ height: 50 }} className="header">
       <Navbar.Brand className="header-brand">
-        GM Screen
+        <div className="d-flex flex-row align-items-center">
+          <a target="_blank" rel="noopener noreferrer" href="https://slightlyskewedcreations.com">
+            <img
+              src="./assets/ssc192.png"
+              className="d-inline-block align-top logo mr-2"/>
+          </a>
+          <p className="mb-0 rakkas">GM Screen</p>
+        </div>
       </Navbar.Brand>
       <Navbar.Text className="user-name">{user.userName}</Navbar.Text>
       <Navbar.Text className="role-icon">{RoleIcon}</Navbar.Text>
-      <Navbar.Text className="campaign">{campaign.campaignName}</Navbar.Text>
       {user.userId && <Chat/>}
     </Navbar>
   );

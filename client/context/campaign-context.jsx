@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useContext } from 'react';
 import { AppUser } from '@client/context/user-context';
 import { getCampaignAssets, postUploadForm } from '@client/lib/api';
@@ -51,7 +52,9 @@ export function CampaignContext(props) {
       }
     });
   };
-
+  useEffect(() => {
+    console.log(`context room: ${room}`);
+  });
   const campaign = { campaignId, campaignName, campaignGM, campaignAssets, room, roomUserList };
   return (
     <Campaign.Provider value={{ campaign, updateCampaign, addImageToCampaign }}>{props.children}</Campaign.Provider>

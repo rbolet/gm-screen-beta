@@ -1,3 +1,8 @@
+.border-div{
+  border: 1px solid white;
+  height: 50px;
+}
+
 .chat {
   position: absolute;
   top: 0;
@@ -23,7 +28,7 @@
 }
 
 .chat-user-list{
-  width: 150px;
+  width: 100%;
   padding: .5rem;
 }
 
