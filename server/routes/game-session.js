@@ -58,7 +58,7 @@ router.patch('/:sessionId/token', (req, res, next) => {
   const reqSessionId = req.params.sessionId;
   const token = req.body.token;
 
-  const deleteQuery = `DELETE FROM visibleTo where tokenId = ${token.tokenId};`;
+  const deleteQuery = `DELETE FROM tokenVisibleTo where tokenId = ${token.tokenId};`;
   const updateQuery = `UPDATE tokens
     SET tokenName = "${token.tokenName}", tokenDetails = "${token.tokenDetails}", hidden = ${token.hidden}
     WHERE tokenId = ${token.tokenId};`;
