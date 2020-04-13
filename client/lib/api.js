@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const headers = { 'Content-Type': 'application/json' };
 
 export function configUserSocket(user) {
@@ -98,10 +99,12 @@ export async function postEnvironment(sessionId, image) {
 }
 
 export async function postToken(token, sessionId) {
+
   let method = 'POST';
   if (token.tokenId !== 'new') {
     method = 'PATCH';
   }
+  console.log(`${method}ing this token to session #${sessionId}:`, token);
   const body = JSON.stringify({ token });
   return fetch(`session/${sessionId}/token`, {
     method,
@@ -115,6 +118,7 @@ export async function postToken(token, sessionId) {
 }
 
 export async function deleteToken(token, sessionId) {
+  console.log(`deleting this token from session #${sessionId}:`, token);
   let route = `session/${sessionId}/token`;
   if (token === 'all') {
     route += '/all';

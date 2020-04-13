@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './MainDisplay.css';
 import React, { useContext, useState, useEffect } from 'react';
 import Badge from 'react-bootstrap/Badge';
@@ -55,7 +56,7 @@ function TokenDisplay() {
               <Badge variant="info"><i className="far fa-eye-slash" /></Badge>
             </div>}
             <div className="token-name-footer px-1 py-0 m-0"
-              onClick={() => { console.log(token); updateToken(token); }}>
+              onClick={() => { console.log('TokenElement from MainDisplay updating this token:', token); updateToken(token); }}>
               <p>{token.tokenName}</p>
             </div>
           </div>
