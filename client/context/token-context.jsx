@@ -33,7 +33,7 @@ export function TokenContext(props) {
           case 'imageFileName': setImageFileName(newState[key]); break;
           case 'tokenName': setTokenName(newState[key]); break;
           case 'tokenDetails': setTokenDetails(newState[key]); break;
-          case 'hidden': setTokenDetails(newState[key]); break;
+          case 'hidden': setHidden(newState[key]); break;
           case 'visibleTo': setVisibleTo(newState[key]); break;
         }
       });
