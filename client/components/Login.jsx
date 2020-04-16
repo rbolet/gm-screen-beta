@@ -45,7 +45,7 @@ export default function Login(props) {
     <div className="d-flex justify-content-around">
       <Button variant="danger"
         onClick={() => { updateUser(createRandomGuest('gm')); }}>Guest GM</Button>
-      <DropdownButton id="dropdown-basic-button" title="Guest Player">
+      <DropdownButton id="guest-player-dropdown" variant="info" title="Guest Player">
         <Dropdown.Item onSelect={() => { updateUser(createRandomGuest('player', 1)); }}>Sam (Guest)</Dropdown.Item>
         <Dropdown.Item onSelect={() => { updateUser(createRandomGuest('player', 2)); }}>Max (Guest)</Dropdown.Item>
       </DropdownButton>

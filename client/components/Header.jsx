@@ -26,7 +26,7 @@ export default function Header(props) {
 
   return (
     <Navbar bg="dark" variant="dark" style={{ height: 50 }} className="app-header">
-      <Navbar.Brand className="header-brand">
+      <Navbar.Brand className="header-brand" style={{ width: 50 }}>
         <DropdownButton
           variant='secondary' role='menu'
           title={
