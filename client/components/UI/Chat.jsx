@@ -8,7 +8,7 @@ import { Campaign } from '@client/context/campaign-context';
 export default function Chat(props) {
   const { campaign } = useContext(Campaign);
   const [ChatHeader, setChatHeader] = useState(<Loading/>);
-  const [Messages, setMessages] = useState(null);
+  const [Messages, setMessages] = useState(props.infoMessages);
 
   useEffect(() => {
     if (campaign.campaignName) {
@@ -21,13 +21,15 @@ export default function Chat(props) {
   }, [campaign.room, campaign.campaignName]);
 
   useEffect(() => {
-    setMessages(
-      props.infoMessages.map((message, i) => {
-        return (
-          <p key={i}>{message}</p>
-        );
-      })
-    );
+    if (props.infoMessages) {
+      setMessages(
+        [props.infoMessages].reverse().map((message, i) => {
+          return (
+            <p key={i} className="mb-1">{message}</p>
+          );
+        })
+      );
+    }
   }, [props.infoMessages]);
 
   return (

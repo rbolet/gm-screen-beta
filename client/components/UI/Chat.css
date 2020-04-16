@@ -21,6 +21,7 @@
 }
 
 .chat-messages {
+  padding: .5rem 1rem;
   width: 300px;
   margin-right: 4px;
 }

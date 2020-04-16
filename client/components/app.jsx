@@ -90,11 +90,13 @@ function App() {
       updateSession({ hiddenToken });
     });
 
-    socket.on('kick', message => {
-      addInfoMessage(message);
+    socket.on('kick', info => {
+      console.log('"kick"', info);
+      addInfoMessage(info.message);
     });
 
     socket.on('info', info => {
+      console.log('"info"', info);
       addInfoMessage(info.message);
     });
 
@@ -112,7 +114,7 @@ function App() {
   }
 
   const addInfoMessage = message => {
-    setInfoMessages([message, ...infoMessages]);
+    setInfoMessages(prevMessages => [message, ...prevMessages]);
   };
 
   return (
