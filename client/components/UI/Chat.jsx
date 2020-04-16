@@ -22,13 +22,10 @@ export default function Chat(props) {
   return (
 
     <Accordion className="chat">
-
       <Card className="chat-card bg-dark">
-        <div className="border-div">
-          <Accordion.Toggle as={Card.Header} variant="secondary" eventKey="0" className="text-light text-center">
-            {ChatHeader}
-          </Accordion.Toggle>
-        </div>
+        <Accordion.Toggle as={Card.Header} variant="secondary" eventKey="0" className="text-light text-center border border-white">
+          {ChatHeader}
+        </Accordion.Toggle>
         <Accordion.Collapse eventKey="0">
           <Card.Body className="p-2 d-flex">
             <UserList/>

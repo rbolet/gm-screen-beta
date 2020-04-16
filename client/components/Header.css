@@ -1,5 +1,9 @@
-.header{
+.app-header{
   position: relative;
+}
+
+.app-header *{
+  transition: opacity, 1s, .5s;
 }
 
 .logo{
@@ -8,8 +12,26 @@
   cursor: pointer;
 }
 
+.mini-logo{
+  height: 20px;
+}
+
 .header-brand{
   font-size: 1.75rem;
+}
+
+.header-brand div{
+  position: absolute;
+  top: 0;
+  left: 5px;
+}
+
+#home-dropdown{
+  padding: 0 2px;
+}
+
+.dropdown-menu{
+  background-color: #6c757d;
 }
 
 .user-name{
