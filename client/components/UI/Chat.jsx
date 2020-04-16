@@ -8,6 +8,7 @@ import { Campaign } from '@client/context/campaign-context';
 export default function Chat(props) {
   const { campaign } = useContext(Campaign);
   const [ChatHeader, setChatHeader] = useState(<Loading/>);
+  const [Messages, setMessages] = useState(null);
 
   useEffect(() => {
     if (campaign.campaignName) {
@@ -19,6 +20,16 @@ export default function Chat(props) {
     }
   }, [campaign.room, campaign.campaignName]);
 
+  useEffect(() => {
+    setMessages(
+      props.infoMessages.map((message, i) => {
+        return (
+          <p key={i}>{message}</p>
+        );
+      })
+    );
+  }, [props.infoMessages]);
+
   return (
 
     <Accordion className="chat">
@@ -28,12 +39,22 @@ export default function Chat(props) {
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="0">
           <Card.Body className="p-2 d-flex">
+            <MessageArea>
+              {Messages}
+            </MessageArea>
             <UserList/>
           </Card.Body>
         </Accordion.Collapse>
       </Card>
     </Accordion>
 
+  );
+}
+
+function MessageArea(props) {
+
+  return (
+    <div className="chat-messages">{props.children}</div>
   );
 }
 

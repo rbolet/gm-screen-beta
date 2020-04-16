@@ -14,6 +14,8 @@ import PlayerView from '@components/views/PlayerView';
 
 function App() {
   const [CurrentView, setCurrentView] = useState(<Menu />);
+  const [infoMessages, setInfoMessages] = useState([]);
+
   const { user, updateUser } = useContext(AppUser);
   const { campaign, updateCampaign } = useContext(Campaign);
   const { session, updateSession } = useContext(Session);
@@ -88,6 +90,14 @@ function App() {
       updateSession({ hiddenToken });
     });
 
+    socket.on('kick', message => {
+      addInfoMessage(message);
+    });
+
+    socket.on('info', info => {
+      addInfoMessage(info.message);
+    });
+
     socket.on('connect_error', error => {
       console.error('connect_error:', error);
     });
@@ -99,12 +109,15 @@ function App() {
     socket.on('error', error => {
       console.error('io error:', error);
     });
-
   }
+
+  const addInfoMessage = message => {
+    setInfoMessages([message, ...infoMessages]);
+  };
 
   return (
     <div>
-      <Header />
+      <Header infoMessages={infoMessages}/>
       {CurrentView}
     </div>
   );

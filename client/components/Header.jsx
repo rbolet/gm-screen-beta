@@ -54,7 +54,7 @@ export default function Header(props) {
       </Navbar.Brand>
       <Navbar.Text className={`user-name${!user.userName ? ' fade-out' : ''}`}>{user.userName}</Navbar.Text>
       <Navbar.Text className={`role-icon${!user.userRole ? ' fade-out' : ''}`}>{RoleIcon}</Navbar.Text>
-      {user.userId && <Chat/>}
+      {user.userId && <Chat infoMessages={props.infoMessages}/>}
     </Navbar>
   );
 }
