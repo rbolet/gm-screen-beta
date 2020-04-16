@@ -4,10 +4,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { AppUser } from '@client/context/user-context';
+import { Campaign } from '@client/context/campaign-context';
+import { Session } from '@client/context/session-context';
+import { blankUser, blankCampaign, blankSession } from '@client/lib/blank-state';
 import Chat from '@components/UI/Chat';
 
 export default function Header(props) {
-  const { user } = useContext(AppUser);
+  const { user, updateUser } = useContext(AppUser);
+  const { updateCampaign } = useContext(Campaign);
+  const { updateSession } = useContext(Session);
 
   let RoleIcon = null;
   switch (user.userRole) {
@@ -30,9 +35,11 @@ export default function Header(props) {
               alt="GM Screen"
               className="d-inline-block align-top logo mr-2" />}
           id="home-dropdown">
-          <Dropdown.Item eventKey="1" onClick={() => {}
-
-          }>
+          <Dropdown.Item eventKey="1" onClick={() => {
+            updateSession(blankSession);
+            updateCampaign(blankCampaign);
+            updateUser(blankUser);
+          }}>
             <span className="mini-logo mr-2"></span>Return to Main Menu
           </Dropdown.Item>
 
