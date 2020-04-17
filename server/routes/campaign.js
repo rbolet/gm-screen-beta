@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const router = require('express').Router();
 const path = require('path');
 const db = require('../_config');
@@ -23,7 +24,9 @@ router.get('/gm/:userId', (req, res) => {
 router.get('/player/:userId', (req, res, next) => {
   const activeCampaigns = [];
   if (activeGameSessions.length) {
+    console.log('Checking for Active Sessions ...');
     for (const gameSession of activeGameSessions) {
+      console.log(`campaign ${gameSession.campaignId} | session ${gameSession.sessionId}`);
       const campaign = {
         campaignId: gameSession.campaignId,
         campaignName: gameSession.campaignName
@@ -59,7 +62,7 @@ router.post('/new', (req, res) => {
 router.post('/:campaignId/join', (req, res) => {
   const user = req.body.user;
   const campaign = req.body.campaign;
-
+  console.log(`Joining campaign # ${campaign.campaignId} ...`);
   db.query(`SELECT sessionId FROM sessions WHERE sessions.campaignId = ${campaign.campaignId};`)
     .then(([sessionRes]) => {
       if (sessionRes.length > 0) {
@@ -76,10 +79,17 @@ router.post('/:campaignId/join', (req, res) => {
     })
     .then(session => {
       let alreadyActive = false;
+      console.log('Checking for active game sessions ...');
       for (const activeSession of activeGameSessions) {
-        if (activeSession.campaignId === campaign.campaignId) alreadyActive = true;
+        if (activeSession.campaignId === campaign.campaignId) {
+          alreadyActive = true;
+          console.log(`Match! Campaign # ${campaign.campaignId} already active!`);
+        }
       }
-      if (!alreadyActive) activeGameSessions.push(campaign);
+      if (!alreadyActive) {
+        console.log(`No match! Pushing campaign #${campaign.campaignId}, session #${session.sessionId}`);
+        activeGameSessions.push({ ...campaign, sessionId: session.sessionId });
+      }
       SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
       res.json(session);
     });
