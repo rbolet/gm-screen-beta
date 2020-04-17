@@ -6,6 +6,7 @@ import { AppUser } from '@client/context/user-context';
 import { Campaign } from '@client/context/campaign-context';
 import { Session } from '@client/context/session-context';
 import { TokenContext } from '@client/context/token-context';
+import { blankCampaign, blankSession } from '@client/lib/blank-state';
 import Header from './Header';
 import Menu from './views/Menu';
 import { configUserSocket } from '@client/lib/api';
@@ -62,24 +63,6 @@ function App() {
       updateCampaign({ roomUserList });
     });
 
-    socket.on('kick', message => {
-      console.log('"kick" - ', message);
-      updateSession({
-        sessionId: null,
-        environmentImageFileName: null,
-        tokens: []
-      });
-
-      updateCampaign({
-        campaignId: null,
-        campaingName: null,
-        campaignGM: null
-      })
-        .then(() => updateCampaign({ campaignAssets: [] }))
-        .catch(err => {
-          console.error('Error clearing campaign', err);
-        });
-    });
     socket.on('updateSession', newSessionState => {
       console.log('"updateSession" - ', newSessionState);
       updateSession(newSessionState);
@@ -93,6 +76,9 @@ function App() {
     socket.on('kick', info => {
       console.log('"kick"', info);
       addInfoMessage(info.message);
+      updateSession(blankSession);
+      updateCampaign(blankCampaign);
+      setCurrentView(<Menu/>);
     });
 
     socket.on('info', info => {
