@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
-import ConfigContext from './context/config-context';
+import App from '@components/App';
+import ConfigContext from '@client/context/config-context';
 
 ReactDOM.render(
   <ConfigContext>
