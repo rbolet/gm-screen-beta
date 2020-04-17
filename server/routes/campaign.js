@@ -132,10 +132,8 @@ router.post('/upload', upload.single('imageFile'), (req, res, next) => {
       const insertCampaignImageSQL = `INSERT INTO
                                       campaignImages (campaignId, imageId)
                                     VALUES (${req.body.campaignId}, '${result[0].insertId}')`;
-      db.query(insertCampaignImageSQL)
-        .then(() => {
-        })
-        .catch(error => { next(error); });
+      return db.query(insertCampaignImageSQL);
+
     })
     .then(result => {
       res.status(200).json(responseObject);
