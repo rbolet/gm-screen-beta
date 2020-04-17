@@ -67,6 +67,8 @@ function updateUserListInRoom(room) {
 
 function moveSocketToRoom(socketId, sessionId) {
   const socket = userSocketList[socketId].socket;
+  const user = userSocketList[socketId].user;
+
   Object.keys(socket.rooms).forEach(room => {
     if (room !== socket.id) {
       socket.leave(room, () => { updateUserListInRoom(room); });
@@ -76,6 +78,10 @@ function moveSocketToRoom(socketId, sessionId) {
   socket.join(sessionId, () => {
     updateUserListInRoom(sessionId);
     socket.emit('roomChange', sessionId);
+    ioServer.to(sessionId).emit('info', {
+      from: user,
+      message: `${user.userName} has entered the room`
+    });
   });
 }
 
