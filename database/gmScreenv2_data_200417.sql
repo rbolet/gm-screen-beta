@@ -32,33 +32,7 @@ CREATE TABLE `campaignImages` (
   `imageId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `campaignImages`
---
 
-INSERT INTO `campaignImages` (`campaignImageId`, `campaignId`, `imageId`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 3),
-(4, 2, 4),
-(5, 2, 5),
-(6, 2, 6),
-(7, 2, 7),
-(8, 2, 8),
-(9, 2, 9),
-(11, 2, 11),
-(12, 2, 12),
-(13, 2, 13),
-(14, 2, 14),
-(15, 2, 15),
-(16, 2, 16),
-(17, 2, 17),
-(18, 2, 18),
-(19, 2, 19),
-(20, 2, 20),
-(21, 2, 21),
-(22, 2, 22),
-(23, 2, 23);
 
 -- --------------------------------------------------------
 
@@ -99,29 +73,6 @@ CREATE TABLE `images` (
 -- Dumping data for table `images`
 --
 
-INSERT INTO `images` (`imageId`, `fileName`, `category`, `alias`) VALUES
-(1, '0c00a350-dfbb-4d8f-98af-e0815bbdaefb..png', 'Secondary', 'belf'),
-(2, '9cf9225a-979f-40cc-a934-e270c1c752a9..jpg', 'Environment', 'Village'),
-(3, 'e065a3a2-f00a-4ed5-af0b-e4fd19c1d901..png', 'Secondary', 'Fett'),
-(4, '9cf9225a-979f-40cc-a934-e270c1c752a9..jpg', 'Environment', 'Village'),
-(5, '0c00a350-dfbb-4d8f-98af-e0815bbdaefb..png', 'Secondary', 'Elf'),
-(6, '11c251c6-1364-4888-8b1f-970e24146384..jpg', 'Environment', 'Spooky Forest'),
-(7, '165749fb-643f-4d73-ab23-b73636ee81e7..jpg', 'Secondary', 'Wraith'),
-(8, '972b8a94-eeaf-42d1-bde2-e3625cd9a48e..jpg', 'Secondary', 'Fighter'),
-(9, 'd8b26836-3958-480f-9965-40e2a428c797..png', 'Secondary', 'Villager'),
-(11, '31b0d0c2-0617-47ba-a03e-d7e384aca53b..png', 'Secondary', 'Stromtroopers'),
-(12, '68fdc558-44c6-405e-a60b-19613d8dbf73..jpg', 'Environment', 'Imperial Hangar'),
-(13, 'cb1b8bcf-106c-48b6-88cd-da34f3635da7..jpg', 'Environment', 'Imp Exterior'),
-(14, '5edafd50-c143-482c-bb42-9fa2c40e89c7..jpg', 'Environment', 'Imp Hallway'),
-(15, '769596ae-cf4d-46cf-b88e-c6ce5d94b0b3..png', 'Secondary', 'Imperial Officer'),
-(16, '9c3d88ac-b1d7-4385-b498-f88b2cec3ae6..png', 'Secondary', 'Dog'),
-(17, '92463c6c-b93f-4673-a7f6-2903d55ccfcd..png', 'Secondary', 'Blaster'),
-(18, '01075924-0fea-4185-9cf3-82dde418dff6..png', 'Secondary', 'Mando'),
-(19, '5a70a07d-a183-4298-a772-fc22473b360e..png', 'Secondary', 'Duros'),
-(20, '65b48396-adfa-40f3-9c92-ddeaa25d6a37..png', 'Secondary', 'b1'),
-(21, '18974c1a-428f-482b-ace5-20ac7dc2b965..png', 'Secondary', 'Bith'),
-(22, 'dc0bd8c6-1ba6-4eee-8fe7-5630a070ef78..png', 'Secondary', 'bb-8'),
-(23, '7c517791-cbfa-4382-b2c5-fb5ff31a4a8c..jpg', 'Secondary', 'k2so');
 
 -- --------------------------------------------------------
 
@@ -137,12 +88,6 @@ CREATE TABLE `sessions` (
   `environmentImageFileName` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `sessions`
---
-
-INSERT INTO `sessions` (`sessionId`, `campaignId`, `updated`, `environmentImageFileName`) VALUES
-(1, 2, 1586365652, '11c251c6-1364-4888-8b1f-970e24146384..jpg');
 
 -- --------------------------------------------------------
 
@@ -160,12 +105,6 @@ CREATE TABLE `tokens` (
   `hidden` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tokens`
---
-
-INSERT INTO `tokens` (`tokenId`, `imageFileName`, `sessionId`, `tokenName`, `tokenDetails`, `hidden`) VALUES
-(30, '165749fb-643f-4d73-ab23-b73636ee81e7..jpg', 1, 'Wraith (Hidden)', 'Sam can see', 1);
 
 -- --------------------------------------------------------
 
@@ -180,15 +119,6 @@ CREATE TABLE `tokenVisibleTo` (
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tokenVisibleTo`
---
-
-INSERT INTO `tokenVisibleTo` (`tokenVisibleToId`, `tokenId`, `userId`) VALUES
-(2, 30, 5),
-(3, 30, 6);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `users`
@@ -201,15 +131,7 @@ CREATE TABLE `users` (
   `password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `users`
---
-
 INSERT INTO `users` (`userId`, `userName`, `password`) VALUES
-(1, 'admiralAckbar', 'itsatrap'),
-(2, 'Person', 'person'),
-(3, 'Leia', 'pewpew'),
-(4, 'goldOne', 'asplode'),
 (5, 'Guest GM', 'guest'),
 (6, 'Guest Player 1', 'guest'),
 (7, 'Guest Player 2', 'guest'),
