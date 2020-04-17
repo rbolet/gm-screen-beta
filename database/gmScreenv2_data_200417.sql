@@ -19,7 +19,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 -- Database: `gm_screen_beta`
 --
 
-CREATE DATABASE IF NOT EXISTS `gm_screen_beta` DEFAULT CHARACTER SET latin1 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `gm_screen_beta` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `gm_screen_beta`;
 
 -- --------------------------------------------------------
@@ -55,7 +55,6 @@ CREATE TABLE `campaigns` (
 --
 
 INSERT INTO `campaigns` (`campaignId`, `campaignName`, `campaignGM`) VALUES
-(1, 'Erebor', 1),
 (2, 'Guest Campaign', 5);
 
 -- --------------------------------------------------------
