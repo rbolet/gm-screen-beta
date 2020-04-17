@@ -26,7 +26,7 @@ exports.io = function (server) {
             const room = activeGameSessions[campaignIndex].sessionId;
             console.log(`${disconnectingUser.userName} is GM of room ${room}!`);
             io.to(room)
-              .emit('kick', `${disconnectingUser.userName} has ended the session`);
+              .emit('kick', { message: `${disconnectingUser.userName} has ended the session` });
             ioServer.in(room).clients((err, clients) => {
               clients.forEach(socketId => {
                 console.log(`Kicking ${userSocketList[socketId].user.userName} to lobby ...`);
@@ -88,7 +88,7 @@ function moveSocketToRoom(socketId, sessionId) {
     socket.emit('roomChange', sessionId);
     ioServer.to(sessionId).emit('info', {
       from: user,
-      message: `${user.userName} has entered the room`
+      message: `${user.userName} has entered room ${sessionId}`
     });
   });
 }

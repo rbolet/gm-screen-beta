@@ -37,6 +37,7 @@ function App() {
   }, [user.userId, user.socketId]);
 
   useEffect(() => {
+    if (!session.sessionId) setCurrentView(<Menu/>);
     if (session.sessionId === campaign.room) {
       switch (user.userRole) {
         case 'gm': setCurrentView(<TokenContext><GMView /></TokenContext>); break;
