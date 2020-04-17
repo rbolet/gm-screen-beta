@@ -18,7 +18,8 @@ app.use('/config', require('./routes/config'));
 app.use('/session', require('./routes/game-session'));
 app.use('/campaign', require('./routes/campaign'));
 
-http.listen(3001, () => {
+const port = 3301;
+http.listen(port, () => {
   // eslint-disable-next-line
-  console.log('listening on 3001 ...');
+  console.log(`listening on ${port} ...`);
 });
