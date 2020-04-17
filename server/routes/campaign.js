@@ -87,7 +87,12 @@ router.post('/:campaignId/join', (req, res) => {
         }
       }
       if (!alreadyActive) {
-        console.log(`No match! Pushing campaign #${campaign.campaignId}, session #${session.sessionId}`);
+        console.log('No match!');
+        if (user.userRole !== 'gm') {
+          console.log(`${user.userRole}s cannot start a game session! Throwing 400 ...`);
+          res.status(400).json({ from: 'system', message: 'You cannot start a new game session!' });
+        }
+        console.log(`Pushing campaign #${campaign.campaignId}, session #${session.sessionId}`);
         activeGameSessions.push({ ...campaign, sessionId: session.sessionId });
       }
       SocketIO.moveSocketToRoom(user.socketId, session.sessionId);
