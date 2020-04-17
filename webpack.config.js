@@ -39,7 +39,7 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     host: '0.0.0.0',
-    port: 3000,
+    port: 3300,
     contentBase: publicPath,
     watchContentBase: true,
     watchOptions: {
@@ -48,10 +48,10 @@ module.exports = {
     stats: 'minimal',
     proxy: {
       '/': {
-        target: 'http://localhost:3001'
+        target: 'http://localhost:3301'
       },
       '/socket.io': {
-        target: 'http://localhost:3001',
+        target: 'http://localhost:3301',
         ws: true
       }
     }
