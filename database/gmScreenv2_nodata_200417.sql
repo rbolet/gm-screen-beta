@@ -3,11 +3,12 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 17, 2020 at 11:44 AM
+-- Generation Time: Apr 17, 2020 at 12:14 PM
 -- Server version: 5.7.27-0ubuntu0.18.04.1
 -- PHP Version: 7.2.19-0ubuntu0.18.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,7 +19,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `gm_screen_beta`
 --
-
 CREATE DATABASE IF NOT EXISTS `gm_screen_beta` DEFAULT CHARACTER SET latin1 COLLATE utf8mb4_unicode_ci;
 USE `gm_screen_beta`;
 
@@ -28,14 +28,11 @@ USE `gm_screen_beta`;
 -- Table structure for table `campaignImages`
 --
 
-DROP TABLE IF EXISTS `campaignImages`;
 CREATE TABLE `campaignImages` (
   `campaignImageId` int(11) NOT NULL,
   `campaignId` int(11) NOT NULL,
   `imageId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 
 -- --------------------------------------------------------
 
@@ -43,20 +40,11 @@ CREATE TABLE `campaignImages` (
 -- Table structure for table `campaigns`
 --
 
-DROP TABLE IF EXISTS `campaigns`;
 CREATE TABLE `campaigns` (
   `campaignId` int(11) NOT NULL,
   `campaignName` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `campaignGM` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `campaigns`
---
-
-INSERT INTO `campaigns` (`campaignId`, `campaignName`, `campaignGM`) VALUES
-(1, 'Erebor', 1),
-(2, 'Guest Campaign', 5);
 
 -- --------------------------------------------------------
 
@@ -64,7 +52,6 @@ INSERT INTO `campaigns` (`campaignId`, `campaignName`, `campaignGM`) VALUES
 -- Table structure for table `images`
 --
 
-DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `imageId` int(11) NOT NULL,
   `fileName` varchar(60) NOT NULL,
@@ -72,18 +59,12 @@ CREATE TABLE `images` (
   `alias` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `images`
---
-
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `sessions`
 --
 
-DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
   `sessionId` int(11) NOT NULL,
   `campaignId` int(11) DEFAULT NULL,
@@ -91,14 +72,12 @@ CREATE TABLE `sessions` (
   `environmentImageFileName` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `tokens`
 --
 
-DROP TABLE IF EXISTS `tokens`;
 CREATE TABLE `tokens` (
   `tokenId` int(11) NOT NULL,
   `imageFileName` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -108,37 +87,29 @@ CREATE TABLE `tokens` (
   `hidden` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `tokenVisibleTo`
 --
 
-DROP TABLE IF EXISTS `tokenVisibleTo`;
 CREATE TABLE `tokenVisibleTo` (
   `tokenVisibleToId` int(11) NOT NULL,
   `tokenId` int(11) NOT NULL,
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `userId` int(11) NOT NULL,
   `userName` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `users` (`userId`, `userName`, `password`) VALUES
-(5, 'Guest GM', 'guest'),
-(6, 'Guest Player 1', 'guest'),
-(7, 'Guest Player 2', 'guest'),
-(8, 'Guest Player 3', 'guest');
 
 --
 -- Indexes for dumped tables
