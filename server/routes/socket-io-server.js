@@ -15,7 +15,7 @@ exports.io = function (server) {
 
     socket.on('disconnect', reason => {
       const disconnectingUser = userSocketList[socket.id].user;
-      console.log(`${disconnectingUser.userName} disconnected!`);
+      console.log(`${disconnectingUser ? disconnectingUser.userName : 'someone'} disconnected because ${reason}`);
 
       const removeActiveSession = new Promise(() => {
         console.log('Checking Active Session list ...');
