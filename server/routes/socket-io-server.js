@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const bin = require('../lib/bin');
 const userSocketList = bin.userSocketList;
 const activeGameSessions = bin.activeGameSessions;
@@ -14,16 +15,23 @@ exports.io = function (server) {
 
     socket.on('disconnect', reason => {
       const disconnectingUser = userSocketList[socket.id].user;
+      console.log(`${disconnectingUser ? disconnectingUser.userName : 'someone'} disconnected because ${reason}`);
 
       const removeActiveSession = new Promise(() => {
+        console.log('Checking Active Session list ...');
         for (const campaignIndex in activeGameSessions) {
-
-          if (activeGameSessions[campaignIndex].campaignGM === disconnectingUser.userId) {
-            const room = activeGameSessions[campaignIndex].campaignId;
+          console.log(`GM @ index ${campaignIndex}: ${activeGameSessions[campaignIndex].campaignGM}`);
+          // eslint-disable-next-line
+          if (activeGameSessions[campaignIndex].campaignGM == disconnectingUser.userId) { // Guest userIds are strings!
+            const room = activeGameSessions[campaignIndex].sessionId;
+            console.log(`${disconnectingUser.userName} is GM of room ${room}!`);
             io.to(room)
-              .emit('kick', `${disconnectingUser.userName} has ended the session`);
+              .emit('kick', { message: `${disconnectingUser.userName} has ended the session` });
             ioServer.in(room).clients((err, clients) => {
-              clients.forEach(socketId => { moveSocketToRoom(socketId, 'lobby'); });
+              clients.forEach(socketId => {
+                console.log(`Kicking ${userSocketList[socketId].user.userName} to lobby ...`);
+                moveSocketToRoom(socketId, 'lobby');
+              });
               if (err) { console.error(err); return null; }
             });
             activeGameSessions.splice(campaignIndex, 1);
@@ -80,7 +88,7 @@ function moveSocketToRoom(socketId, sessionId) {
     socket.emit('roomChange', sessionId);
     ioServer.to(sessionId).emit('info', {
       from: user,
-      message: `${user.userName} has entered the room`
+      message: `${user.userName} has entered room ${sessionId}`
     });
   });
 }

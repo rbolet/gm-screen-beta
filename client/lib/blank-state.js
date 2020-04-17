@@ -10,7 +10,7 @@ export const blankCampaign = {
   campaignName: null,
   campaignGM: null,
   campaignAssets: [],
-  room: null,
+  // room: null, <-- backend should handle room assignment
   roomUserList: []
 };
 

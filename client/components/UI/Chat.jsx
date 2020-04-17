@@ -25,7 +25,7 @@ export default function Chat(props) {
       setMessages(
         [props.infoMessages].reverse().map((message, i) => {
           return (
-            <p key={i} className="mb-1">{message}</p>
+            <p key={i} className="mb-1 mr-auto">{message}</p>
           );
         })
       );
