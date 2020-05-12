@@ -12,8 +12,8 @@ export default function UploadForm(props) {
     event.preventDefault();
     const formData = new FormData(event.target);
     addImageToCampaign(formData);
-    setFilePathLabel('Choose an image to upload')
-      .catch(err => console.error('Error submitting form', err));
+    setFilePathLabel('Choose an image to upload');
+    // .catch(err => console.error('Error submitting form', err));
   }
 
   return (

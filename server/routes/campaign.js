@@ -125,7 +125,7 @@ router.post('/upload', upload.single('imageFile'), (req, res, next) => {
     .then(result => {
       responseObject = {
         imageId: result[0].insertId,
-        filename: req.file.filename,
+        fileName: req.file.filename,
         alias: req.body.alias,
         category: req.body.category
       };
