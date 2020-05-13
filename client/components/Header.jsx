@@ -1,8 +1,9 @@
 import './Header.css';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import QuickTour from '@components/modals/QuickTour';
 import { AppUser } from '@client/context/user-context';
 import { Campaign } from '@client/context/campaign-context';
 import { Session } from '@client/context/session-context';
@@ -13,6 +14,8 @@ export default function Header(props) {
   const { user, updateUser } = useContext(AppUser);
   const { updateCampaign } = useContext(Campaign);
   const { updateSession } = useContext(Session);
+
+  const [openQuickTour, setOpenQuickTour] = useState(false);
 
   let RoleIcon = null;
   switch (user.userRole) {
@@ -25,36 +28,41 @@ export default function Header(props) {
   }
 
   return (
-    <Navbar bg="dark" variant="dark" style={{ height: 50 }} className="app-header">
-      <Navbar.Brand className="header-brand" style={{ width: 50 }}>
-        <DropdownButton
-          variant='secondary' role='menu'
-          title={
-            <img
-              src="./assets/GM-Screen-logo.svg"
-              alt="GM Screen"
-              className="d-inline-block align-top logo mr-2" />}
-          id="home-dropdown">
-          <Dropdown.Item eventKey="1" onClick={() => {
-            updateSession(blankSession);
-            updateCampaign(blankCampaign);
-            updateUser(blankUser);
-          }}>
-            <span className="mini-logo mr-2"></span>Return to Main Menu
-          </Dropdown.Item>
+    <>
+      <Navbar bg="dark" variant="dark" style={{ height: 50 }} className="app-header">
+        <Navbar.Brand className="header-brand" style={{ width: 50 }}>
+          <DropdownButton
+            variant='secondary' role='menu'
+            title={
+              <img
+                src="./assets/GM-Screen-logo.svg"
+                alt="GM Screen"
+                className="d-inline-block align-top logo mr-2" />}
+            id="home-dropdown">
+            <Dropdown.Item eventKey="1" onClick={() => {
+              updateSession(blankSession);
+              updateCampaign(blankCampaign);
+              updateUser(blankUser);
+            }}>
+              <span className="mini-logo mr-2"></span>Return to Main Menu
+            </Dropdown.Item>
+            <Dropdown.Item eventKey="2" onClick={() => { setOpenQuickTour(true); }}>
+              Quick Tour / Help
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item eventKey="4" className="pl-1"
+              target="_blank" rel="noopener noreferrer" href="https://slightlyskewedcreations.com">
+              <img className="mini-logo mr-2" src="./assets/ssc192.png"/>
+                Visit SlightlySkewedCreations.com
+            </Dropdown.Item>
+          </DropdownButton>
 
-          <Dropdown.Divider />
-          <Dropdown.Item eventKey="4" className="pl-1"
-            target="_blank" rel="noopener noreferrer" href="https://slightlyskewedcreations.com">
-            <img className="mini-logo mr-2" src="./assets/ssc192.png"/>
-              Visit SlightlySkewedCreations.com
-          </Dropdown.Item>
-        </DropdownButton>
-
-      </Navbar.Brand>
-      <Navbar.Text className={`user-name${!user.userName ? ' fade-out' : ''}`}>{user.userName}</Navbar.Text>
-      <Navbar.Text className={`role-icon${!user.userRole ? ' fade-out' : ''}`}>{RoleIcon}</Navbar.Text>
-      {user.userId && <Chat infoMessages={props.infoMessages}/>}
-    </Navbar>
+        </Navbar.Brand>
+        <Navbar.Text className={`user-name${!user.userName ? ' fade-out' : ''}`}>{user.userName}</Navbar.Text>
+        <Navbar.Text className={`role-icon${!user.userRole ? ' fade-out' : ''}`}>{RoleIcon}</Navbar.Text>
+        {user.userId && <Chat infoMessages={props.infoMessages}/>}
+      </Navbar>
+      {openQuickTour && <QuickTour closeModal={() => { setOpenQuickTour(false); }}/>}
+    </>
   );
 }
