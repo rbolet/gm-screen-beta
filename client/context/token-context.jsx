@@ -63,16 +63,6 @@ export function TokenContext(props) {
     }
   }, [hidden]);
 
-  useEffect(() => {
-    console.log('token-context:', {
-      tokenId,
-      imageFileName,
-      tokenName,
-      tokenDetails,
-      hidden,
-      visibleTo
-    });
-  });
   return (
     <Token.Provider
       value={{
