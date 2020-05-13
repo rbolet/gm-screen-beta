@@ -27,6 +27,12 @@ export default function Header(props) {
       break;
   }
 
+  const returnToMenu = () => {
+    updateSession(blankSession);
+    updateCampaign(blankCampaign);
+    updateUser(blankUser);
+  };
+
   return (
     <>
       <Navbar bg="dark" variant="dark" style={{ height: 50 }} className="app-header">
@@ -39,19 +45,18 @@ export default function Header(props) {
                 alt="GM Screen"
                 className="d-inline-block align-top logo mr-2" />}
             id="home-dropdown">
-            <Dropdown.Item eventKey="1" onClick={() => {
-              updateSession(blankSession);
-              updateCampaign(blankCampaign);
-              updateUser(blankUser);
-            }}>
-              <span className="mini-logo mr-2"></span>Return to Main Menu
+            <Dropdown.Item eventKey="1" className="pl-1" onClick={returnToMenu}>
+              <span className="mini-logo mr-2"><i className="fas fa-home mini-logo"/></span>
+              Return to Main Menu
             </Dropdown.Item>
-            <Dropdown.Item eventKey="2" onClick={() => { setOpenQuickTour(true); }}>
+            <Dropdown.Item eventKey="2" className="pl-1" onClick={() => { setOpenQuickTour(true); }}>
+              <span className="mini-logo mr-2"><i className="fas fa-question mini-logo"/></span>
               Quick Tour / Help
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item eventKey="4" className="pl-1"
-              target="_blank" rel="noopener noreferrer" href="https://slightlyskewedcreations.com">
+            <Dropdown.Item eventKey="3" className="pl-1"
+              target="_blank" rel="noopener noreferrer"
+              href="https://slightlyskewedcreations.com">
               <img className="mini-logo mr-2" src="./assets/ssc192.png"/>
                 Visit SlightlySkewedCreations.com
             </Dropdown.Item>
