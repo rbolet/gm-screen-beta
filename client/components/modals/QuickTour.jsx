@@ -1,4 +1,5 @@
 import React/*, { useState } */ from 'react';
+import './QuickTour.css';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
@@ -62,11 +63,11 @@ export default function QuickTour(props) {
 
 function Overview() {
   return (
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GM-Screen is not a game. It is an application to supplement the storytelling and enhance
+    <p><span className="indent"/>GM-Screen is not a game. It is an application to supplement the storytelling and enhance
     the immersion of traditional paper-and-dice role playing games,
     allowing Game Masters to share images in real time with the rest of the player group.
     Since GM-Screen does not use any game mechanics, it is useable with any system, game,
-                    or any situation imaginable where visual aids can add to a group&apos;s shared experience.</p>
+    or any situation imaginable where visual aids can add to a group&apos;s shared experience.</p>
   );
 }
 
