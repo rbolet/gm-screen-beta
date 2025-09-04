@@ -1,5 +1,5 @@
 # GM Screen
-*This project is stable and functional, but still in early stages of development*
+*My original LearningFuze "capstone" project from 2021 ... sometimes it's good to remember where you've been :)*
 
 A full stack Javascript application for RPG Game Masters to share media with players in order to illustrate their game world
 
@@ -14,10 +14,6 @@ A full stack Javascript application for RPG Game Masters to share media with pla
 - HTML5
 - CSS3
 - AWS EC2
-
-## Live Demo
-
-Try the application live at [https://gmscreen.slightlyskewedcreations.com](https://gmscreen.slightlyskewedcreations.com)
 
 ## Features
 
